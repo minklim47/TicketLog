@@ -18,6 +18,7 @@ function App() {
       black: {
         main: "#212121",
         light: "#ABABAB",
+        dark: "#424242"
       },
       white: {
         main: "#FAFAFA",

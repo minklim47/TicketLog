@@ -1,10 +1,34 @@
-import React from "react";
-import { AppBar, Box, Toolbar, Button, Stack } from "@mui/material";
+import React, { useState } from "react";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  Button,
+  Stack,
+  IconButton,
+  Drawer,
+  Container,
+} from "@mui/material";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import { NavLink } from "react-router-dom";
 
 function Nav() {
+  const [open, setState] = useState(false);
+  // const handleMenuToggle = () => {
+  //     setMenuOpen((prevState) => !prevState)
+  // }
+
+  const toggleDrawer = (open) => (event) => {
+    // if (
+    //   event.type === "keydown" &&
+    //   (event.key === "Tab" || event.key === "Shift")
+    // ) {
+    //   return;
+    // }
+    setState(open);
+  };
+
   return (
     <AppBar position="static" sx={navBarStyle}>
       <Toolbar
@@ -26,14 +50,17 @@ function Nav() {
             src="src/assets/logo.png"
           />
         </Button>
-        <Stack direction="row" spacing={2}>
+        <Stack
+          direction="row"
+          spacing={2}
+          sx={{ display: { xs: "none", sm: "inherit" } }}
+        >
           <Button
             component={NavLink}
             to="/"
             color="inherit"
             sx={navButtonStyle}
           >
-            {" "}
             Home
           </Button>
           <Button
@@ -61,6 +88,54 @@ function Nav() {
             Profile
           </Button>
         </Stack>
+
+        <IconButton
+          sx={{ color: "black.main", display: { xs: "inherit", sm: "none" } }}
+          onClick={toggleDrawer(true)}
+        >
+          <MenuIcon />
+        </IconButton>
+
+        <Drawer
+          anchor="top" //from which side the drawer slides in
+          variant="temporary" //if and how easily the drawer can be closed
+          open={open} //if open is true, drawer is shown
+          //   onClose={toggleDrawer(false)} //function that is called when the drawer should close
+          //   onOpe={toggleDrawer(true)} //function that is called when the drawer should open
+        >
+          <Container>
+            <Toolbar
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <Button sx={{ borderRadius: "15px", bgcolor: "white.main" }}>
+                <Box
+                  component="img"
+                  sx={{
+                    height: 35,
+                    width: 120,
+                    borderRadius: "5px",
+                  }}
+                  alt="logo"
+                  src="src/assets/logo.png"
+                />
+              </Button>
+              <IconButton
+                sx={{
+                  color: "black.main",
+                  display: { xs: "inherit", sm: "none" },
+                }}
+                onClick={toggleDrawer(false)}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Toolbar>
+            <Box sx={{ margin: "100px" }}>{<h1>Hello</h1>}</Box>
+          </Container>
+        </Drawer>
       </Toolbar>
     </AppBar>
   );
