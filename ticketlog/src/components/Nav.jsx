@@ -12,6 +12,7 @@ import {
 
 import MenuIcon from "@mui/icons-material/Menu";
 import { NavLink } from "react-router-dom";
+import DrawerMenu from "./DrawerMenu";
 
 function Nav() {
   const [open, setState] = useState(false);
@@ -20,12 +21,6 @@ function Nav() {
   // }
 
   const toggleDrawer = (open) => (event) => {
-    // if (
-    //   event.type === "keydown" &&
-    //   (event.key === "Tab" || event.key === "Shift")
-    // ) {
-    //   return;
-    // }
     setState(open);
   };
 
@@ -102,8 +97,13 @@ function Nav() {
           open={open} //if open is true, drawer is shown
           //   onClose={toggleDrawer(false)} //function that is called when the drawer should close
           //   onOpe={toggleDrawer(true)} //function that is called when the drawer should open
+          ModalProps={{ onBackdropClick: toggleDrawer(false) }}
         >
-          <Container>
+          <Box
+            role="presentation"
+            onClick={toggleDrawer(false)}
+            onKeyDown={toggleDrawer(false)}
+          >
             <Toolbar
               sx={{
                 display: "flex",
@@ -133,8 +133,8 @@ function Nav() {
                 <MenuIcon />
               </IconButton>
             </Toolbar>
-            <Box sx={{ margin: "100px" }}>{<h1>Hello</h1>}</Box>
-          </Container>
+            <DrawerMenu />
+          </Box>
         </Drawer>
       </Toolbar>
     </AppBar>

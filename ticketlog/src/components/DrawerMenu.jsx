@@ -1,49 +1,72 @@
-import { Button, Container, IconButton, List, Toolbar } from "@mui/material";
+import { Button, Container, IconButton, List, Toolbar, Box, ListItemButton, ListItemText } from "@mui/material";
+import { NavLink } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
-import React from "react";
+import React, { forwardRef } from "react";
 
 function DrawerMenu() {
+  const CustomNavLink = forwardRef((props, ref) => (
+    <NavLink
+      ref={ref}
+      {...props}
+      className={({ isActive }) => (isActive ? props.className + ' Mui-selected' : props.className)}
+      end
+    />
+  ));
   return (
-    <Container>
-      <Toolbar
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <Button sx={{ borderRadius: "15px", bgcolor: "white.main" }}>
-          <Box
-            component="img"
-            sx={{
-              height: 35,
-              width: 120,
-              borderRadius: "5px",
-            }}
-            alt="logo"
-            src="src/assets/logo.png"
-          />
-        </Button>
-        <IconButton
-          sx={{
-            color: "black.main",
-            display: { xs: "inherit", sm: "none" },
-          }}
-          onClick={toggleDrawer(false)}
-        >
-          <MenuIcon />
-        </IconButton>
-      </Toolbar>
+    
 
       <Box>
-        {/* <List>
-          <ListItemButton component="Navlink" href="#simple-list">
-            <ListItemText primary="Spam" />
+        <List>
+          <ListItemButton component={CustomNavLink}to="/" >
+            <ListItemText primary="Home" />
           </ListItemButton>
-        </List> */}
+          <ListItemButton component={CustomNavLink} to="/Community" >
+            <ListItemText primary="Community" />
+          </ListItemButton>
+          <ListItemButton component={CustomNavLink} to="/Collection" >
+            <ListItemText primary="Collection" />
+          </ListItemButton>
+          <ListItemButton component={CustomNavLink} to="/Profile" >
+            <ListItemText primary="Profile" />
+          </ListItemButton>
+        </List>
       </Box>
-    </Container>
   );
+}
+
+{
+  /* <Button
+            component={NavLink}
+            to="/"
+            color="inherit"
+            sx={navButtonStyle}
+          >
+            Home
+          </Button>
+          <Button
+            component={NavLink}
+            to="/Community"
+            color="inherit"
+            sx={navButtonStyle}
+          >
+            Community
+          </Button>
+          <Button
+            component={NavLink}
+            to="/Collection"
+            color="inherit"
+            sx={navButtonStyle}
+          >
+            Collection
+          </Button>
+          <Button
+            component={NavLink}
+            to="/Profile"
+            color="inherit"
+            sx={navButtonStyle}
+          >
+            Profile
+          </Button> */
 }
 
 export default DrawerMenu;
