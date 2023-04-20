@@ -31,9 +31,11 @@ function Nav() {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
+          height:"64px"
         }}
       >
-        <Button sx={{ borderRadius: "15px", bgcolor: "white.main" }}>
+        <Button component={NavLink}
+            to="/" sx={{ borderRadius: "15px", bgcolor: "white.main" }}>
           <Box
             component="img"
             sx={{
@@ -47,7 +49,7 @@ function Nav() {
         </Button>
         <Stack
           direction="row"
-          spacing={2}
+          spacing={1.5}
           sx={{ display: { xs: "none", sm: "inherit" } }}
         >
           <Button
@@ -84,8 +86,9 @@ function Nav() {
           </Button>
         </Stack>
 
+        {/* ==============DRAWER=============== */}
         <IconButton
-          sx={{ color: "black.main", display: { xs: "inherit", sm: "none" } }}
+          sx={{ color: "black.main", display: { xs: "inherit", sm: "none" }}}
           onClick={toggleDrawer(true)}
         >
           <MenuIcon />
@@ -111,7 +114,8 @@ function Nav() {
                 justifyContent: "space-between",
               }}
             >
-              <Button sx={{ borderRadius: "15px", bgcolor: "white.main" }}>
+              <Button component={NavLink}
+            to="/" sx={{ borderRadius: "15px", bgcolor: "white.main" }}>
                 <Box
                   component="img"
                   sx={{
@@ -136,6 +140,7 @@ function Nav() {
             <DrawerMenu />
           </Box>
         </Drawer>
+
       </Toolbar>
     </AppBar>
   );
@@ -143,7 +148,7 @@ function Nav() {
 const navBarStyle = {
   backgroundColor: "white.main",
   color: "black.main",
-  padding: "0 20px 0 20px",
+  padding: "0px",
 };
 
 const navButtonStyle = {

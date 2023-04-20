@@ -14,24 +14,27 @@ function DrawerMenu() {
   ));
   return (
     
-
       <Box>
-        <List>
-          <ListItemButton component={CustomNavLink}to="/" >
+        <List  sx={{padding:"0"}}>
+          <ListItemButton component={CustomNavLink}to="/" sx={drawerListItemStyle}>
             <ListItemText primary="Home" />
           </ListItemButton>
-          <ListItemButton component={CustomNavLink} to="/Community" >
+          <ListItemButton component={CustomNavLink} to="/Community" sx={drawerListItemStyle}>
             <ListItemText primary="Community" />
           </ListItemButton>
-          <ListItemButton component={CustomNavLink} to="/Collection" >
+          <ListItemButton component={CustomNavLink} to="/Collection" sx={drawerListItemStyle}>
             <ListItemText primary="Collection" />
           </ListItemButton>
-          <ListItemButton component={CustomNavLink} to="/Profile" >
+          <ListItemButton component={CustomNavLink} to="/Profile" sx={drawerListItemStyle}>
             <ListItemText primary="Profile" />
           </ListItemButton>
         </List>
       </Box>
   );
+}
+
+const drawerListItemStyle = {
+  textAlign:"center"
 }
 
 {

@@ -5,6 +5,7 @@ import React from "react";
 function SearchTicket() {
   return (
     <Box component="form"
+      sx={{display:"flex",justifyContent:"center"}}
     >
       <TextField
         type="search"
@@ -25,7 +26,9 @@ function SearchTicket() {
 }
 
 const searchStyle = {
-  width: "500px",
+  width:"70%",
+  minWidth: "250px",
+  maxWidth: "600px"
 };
 
 export default SearchTicket;
