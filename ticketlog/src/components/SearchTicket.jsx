@@ -27,7 +27,7 @@ function SearchTicket() {
 
 const searchStyle = {
   width:"70%",
-  minWidth: "250px",
+  minWidth: "280px",
   maxWidth: "600px"
 };
 

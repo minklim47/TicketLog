@@ -31,7 +31,7 @@ function App() {
       },
     },
   });
-  const [count, setCount] = useState(0);
+  const [userLogin, setUserLogin] = useState(false);
 
   return (
     <ThemeProvider theme={theme}>
@@ -42,7 +42,7 @@ function App() {
             <Route exact path="/" element={<Home />} />
             <Route path="/Community" element={<Community />} />
             <Route path="/Collection" element={<Collection />} />
-            <Route path="/Profile" element={<Profile />} />
+            <Route path="/Profile" element={<Profile userLogin={userLogin} setUserLogin={setUserLogin}/>} />
             <Route path="/CreateTicket" element={<CreateTicket />} />
           </Routes>
         </div>

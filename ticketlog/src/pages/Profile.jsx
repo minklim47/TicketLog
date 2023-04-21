@@ -1,8 +1,23 @@
+import { Box, Button, Container } from '@mui/material'
 import React from 'react'
+import SignIn from './SignIn'
+import Account from './Account'
 
-function Profile() {
+function Profile({userLogin, setUserLogin}) {
   return (
-    <div>Profile</div>
+    <Container
+    
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItem: "center",
+      }}
+    >
+      {userLogin? <Account/>
+    
+    : <SignIn/>}
+    </Container>
   )
 }
 
