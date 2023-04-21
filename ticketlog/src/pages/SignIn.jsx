@@ -13,20 +13,29 @@ import { Link, NavLink } from "react-router-dom";
 
 function SignIn() {
   return (
-    <Container
+    <Box
       sx={{
+        margin: "0 auto",
+        width: "100%",
+        padding: "0 30px",
+        maxWidth:"500px",
+        minWidth:"300px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <h2 style={{ textAlign: "center", margin: "50px 0" }}>Sign in</h2>
-      <Container sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems:"center"
-      }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+        }}
+      >
         <TextField
           sx={formInputStyle}
           label="Email"
@@ -41,41 +50,53 @@ function SignIn() {
           placeholder="Enter password"
           required
         />
-        <Box>
-          <FormControlLabel
-            control={<CheckBox name="remember" />}
-            label="Remember me"
-          />
-        </Box>
-      </Container>
+      </Box>
+      <Box sx={{ margin: "10px ", marginRight: "auto" }}>
+        <FormControlLabel
+          control={<CheckBox name="remember" />}
+          label="Remember me"
+        />
+      </Box>
 
-      <Button type="submit" variant="contained" sx={signInButtonStyle}>
+      <Button
+        type="submit"
+        variant="contained"
+        fullWidth
+        sx={signInButtonStyle}
+      >
         Sign in
       </Button>
-      <Box>
+      <Box
+        sx={{
+        width:"100%",
+          display: "flex",
+          justifyContent: "space-between",
+            
+        }}
+      >
         <Typography>
           <NavLink to="#">Forgot password?</NavLink>
         </Typography>
         <Typography>
           Don't have an account?
-          <NavLink to="#">Sign up</NavLink>
+          <NavLink to="#"> Sign up</NavLink>
         </Typography>
       </Box>
-    </Container>
+    </Box>
   );
 }
 
 const formInputStyle = {
   minWidth: "300px",
-  width: "70%",
-  maxWidth: "500px",
+  width: "100%",
   textAlign: "center",
+  margin: "10px 0",
 };
 
 const signInButtonStyle = {
   textTransform: "none",
   fontSize: 18,
-
+  margin: "20px 0",
   height: "55px",
   bgcolor: "black.main",
   color: "white.main",

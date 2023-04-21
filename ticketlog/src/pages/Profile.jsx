@@ -5,7 +5,7 @@ import Account from './Account'
 
 function Profile({userLogin, setUserLogin}) {
   return (
-    <Container
+    <Box
     
       sx={{
         display: "flex",
@@ -17,7 +17,7 @@ function Profile({userLogin, setUserLogin}) {
       {userLogin? <Account/>
     
     : <SignIn/>}
-    </Container>
+    </Box>
   )
 }
 
