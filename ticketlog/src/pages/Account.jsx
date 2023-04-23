@@ -10,30 +10,33 @@ function Account() {
         flexDirection: "column",
         justifyContent: "center",
         alignItem: "center",
+        marginBottom:"30px"
       }}
     >
       <h1 style={{ textAlign: "center", margin: "50px 0 20px 0" }}>Profile</h1>
       <Box
         sx={{
           display: "flex",
-          flexDirection: { xs: "column-reverse", sm: "row" },
+          flexDirection: { xs: "column", sm: "row" },
           justifyContent: "center",
-          margin: "0 auto",
+          alignItem:"center",
+          margin:"0 auto",
           minWidth: { sm: "600px" },
         }}
       >
         <Box
           sx={{
             display: "flex",
-            flexDirection: "column",
+            flexDirection: {xs:"column-reverse",sm:"column"},
             justifyContent: "center",
+            alignItems:"center"
           }}
         >
           <img
             src="src/assets/mink.jpg"
             style={{ borderRadius: "50%", width: "200px", height: "200px" }}
           />
-          <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center",alignItems:"center" }}>
+          <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center",alignItems:"center", margin:"30px 0" }}>
             <Button sx={navButtonStyle} component={NavLink} to="/Account">
               Account
             </Button>
@@ -47,7 +50,7 @@ function Account() {
             width: { xs: "0px", sm: "2px" },
             height: { xs: "0px", sm: "400px" },
             bgcolor: "black.main",
-            margin: "0 50px",
+            margin: "auto 50px",
           }}
         ></Box>
         <Box
@@ -107,6 +110,10 @@ function Account() {
               variant="outlined"
             />
           </Box>
+          <Box>
+            <Button sx={saveButtonStyle }>Save</Button>
+            <Button sx={cancelButtonStyle} variant="outlined" color="black" >Cancel</Button>
+          </Box>
         </Box>
       </Box>
     </Box>
@@ -150,5 +157,28 @@ const infoStyle = {
 const textFieldStyle = {
   width: "100%",
   margin: "5px 0",
+};
+const saveButtonStyle = {
+  textTransform: "none",
+  fontSize: 14,
+  width: "120px",
+  height: "30px",
+  bgcolor: "black.main",
+  color: "white.main",
+  marginRight:"10px",
+  "&:hover": {
+    backgroundColor: "black.dark",
+  },
+};
+const cancelButtonStyle = {
+  textTransform: "none",
+  fontSize: 14,
+  width: "120px",
+  height: "30px",
+  borderColor: "black.main",
+  color: "black.main",
+  "&:hover": {
+    backgroundColor: "black.light",
+  },
 };
 export default Account;
