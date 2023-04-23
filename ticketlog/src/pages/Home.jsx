@@ -4,6 +4,7 @@ import { Box, Button, Container, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import SearchTicket from "../components/SearchTicket";
 import SortDropdown from "../components/SortDropdown";
+import SmallTicket from "../components/SmallTicket";
 
 function Home() {
   return (
@@ -25,8 +26,8 @@ function Home() {
           margin: "50px 0 30px 0",
         }}
       >
-        <Box sx={{ textAlign: "center", margin: { xs: "20px 0", sm: "0" } }}>
-          <h1 style={{ marginBottom: "10px" }}>TicketLog</h1>
+        <Box sx={{ textAlign: "center", margin: { xs: "20px 0", sm: "0 20px" } }}>
+          <h1 style={{ marginBottom: "10px"}}>TicketLog</h1>
           <h3>Your movie ticket collection everywhere</h3>
         </Box>
         <Box>
@@ -53,6 +54,7 @@ function Home() {
         <Typography>All tickets</Typography>
         <SortDropdown />
       </Container>
+      <SmallTicket/>
     </Container>
   );
 }

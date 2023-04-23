@@ -11,7 +11,12 @@ import {
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 
-function SignIn() {
+function SignIn({userLogIn,setUserLogIn}) {
+
+    // function handleSignIn(){
+    //     setUserLogin(true);
+    // }
+
   return (
     <Box
       sx={{
@@ -63,6 +68,9 @@ function SignIn() {
         variant="contained"
         fullWidth
         sx={signInButtonStyle}
+        component={NavLink}
+        to="/"
+        // onClick={handleSignIn}
       >
         Sign in
       </Button>
@@ -71,7 +79,6 @@ function SignIn() {
         width:"100%",
           display: "flex",
           justifyContent: "space-between",
-            
         }}
       >
         <Typography>

@@ -11,6 +11,8 @@ import Home from "./pages/Home";
 import Community from "./pages/Community";
 import Nav from "./components/Nav";
 import CreateTicket from "./pages/CreateTicket";
+import Account from "./pages/Account";
+import SignIn from "./pages/SignIn";
 
 function App() {
   const theme = createTheme({
@@ -31,7 +33,7 @@ function App() {
       },
     },
   });
-  const [userLogin, setUserLogin] = useState(false);
+  const [userLogin, setUserLogin] = useState(true);
 
   return (
     <ThemeProvider theme={theme}>
@@ -44,6 +46,8 @@ function App() {
             <Route path="/Collection" element={<Collection />} />
             <Route path="/Profile" element={<Profile userLogin={userLogin} setUserLogin={setUserLogin}/>} />
             <Route path="/CreateTicket" element={<CreateTicket />} />
+            <Route path="/Profile/Account" element={<Account />} />
+            <Route path="/SignIn" element={<SignIn />} />
           </Routes>
         </div>
       </BrowserRouter>
