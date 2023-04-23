@@ -24,7 +24,7 @@ function Profile({ userLogin, setUserLogin }) {
             
           }}
         >
-          <Button sx={navButtonStyle} component={NavLink} to="/Profile/Account">Account</Button>
+          <Button sx={navButtonStyle} component={NavLink} to="/Account">Account</Button>
           <Button sx={navButtonStyle} component={NavLink} to="/SignIn" >Sign out</Button>
         </Box>
         <Box
@@ -64,6 +64,7 @@ const navButtonStyle = {
   backgroundColor: "white.main",
   color: "black.main",
   margin:"10px 0",
+  width:"100px",
   "&:hover": {
     backgroundColor: "white.main",
     "&::after": {

@@ -46,7 +46,7 @@ function App() {
             <Route path="/Collection" element={<Collection />} />
             <Route path="/Profile" element={<Profile userLogin={userLogin} setUserLogin={setUserLogin}/>} />
             <Route path="/CreateTicket" element={<CreateTicket />} />
-            <Route path="/Profile/Account" element={<Account />} />
+            <Route path="/Account" element={<Account />} />
             <Route path="/SignIn" element={<SignIn />} />
           </Routes>
         </div>
