@@ -1,158 +1,148 @@
-import { Box, Button, Container, InputLabel, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Divider,
+  IconButton,
+  InputLabel,
+  TextField,
+} from "@mui/material";
 import React from "react";
 import { NavLink } from "react-router-dom";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 function Account() {
   return (
     <Box
+      className="flex-container"
       sx={{
-        display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
-        alignItem: "center",
-        marginBottom:"30px"
+        marginTop: "100px",
       }}
     >
-      <h1 style={{ textAlign: "center", margin: "50px 0 20px 0" }}>Profile</h1>
       <Box
+        className="flex-container"
         sx={{
-          display: "flex",
-          flexDirection: { xs: "column", sm: "row" },
-          justifyContent: "center",
-          alignItem:"center",
-          margin:"0 auto",
-          minWidth: { sm: "600px" },
+          marginBottom: "30px",
+          width: "100%",
+          maxWidth: "600px",
+          minWidth: "300px",
+          padding:"0 30px"
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: {xs:"column-reverse",sm:"column"},
-            justifyContent: "center",
-            alignItems:"center"
-          }}
-        >
-          <img
-            src="src/assets/mink.jpg"
-            style={{ borderRadius: "50%", width: "200px", height: "200px" }}
-          />
-          <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center",alignItems:"center", margin:"30px 0" }}>
-            <Button sx={navButtonStyle} component={NavLink} to="/Account">
-              Account
-            </Button>
-            <Button sx={navButtonStyle} component={NavLink} to="/SignIn">
-              Sign out
-            </Button>
-          </Box>
-        </Box>
-        <Box
-          sx={{
-            width: { xs: "0px", sm: "2px" },
-            height: { xs: "0px", sm: "400px" },
-            bgcolor: "black.main",
-            margin: "auto 50px",
-          }}
-        ></Box>
-        <Box
-          sx={{
+        <IconButton component={NavLink} to="/Profile">
+          <ArrowBackIcon />
+        </IconButton>
+        <h1 style={{ textAlign: "center", flexGrow: "1" }}>Account</h1>
+        <IconButton sx={{visibility:"hidden"}}>
+          <ArrowBackIcon />
+        </IconButton>
+
+      </Box>
+      <Box className="flex-container" sx={{ flexDirection: "column" }}>
+        <img
+          src="src/assets/mink.jpg"
+          style={{ borderRadius: "50%", width: "200px", height: "200px" }}
+        />
+
+        <form
+          style={{
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
             alignItem: "center",
-            width: "250px",
+            width: "100%",
+            maxWidth: "600px",
+            minWidth: "200px",
+            padding: "30px",
           }}
         >
-          <Box sx={{ margin: "15px 0" }}>
-            <InputLabel>Display Name</InputLabel>
-            <TextField
-              sx={textFieldStyle}
-              size="small"
-              type="text"
-              variant="outlined"
-            />
-            <InputLabel>Email address</InputLabel>
-            <TextField
-              sx={textFieldStyle}
-              size="small"
-              type="email"
-              variant="outlined"
-            />
-            <InputLabel>Location</InputLabel>
-            <TextField
-              sx={textFieldStyle}
-              size="small"
-              type="text"
-              variant="outlined"
-            />
+          <Box
+            className="flex-container"
+            sx={{ flexDirection: { xs: "column", sm: "row" } }}
+          >
+            <Box sx={{ width: "100%", maxWidth: "250px", minWidth: "200px" }}>
+              <div>
+                <InputLabel>Display Name</InputLabel>
+                <TextField
+                  sx={textFieldStyle}
+                  size="small"
+                  type="text"
+                  variant="outlined"
+                />
+              </div>
+              <div>
+                <InputLabel>Email address</InputLabel>
+                <TextField
+                  sx={textFieldStyle}
+                  size="small"
+                  type="email"
+                  variant="outlined"
+                />
+              </div>
+              <div>
+                <InputLabel>Location</InputLabel>
+                <TextField
+                  sx={textFieldStyle}
+                  size="small"
+                  type="text"
+                  variant="outlined"
+                />
+              </div>
+            </Box>
+            <Divider orientation="vertical" sx={{ margin: "20px" }} flexItem />
+            {/* section2 */}
+            <Box sx={{ width: "100%", maxWidth: "250px", minWidth: "200px" }}>
+              <div>
+                <InputLabel>Current password</InputLabel>
+                <TextField
+                  sx={textFieldStyle}
+                  size="small"
+                  type="password"
+                  variant="outlined"
+                />
+              </div>
+              <div>
+                <InputLabel>New password</InputLabel>
+                <TextField
+                  sx={textFieldStyle}
+                  size="small"
+                  type="password"
+                  placeholder="Enter your new password"
+                  variant="outlined"
+                />
+              </div>
+
+              <div>
+                <InputLabel>Confirm new password</InputLabel>
+                <TextField
+                  sx={textFieldStyle}
+                  size="small"
+                  type="password"
+                  placeholder="Enter your new password"
+                  variant="outlined"
+                />
+              </div>
+            </Box>
           </Box>
-          <Box sx={{ margin: "15px 0" }}>
-            <InputLabel>Current password</InputLabel>
-            <TextField
-              sx={textFieldStyle}
-              size="small"
-              type="password"
-              variant="outlined"
-            />
-            <InputLabel>New password</InputLabel>
-            <TextField
-              sx={textFieldStyle}
-              size="small"
-              type="password"
-              placeholder="Enter your new password"
-              variant="outlined"
-            />
-            <InputLabel>Confirm new password</InputLabel>
-            <TextField
-              sx={textFieldStyle}
-              size="small"
-              type="password"
-              placeholder="Enter your new password"
-              variant="outlined"
-            />
+
+          <Box
+            className="flex-container"
+            sx={{
+              justifyContent: { xs: "center", sm: "flex-end" },
+              marginTop: "30px",
+            }}
+          >
+            <Button component={NavLink} to="/Profile" sx={saveButtonStyle}>Save</Button>
+            <Button component={NavLink} to="/Profile" sx={cancelButtonStyle} variant="outlined" color="black">
+              Cancel
+            </Button>
           </Box>
-          <Box>
-            <Button sx={saveButtonStyle }>Save</Button>
-            <Button sx={cancelButtonStyle} variant="outlined" color="black" >Cancel</Button>
-          </Box>
-        </Box>
+        </form>
       </Box>
     </Box>
   );
 }
-
-const navButtonStyle = {
-  textTransform: "none",
-  fontSize: 18,
-  backgroundColor: "white.main",
-  color: "black.main",
-  margin: "10px 0",
-  width: "100px",
-  "&:hover": {
-    backgroundColor: "white.main",
-    "&::after": {
-      width: "70%",
-    },
-  },
-  "&.active": {
-    "&::after": {
-      width: "70%",
-    },
-  },
-
-  "&::after": {
-    content: '""',
-    position: "absolute",
-    bgcolor: "black.main",
-    height: "3px",
-    width: "0",
-    bottom: "7px",
-    transition: "0.3s",
-  },
-};
-
-const infoStyle = {
-  margin: "10px",
-};
 
 const textFieldStyle = {
   width: "100%",
@@ -165,7 +155,7 @@ const saveButtonStyle = {
   height: "30px",
   bgcolor: "black.main",
   color: "white.main",
-  marginRight:"10px",
+  marginRight: "10px",
   "&:hover": {
     backgroundColor: "black.dark",
   },

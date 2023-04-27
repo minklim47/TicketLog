@@ -9,6 +9,7 @@ function Collection() {
         flexDirection: "column",
         justifyContent: "center",
         alignItem: "center",
+        marginTop:"100px"
       }}
     >
       <h1 style={{ textAlign: "center", marginBottom: "20px" }}>Collection</h1>

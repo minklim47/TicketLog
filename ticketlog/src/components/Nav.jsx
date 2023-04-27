@@ -149,6 +149,9 @@ const navBarStyle = {
   backgroundColor: "white.main",
   color: "black.main",
   padding: "0px",
+  position:"fixed",
+  top:"0",
+  zIndex:"10",
 };
 
 const navButtonStyle = {

@@ -11,6 +11,7 @@ function Community() {
         flexDirection: "column",
         justifyContent: "center",
         alignItem: "center",
+        marginTop:"100px"
       }}
     >
       <Container sx={{
@@ -18,7 +19,6 @@ function Community() {
         flexDirection: "column",
         justifyContent: "center",
         alignItem: "center",
-        margin:"50px 0"
       }}>
         <h1 style={{textAlign:"center", marginBottom:"20px"}}>Community</h1>
         <SearchMovie />

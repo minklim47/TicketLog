@@ -20,7 +20,7 @@ function SignIn({userLogIn,setUserLogIn}) {
   return (
     <Box
       sx={{
-        margin: "0 auto",
+        margin: "100px auto 0 auto",
         width: "100%",
         padding: "0 30px",
         maxWidth:"500px",
@@ -31,7 +31,7 @@ function SignIn({userLogIn,setUserLogIn}) {
         alignItems: "center",
       }}
     >
-      <h2 style={{ textAlign: "center", margin: "50px 0" }}>Sign in</h2>
+      <h2 style={{ textAlign: "center", marginBottom:"30px" }}>Sign in</h2>
       <Box
         sx={{
           display: "flex",

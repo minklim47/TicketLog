@@ -17,8 +17,7 @@ const smallTicketStyle1 = {
   width: "250px",
   height: "250px",
   borderRadius: "15px",
-
-
+  margin:"10px"
 };
 
 const movieTitleStyle = {

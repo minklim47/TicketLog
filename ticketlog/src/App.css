@@ -4,6 +4,11 @@ body{
 h1{
   font-family: Roboto;
 }
+.flex-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 /* .navButton:hover {
   background-color: #838383 !important;
   color: #aadd33 !important;
