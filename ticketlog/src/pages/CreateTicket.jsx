@@ -47,7 +47,7 @@ function CreateTicket() {
           <SmallTicket />
           <Customize sx={{ margin: "100px" }} />
         </Box>
-        <Box sx={{ padding: "20px" }}>
+        <Box sx={{ padding: "0 20px" }}>
           <form
             className="flex-container"
             style={{
@@ -55,8 +55,8 @@ function CreateTicket() {
               justifyContent: "flex-start",
               alignItems: "flex-start",
               width: "100%",
-              maxWidth: "320px",
-              minWidth: "300px",
+              maxWidth: "310px",
+              minWidth: "250px",
             }}
           >
             <div style={{ width: "100%" }}>
@@ -118,26 +118,32 @@ function CreateTicket() {
           <Button endIcon={<AddCircleIcon />} sx={addButtonStyle}>
             Add Note
           </Button>
-          <Box sx={{ margin: "10px ", marginRight: "auto" }}>
+          <Box sx={{ marginLeft: "10px " }}>
             <FormControlLabel
               control={<CheckBox name="private" />}
               label="set ticket as private"
             />
           </Box>
-          <Button component={NavLink} to="/Profile" sx={saveButtonStyle}>Save</Button>
-            <Button component={NavLink} to="/Profile" sx={cancelButtonStyle} variant="outlined" color="black">
+          <Box className="flex-container" sx={{margin:"0 auto"}}>
+            <Button component={NavLink} to="/Profile" sx={saveButtonStyle}>
+              Save
+            </Button>
+            <Button
+              component={NavLink}
+              to="/Profile"
+              sx={cancelButtonStyle}
+              variant="outlined"
+              color="black"
+            >
               Cancel
             </Button>
+          </Box>
         </Box>
       </Box>
     </Box>
   );
 }
 
-const textFieldStyle = {
-  width: "100%",
-  margin: "5px 0",
-};
 const addButtonStyle = {
   textTransform: "none",
   fontSize: 14,
@@ -145,7 +151,7 @@ const addButtonStyle = {
   height: "40px",
   bgcolor: "black.main",
   color: "white.main",
-  marginRight: "10px",
+  margin: "20px 0",
   "&:hover": {
     backgroundColor: "black.dark",
   },
@@ -162,7 +168,7 @@ const saveButtonStyle = {
   height: "30px",
   bgcolor: "black.main",
   color: "white.main",
-  marginRight: "10px",
+  margin: "30px 20px 30px 0",
   "&:hover": {
     backgroundColor: "black.dark",
   },
@@ -174,6 +180,7 @@ const cancelButtonStyle = {
   height: "30px",
   borderColor: "black.main",
   color: "black.main",
+  margin: "30px 0",
   "&:hover": {
     backgroundColor: "black.light",
   },
