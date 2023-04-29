@@ -1,8 +1,11 @@
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import React from "react";
-function SmallTicket() {
+
+import ticket1 from '../assets/ticket/ticket2-black.png' ;
+
+function Ticket() {
   return (
-    <Card sx={smallTicketStyle1}>
+    <Card sx={ticketStyle1}>
       <CardContent>
         <Typography sx={movieTitleStyle }>Aftersun</Typography>
         <Box sx={dividerStyle}></Box>
@@ -13,11 +16,13 @@ function SmallTicket() {
   );
 }
 
-const smallTicketStyle1 = {
+const ticketStyle1 = {
   width: "250px",
   height: "250px",
   borderRadius: "15px",
-  margin:"10px"
+  margin:"10px",
+  backgroundImage: `url(${ticket1})`,
+  backgroundSize: "cover",
 };
 
 const movieTitleStyle = {
@@ -33,4 +38,4 @@ const dividerStyle = {
   height:"3px",
   bgcolor:"black.main"
 }
-export default SmallTicket;
+export default Ticket;

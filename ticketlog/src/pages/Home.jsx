@@ -4,7 +4,7 @@ import { Box, Button, Container, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import SearchTicket from "../components/SearchTicket";
 import SortDropdown from "../components/SortDropdown";
-import SmallTicket from "../components/SmallTicket";
+import Ticket from "../components/Ticket";
 
 function Home() {
   return (
@@ -48,8 +48,7 @@ function Home() {
       </Box>
       {/* <Box sx={{display:"inline-flex", flexFlow:{xs:"row wrap"},justifyContent:"center",}}> */}
       <Box sx={grid}>
-        <SmallTicket /> <SmallTicket /> <SmallTicket /> <SmallTicket />{" "}
-        <SmallTicket />
+        <Ticket/><Ticket/><Ticket/><Ticket/><Ticket/>
       </Box>
     </Container>
   );

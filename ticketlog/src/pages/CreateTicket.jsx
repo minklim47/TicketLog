@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import SmallTicket from "../components/SmallTicket";
+import SmallTicket from "../components/Ticket";
 import Customize from "../components/Customize";
 import { NavLink } from "react-router-dom";
 import AddCircleIcon from "@mui/icons-material/AddCircle";

@@ -9,27 +9,28 @@ function Collection() {
         flexDirection: "column",
         justifyContent: "center",
         alignItem: "center",
-        marginTop:"100px"
+        marginTop: "100px",
       }}
     >
       <h1 style={{ textAlign: "center", marginBottom: "20px" }}>Collection</h1>
 
-      <Box sx={totalStyle}>
-        <h2>You own a total of</h2>
-        <Box>55</Box>
-        <h2>movie tickets
-        </h2>
+      <Box className="flex-container" sx={totalStyle}>
+        <h3>You own a total of</h3>
+        <h2 style={{margin:"0 20px"}}>55</h2>
+        <h3>movie tickets </h3>
       </Box>
-      <Box>
-
-
-      </Box>
+      <Box></Box>
     </Box>
   );
 }
 
 const totalStyle = {
-  display:"flex",justifyContent:"space-around"
-}
+  flexDirection: { xs: "column", sm: "row" },
+  backgroundColor: "black.main",
+  color:"white.main",
+  padding:"30px",
+ 
+  
+};
 
 export default Collection;
