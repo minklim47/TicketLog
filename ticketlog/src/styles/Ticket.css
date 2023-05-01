@@ -86,17 +86,18 @@
 }
 .style-2 .title {
   font-size: 26px;
-  margin: 20px 20px 15px 20px;
+  margin: 10px 20px ;
 }
 .style-2 .cinema-seat {
   display: flex;
   justify-content: space-evenly;
+  margin:  5px;
 }
 .style-2 .date-time {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 30px 20px 0 20px;
+  margin: 35px 20px 0 20px;
 }
 .style-1 .cinema-item {
   margin-right: 10px;
@@ -112,6 +113,32 @@
 }
 
 /*=========== ticket style 3 ==============*/
+
+.style-3 .container {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 250px;
+   
+  }
+  .style-3 .not-title {
+    display: flex;
+    flex-direction: column;
+  }
+  .style-3 .title {
+    font-size: 26px;
+    margin: 10px 20px 20px 20px ;
+  }
+  .style-3 .cinema-seat {
+    align-self: flex-end;
+    color: #FAFAFA;
+    margin-right: 20px;
+  }
+  .style-3 .date-time {
+    align-self: flex-start;
+    margin-left: 20px;
+  }
+
 .style-3 {
   background-image: url("../assets/ticket/ticket3-black.png");
   background-size: 250px 250px;
