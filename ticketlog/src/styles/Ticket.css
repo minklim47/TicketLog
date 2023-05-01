@@ -1,0 +1,118 @@
+@import url("https://fonts.googleapis.com/css2?family=B612:wght@400;700&family=Bakbak+One&family=Roboto:wght@300;400;500;700;900&display=swap");
+
+.style-1 .cinema,
+.style-1 .seat,
+.style-1 .date,
+.style-1 .time,
+.style-2 .cinema,
+.style-2 .seat,
+.style-2 .date,
+.style-2 .time,
+.style-3 .cinema,
+.style-3 .seat,
+.style-3 .date,
+.style-3 .time {
+  font-family: B612, sans-serif;
+  font-size: 16px;
+}
+.style-1 .title,
+.style-1 .cinema-value,
+.style-1 .seat-value,
+.style-1 .date-value,
+.style-1 .time-value,
+.style-2 .title,
+.style-2 .cinema-value,
+.style-2 .seat-value,
+.style-2 .date-value,
+.style-2 .time-value,
+.style-3 .title,
+.style-3 .cinema-value,
+.style-3 .seat-value,
+.style-3 .date-value,
+.style-3 .time-value {
+  font-family: "Bakbak One", sans-serif;
+  font-size: 16px;
+}
+
+.cinema-item,
+.seat-item,
+.date-item,
+.time-item {
+  text-align: center;
+}
+
+/*=========== ticket style 1 ==============*/
+
+.style-1 {
+  background-image: url("../assets/ticket/ticket1-black.png");
+  background-size: 250px 250px;
+  color: red;
+}
+
+.style-1 .container {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  height: 200px;
+}
+.style-1 .title {
+  font-size: 26px;
+  margin: 20px auto;
+  text-align: center;
+}
+.style-1 .cinema-seat,
+.style-1 .date-time {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/*=========== ticket style 2 ==============*/
+
+.style-2 .container {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  height: 250px;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.style-2 .not-title {
+  display: flex;
+  flex-direction: column;
+
+  width: 125px;
+}
+.style-2 .title {
+  font-size: 26px;
+  margin: 20px 20px 15px 20px;
+}
+.style-2 .cinema-seat {
+  display: flex;
+  justify-content: space-evenly;
+}
+.style-2 .date-time {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 30px 20px 0 20px;
+}
+.style-1 .cinema-item {
+  margin-right: 10px;
+}
+
+.style-2 .date-item {
+  margin: 10px 0 5px 0;
+}
+
+.style-2 {
+  background-image: url("../assets/ticket/ticket2-black.png");
+  background-size: 250px 250px;
+}
+
+/*=========== ticket style 3 ==============*/
+.style-3 {
+  background-image: url("../assets/ticket/ticket3-black.png");
+  background-size: 250px 250px;
+}

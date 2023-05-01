@@ -7,7 +7,7 @@ import {
   InputLabel,
   TextField,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SmallTicket from "../components/Ticket";
 import Customize from "../components/Customize";
@@ -15,7 +15,27 @@ import { NavLink } from "react-router-dom";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { CheckBox } from "@mui/icons-material";
 
+import ticket1 from "../assets/ticket/ticket1-black.png";
+import ticket2 from "../assets/ticket/ticket2-black.png";
+import ticket3 from "../assets/ticket/ticket3-black.png";
+import '../styles/Ticket.css'
+
 function CreateTicket() {
+
+  const [selectedStyle, setSelectedStyle] = useState('style-1');
+
+  const handleStyleChange = (event) => {
+    setSelectedStyle(event.target.value);
+    console.log(event.target.value);
+  }
+
+  const styleOptions = [
+    { value: "style-1", label: "1" },
+    { value: "style-2", label: "2" },
+    { value: "style-3", label: "3" },
+    // add more style options as needed
+  ];
+
   return (
     <Box
       className="flex-container"
@@ -44,8 +64,49 @@ function CreateTicket() {
         sx={{ flexDirection: { xs: "column", sm: "row" }, marginTop: "20px" }}
       >
         <Box sx={{}}>
-          <SmallTicket />
-          <Customize sx={{ margin: "100px" }} />
+          <SmallTicket selectedStyle={selectedStyle} />
+          <Box
+            className="flex-container"
+            sx={{
+              flexDirection: "column",
+              justifyContent: { xs: "center", sm: "flex-start" },
+              alignItems: { xs: "center", sm: "flex-start" },
+              margin: "20px",
+            }}
+          >
+            <h4 style={{ marginBottom: "5px" }}>Choose style</h4>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "120px",
+                marginBottom: "10px ",
+              }}
+            >
+              {styleOptions.map((option) => (
+                <div key={option.value}>
+                  <input
+                    type="radio"
+                    name="style"
+                    value={option.value}
+                    checked={selectedStyle === option.value}
+                    onChange={handleStyleChange}
+                  />
+                  <label>{option.label}</label>
+                </div>
+              ))}
+
+            </Box>
+            <h4 style={{ marginBottom: "5px" }}>Choose color</h4>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "120px",
+              }}
+            >
+            </Box>
+          </Box>
         </Box>
         <Box sx={{ padding: "0 20px" }}>
           <form
@@ -124,7 +185,7 @@ function CreateTicket() {
               label="set ticket as private"
             />
           </Box>
-          <Box className="flex-container" sx={{margin:"0 auto"}}>
+          <Box className="flex-container" sx={{ margin: "0 auto" }}>
             <Button component={NavLink} to="/Profile" sx={saveButtonStyle}>
               Save
             </Button>
@@ -184,6 +245,19 @@ const cancelButtonStyle = {
   "&:hover": {
     backgroundColor: "black.light",
   },
+};
+
+const style1 = {
+  backgroundImage: `url(${ticket1})`,
+  backgroundSize: "cover",
+};
+const style2 = {
+  backgroundImage: `url(${ticket2})`,
+  backgroundSize: "cover",
+};
+const style3 = {
+  backgroundImage: `url(${ticket3})`,
+  backgroundSize: "cover",
 };
 
 export default CreateTicket;
