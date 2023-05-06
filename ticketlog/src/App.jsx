@@ -1,7 +1,7 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+
 import "./App.css";
+import React from 'react';
 
 import { createTheme, colors, ThemeProvider } from "@mui/material";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -13,6 +13,9 @@ import Nav from "./components/Nav";
 import CreateTicket from "./pages/CreateTicket";
 import Account from "./pages/Account";
 import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import ForgotPassword from "./pages/ForgotPassword";
+
 
 function App() {
   const theme = createTheme({
@@ -20,7 +23,7 @@ function App() {
       black: {
         main: "#212121",
         light: "#ABABAB",
-        dark: "#424242"
+        dark: "#424242",
       },
       white: {
         main: "#FAFAFA",
@@ -36,22 +39,31 @@ function App() {
   const [userLogin, setUserLogin] = useState(true);
 
   return (
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <div>
-          <Nav />
-          <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route path="/Community" element={<Community />} />
-            <Route path="/Collection" element={<Collection />} />
-            <Route path="/Profile" element={<Profile userLogin={userLogin} setUserLogin={setUserLogin}/>} />
-            <Route path="/CreateTicket" element={<CreateTicket />} />
-            <Route path="/Account" element={<Account />} />
-            <Route path="/SignIn" element={<SignIn />} />
-          </Routes>
-        </div>
-      </BrowserRouter>
-    </ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <div>
+            <Nav />
+            <Routes>
+              <Route exact path="/" element={<Home />} />
+              <Route path="/Community" element={<Community />} />
+              <Route path="/Collection" element={<Collection />} />
+              <Route
+                path="/Profile"
+                element={
+                  <Profile userLogin={userLogin} setUserLogin={setUserLogin} />
+                }
+              />
+              <Route path="/CreateTicket" element={<CreateTicket />} />
+              <Route path="/Account" element={<Account />} />
+              <Route path="/SignIn" element={<SignIn />} />
+              <Route path="/SignUp" element={<SignUp />} />
+              <Route path="/ForgotPassword" element={<ForgotPassword />} />
+
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </ThemeProvider>
+      
   );
 }
 

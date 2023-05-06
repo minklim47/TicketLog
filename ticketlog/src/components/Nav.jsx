@@ -16,9 +16,6 @@ import DrawerMenu from "./DrawerMenu";
 
 function Nav() {
   const [open, setState] = useState(false);
-  // const handleMenuToggle = () => {
-  //     setMenuOpen((prevState) => !prevState)
-  // }
 
   const toggleDrawer = (open) => (event) => {
     setState(open);

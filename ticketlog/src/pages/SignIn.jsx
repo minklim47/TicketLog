@@ -2,6 +2,7 @@ import { CheckBox } from "@mui/icons-material";
 import {
   Box,
   Button,
+  Checkbox,
   Container,
   FormControl,
   FormControlLabel,
@@ -9,13 +10,12 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-function SignIn({userLogIn,setUserLogIn}) {
-
-    // function handleSignIn(){
-    //     setUserLogin(true);
-    // }
+function SignIn({ userLogIn, setUserLogIn }) {
+  // function handleSignIn(){
+  //     setUserLogin(true);
+  // }
 
   return (
     <Box
@@ -23,15 +23,15 @@ function SignIn({userLogIn,setUserLogIn}) {
         margin: "100px auto 0 auto",
         width: "100%",
         padding: "0 30px",
-        maxWidth:"500px",
-        minWidth:"300px",
+        maxWidth: "500px",
+        minWidth: "300px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
       }}
     >
-      <h2 style={{ textAlign: "center", marginBottom:"30px" }}>Sign in</h2>
+      <h2 style={{ textAlign: "center", marginBottom: "30px" }}>Sign in</h2>
       <Box
         sx={{
           display: "flex",
@@ -57,8 +57,24 @@ function SignIn({userLogIn,setUserLogIn}) {
         />
       </Box>
       <Box sx={{ margin: "10px ", marginRight: "auto" }}>
+        
         <FormControlLabel
-          control={<CheckBox name="remember" />}
+          control={
+            <Checkbox
+              
+              sx={{
+                color: "#000000",
+                width: "24px",
+                marginRight: "10px",
+                "&.Mui-checked": {
+                  color: "#212121",
+                },
+              }}
+              defaultChecked
+              label="Remember me"
+  
+            />
+          }
           label="Remember me"
         />
       </Box>
@@ -76,17 +92,17 @@ function SignIn({userLogIn,setUserLogIn}) {
       </Button>
       <Box
         sx={{
-        width:"100%",
+          width: "100%",
           display: "flex",
           justifyContent: "space-between",
         }}
       >
         <Typography>
-          <NavLink to="#">Forgot password?</NavLink>
+          <NavLink to="/ForgotPassword">Forgot password?</NavLink>
         </Typography>
         <Typography>
           Don't have an account?
-          <NavLink to="#"> Sign up</NavLink>
+          <NavLink to="/SignUp"> Sign up</NavLink>
         </Typography>
       </Box>
     </Box>
@@ -111,4 +127,6 @@ const signInButtonStyle = {
     backgroundColor: "black.dark",
   },
 };
+
+
 export default SignIn;

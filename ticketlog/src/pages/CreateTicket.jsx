@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Checkbox,
   FormControlLabel,
   FormLabel,
   IconButton,
@@ -9,32 +10,57 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import SmallTicket from "../components/Ticket";
-import Customize from "../components/Customize";
 import { NavLink } from "react-router-dom";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { CheckBox } from "@mui/icons-material";
+import "../styles/Ticket.css";
 
-import ticket1 from "../assets/ticket/ticket1-black.png";
-import ticket2 from "../assets/ticket/ticket2-black.png";
-import ticket3 from "../assets/ticket/ticket3-black.png";
-import '../styles/Ticket.css'
+import Ticket from "../components/Ticket";
 
 function CreateTicket() {
-
-  const [selectedStyle, setSelectedStyle] = useState('style-1');
+  const [selectedStyle, setSelectedStyle] = useState("style-1");
 
   const handleStyleChange = (event) => {
     setSelectedStyle(event.target.value);
     console.log(event.target.value);
-  }
+  };
 
   const styleOptions = [
     { value: "style-1", label: "1" },
     { value: "style-2", label: "2" },
     { value: "style-3", label: "3" },
-    // add more style options as needed
   ];
+
+  const [title, setTitle] = useState("");
+  const [cinema, setCinema] = useState("");
+  const [seat, setSeat] = useState("");
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState(new Date());
+  const [isPrivate, setIsPrivate] = useState(false);
+
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value.substring(0, 18));
+  };
+  const handleCinemaChange = (event) => {
+    setCinema(event.target.value.substring(0, 10));
+  };
+  const handleSeatChange = (event) => {
+    setSeat(event.target.value.substring(0, 3));
+  };
+  const handleDateChange = (event) => {
+    setDate(new Date(event.target.value));
+  };
+  const handleTimeChange = (event) => {
+    const [hours, minutes] = event.target.value.split(":");
+    const newTime = new Date();
+    newTime.setHours(hours);
+    newTime.setMinutes(minutes);
+    setTime(newTime);
+  };
+  const handleIsPrivateChange = (event) => {
+    setIsPrivate(!isPrivate);
+    console.log(event.target.value);
+  };
 
   return (
     <Box
@@ -63,8 +89,16 @@ function CreateTicket() {
         className="flex-container"
         sx={{ flexDirection: { xs: "column", sm: "row" }, marginTop: "20px" }}
       >
-        <Box sx={{}}>
-          <SmallTicket selectedStyle={selectedStyle} />
+        {/* ============= Display of ticket and select style =============== */}
+        <Box>
+          <Ticket
+            selectedStyle={selectedStyle}
+            title={title}
+            cinema={cinema}
+            seat={seat}
+            date={date}
+            time={time}
+          />
           <Box
             className="flex-container"
             sx={{
@@ -74,7 +108,7 @@ function CreateTicket() {
               margin: "20px",
             }}
           >
-            <h4 style={{ marginBottom: "5px" }}>Choose style</h4>
+            <h4 style={{ marginBottom: "10px" }}>Choose style</h4>
             <Box
               sx={{
                 display: "flex",
@@ -83,32 +117,34 @@ function CreateTicket() {
                 marginBottom: "10px ",
               }}
             >
+              {/* ============= select style =============== */}
               {styleOptions.map((option) => (
                 <div key={option.value}>
+                 
+                  <label className="radio-style">{option.label}
                   <input
                     type="radio"
                     name="style"
                     value={option.value}
                     checked={selectedStyle === option.value}
                     onChange={handleStyleChange}
-                  />
-                  <label>{option.label}</label>
+                  /> <span className="checkmark"></span>
+                  </label>
                 </div>
               ))}
-
             </Box>
-            <h4 style={{ marginBottom: "5px" }}>Choose color</h4>
+            {/* <h4 style={{ marginBottom: "5px" }}>Choose color</h4> */}
             <Box
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
                 width: "120px",
               }}
-            >
-            </Box>
+            ></Box>
           </Box>
         </Box>
         <Box sx={{ padding: "0 20px" }}>
+          {/* ======================== Form ======================== */}
           <form
             className="flex-container"
             style={{
@@ -127,6 +163,10 @@ function CreateTicket() {
                 size="small"
                 type="text"
                 variant="outlined"
+                value={title}
+                onChange={handleTitleChange}
+                placeholder="Movie Title"
+                required
               />
             </div>
             <Box
@@ -138,8 +178,17 @@ function CreateTicket() {
                 <TextField
                   sx={smallTextFieldStyle}
                   size="small"
-                  type="text"
+                  type="date"
                   variant="outlined"
+                  value={
+                    date.getDate() +
+                    "-" +
+                    parseInt(date.getMonth() + 1) +
+                    "-" +
+                    date.getFullYear()
+                  }
+                  onChange={handleDateChange}
+                  required
                 />
               </div>
               <div style={{ maxWidth: "150px" }}>
@@ -147,8 +196,11 @@ function CreateTicket() {
                 <TextField
                   sx={smallTextFieldStyle}
                   size="small"
-                  type="text"
+                  type="time"
                   variant="outlined"
+                  value={time.toTimeString().substr(0, 5)}
+                  onChange={handleTimeChange}
+                  required
                 />
               </div>
             </Box>
@@ -163,6 +215,9 @@ function CreateTicket() {
                   size="small"
                   type="text"
                   variant="outlined"
+                  value={cinema}
+                  maxLength="10"
+                  onChange={handleCinemaChange}
                 />
               </div>
               <div style={{ maxWidth: "150px" }}>
@@ -172,21 +227,45 @@ function CreateTicket() {
                   size="small"
                   type="text"
                   variant="outlined"
+                  value={seat}
+                  maxLength="3"
+                  onChange={handleSeatChange}
                 />
               </div>
             </Box>
           </form>
+
+          {/* ====== Add note button ======= */}
           <Button endIcon={<AddCircleIcon />} sx={addButtonStyle}>
             Add Note
           </Button>
-          <Box sx={{ marginLeft: "10px " }}>
+          {/* ====== checkbox ======= */}
+          <Box sx={{ marginLeft: "10px "}}>
             <FormControlLabel
-              control={<CheckBox name="private" />}
+              control={
+                <Checkbox
+                  value={isPrivate}
+                  sx={{
+                    color: "#000000",
+                    width:"24px",
+                    marginRight:"10px",
+                    "&.Mui-checked": {
+                      color: "#212121",
+                    },
+                  }}
+                  defaultChecked
+                  label="set ticket as prviate"
+                  onClick={handleIsPrivateChange}
+                
+                />
+              }
               label="set ticket as private"
             />
           </Box>
+
+          {/* ====== save and cancel button ======= */}
           <Box className="flex-container" sx={{ margin: "0 auto" }}>
-            <Button component={NavLink} to="/Profile" sx={saveButtonStyle}>
+            <Button component={NavLink} to="/" sx={saveButtonStyle}>
               Save
             </Button>
             <Button
@@ -245,19 +324,6 @@ const cancelButtonStyle = {
   "&:hover": {
     backgroundColor: "black.light",
   },
-};
-
-const style1 = {
-  backgroundImage: `url(${ticket1})`,
-  backgroundSize: "cover",
-};
-const style2 = {
-  backgroundImage: `url(${ticket2})`,
-  backgroundSize: "cover",
-};
-const style3 = {
-  backgroundImage: `url(${ticket3})`,
-  backgroundSize: "cover",
 };
 
 export default CreateTicket;

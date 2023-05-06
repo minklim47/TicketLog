@@ -55,12 +55,12 @@ function Profile({ userLogin, setUserLogin }) {
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                Click "SIGN OUT" to sign out from this website. 
+                Click "Sign out" to sign out from this website. 
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleClose}>Cancel</Button>
-              <Button component={NavLink} to="/SignIn" autoFocus>
+              <Button sx={signOutButtonStyle} onClick={handleClose}>Cancel</Button>
+              <Button sx={signOutButtonStyle} component={NavLink} to="/SignIn" autoFocus>
                 Sign out
               </Button>
             </DialogActions>
@@ -141,6 +141,17 @@ const navButtonStyle = {
 const infoStyle = {
   margin: "10px",
 };
+
+const signOutButtonStyle = {
+  textTransform: "none",
+  fontSize: 14,
+
+  "&:hover": {
+    // backgroundColor: "black.dark",
+  
+  },
+};
+
 export default Profile;
 
 {
