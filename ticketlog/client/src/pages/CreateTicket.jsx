@@ -16,6 +16,7 @@ import { CheckBox } from "@mui/icons-material";
 import "../styles/Ticket.css";
 
 import Ticket from "../components/Ticket";
+import axios from "axios";
 
 function CreateTicket() {
   const [selectedStyle, setSelectedStyle] = useState("style-1");
@@ -24,12 +25,38 @@ function CreateTicket() {
     setSelectedStyle(event.target.value);
     console.log(event.target.value);
   };
-
   const styleOptions = [
     { value: "style-1", label: "1" },
     { value: "style-2", label: "2" },
     { value: "style-3", label: "3" },
   ];
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const token = localStorage.getItem('token');
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+    axios
+      .post("http://localhost:4000/create_ticket", {
+        title: title,
+        date: date,
+        time: time,
+        cinema: cinema,
+        seat: seat,
+        selectedStyle: selectedStyle,
+        isPrivate: isPrivate,
+
+      }, config)
+      .then((response) => {
+        // alert(JSON.stringify(response.data.message).replace(/"/g, ''))
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        // display error message to user
+      });
+  };
 
   const [title, setTitle] = useState("");
   const [cinema, setCinema] = useState("");
@@ -120,15 +147,16 @@ function CreateTicket() {
               {/* ============= select style =============== */}
               {styleOptions.map((option) => (
                 <div key={option.value}>
-                 
-                  <label className="radio-style">{option.label}
-                  <input
-                    type="radio"
-                    name="style"
-                    value={option.value}
-                    checked={selectedStyle === option.value}
-                    onChange={handleStyleChange}
-                  /> <span className="checkmark"></span>
+                  <label className="radio-style">
+                    {option.label}
+                    <input
+                      type="radio"
+                      name="style"
+                      value={option.value}
+                      checked={selectedStyle === option.value}
+                      onChange={handleStyleChange}
+                    />{" "}
+                    <span className="checkmark"></span>
                   </label>
                 </div>
               ))}
@@ -171,9 +199,11 @@ function CreateTicket() {
             </div>
             <Box
               className="flex-container"
-              sx={{ justifyContent: "space-between", width: "100%" }}
+              sx={{ width: "100%", justifyContent: "space-between" }}
             >
-              <div style={{ maxWidth: "150px", marginRight: "10px" }}>
+              <div
+                style={{ maxWidth: "150px", width: "100%", marginRight: "5px" }}
+              >
                 <FormLabel>Date</FormLabel>
                 <TextField
                   sx={smallTextFieldStyle}
@@ -191,7 +221,7 @@ function CreateTicket() {
                   required
                 />
               </div>
-              <div style={{ maxWidth: "150px" }}>
+              <div style={{ maxWidth: "150px", width: "100%" }}>
                 <FormLabel>Time</FormLabel>
                 <TextField
                   sx={smallTextFieldStyle}
@@ -240,15 +270,15 @@ function CreateTicket() {
             Add Note
           </Button>
           {/* ====== checkbox ======= */}
-          <Box sx={{ marginLeft: "10px "}}>
+          <Box sx={{ marginLeft: "10px " }}>
             <FormControlLabel
               control={
                 <Checkbox
                   value={isPrivate}
                   sx={{
                     color: "#000000",
-                    width:"24px",
-                    marginRight:"10px",
+                    width: "24px",
+                    marginRight: "10px",
                     "&.Mui-checked": {
                       color: "#212121",
                     },
@@ -256,7 +286,6 @@ function CreateTicket() {
                   defaultChecked
                   label="set ticket as prviate"
                   onClick={handleIsPrivateChange}
-                
                 />
               }
               label="set ticket as private"
@@ -265,7 +294,12 @@ function CreateTicket() {
 
           {/* ====== save and cancel button ======= */}
           <Box className="flex-container" sx={{ margin: "0 auto" }}>
-            <Button component={NavLink} to="/" sx={saveButtonStyle}>
+            <Button
+              
+              sx={saveButtonStyle}
+              type="submit"
+              onClick={handleSubmit}
+            >
               Save
             </Button>
             <Button

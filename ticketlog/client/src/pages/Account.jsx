@@ -41,7 +41,7 @@ function Account() {
       </Box>
       <Box className="flex-container" sx={{ flexDirection: "column" }}>
         <img
-          src="src/assets/mink.jpg"
+          src="src/assets/fin.jpeg"
           style={{ borderRadius: "50%", width: "200px", height: "200px" }}
         />
 

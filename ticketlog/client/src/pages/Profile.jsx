@@ -94,7 +94,7 @@ function Profile({ userLogin, setUserLogin }) {
           }}
         >
           <img
-            src="src/assets/mink.jpg"
+            src="src/assets/fin.jpeg"
             style={{ borderRadius: "50%", width: "200px", height: "200px" }}
           />
           <Box sx={{ margin: "20px 0", textAlign: "center" }}>

@@ -6,16 +6,54 @@ import {
   Container,
   FormControl,
   FormControlLabel,
+  IconButton,
+  InputAdornment,
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-function SignIn({ userLogIn, setUserLogIn }) {
-  // function handleSignIn(){
-  //     setUserLogin(true);
-  // }
+function SignIn() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () =>
+    setShowPassword((showPassword) => !showPassword);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const instance = axios.create({
+    withCredentials: true
+});
+
+  const navigate = useNavigate();
+
+  const handleSignIn = () => {
+    instance.post("http://localhost:4000/login", {
+      email: email,
+      password: password,
+    })
+      .then((response) => {
+        console.log(response);
+        navigate('/')
+      })
+      // .then(data => {
+      //   if (data.success == false){
+      //     alert("login failed")
+      //   } else {
+      //     alert("login success")
+      //   }
+      // })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <Box
@@ -33,11 +71,9 @@ function SignIn({ userLogIn, setUserLogIn }) {
     >
       <h2 style={{ textAlign: "center", marginBottom: "30px" }}>Sign in</h2>
       <Box
+        className="flex-container"
         sx={{
-          display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
           width: "100%",
         }}
       >
@@ -45,23 +81,45 @@ function SignIn({ userLogIn, setUserLogIn }) {
           sx={formInputStyle}
           label="Email"
           type="email"
+          name="email"
           placeholder="Enter email"
           required
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
         />
         <TextField
           sx={formInputStyle}
           label="Password"
-          type="password"
+          type={showPassword ? 'text' : 'password'}
+          name="password"
           placeholder="Enter password"
           required
+          value={password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
       </Box>
       <Box sx={{ margin: "10px ", marginRight: "auto" }}>
-        
         <FormControlLabel
           control={
             <Checkbox
-              
               sx={{
                 color: "#000000",
                 width: "24px",
@@ -72,7 +130,6 @@ function SignIn({ userLogIn, setUserLogIn }) {
               }}
               defaultChecked
               label="Remember me"
-  
             />
           }
           label="Remember me"
@@ -85,8 +142,7 @@ function SignIn({ userLogIn, setUserLogIn }) {
         fullWidth
         sx={signInButtonStyle}
         component={NavLink}
-        to="/"
-        // onClick={handleSignIn}
+        onClick={handleSignIn}
       >
         Sign in
       </Button>
@@ -127,6 +183,5 @@ const signInButtonStyle = {
     backgroundColor: "black.dark",
   },
 };
-
 
 export default SignIn;
