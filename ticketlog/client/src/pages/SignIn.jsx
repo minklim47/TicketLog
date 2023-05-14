@@ -29,19 +29,20 @@ function SignIn() {
   };
 
   const instance = axios.create({
-    withCredentials: true
-});
+    withCredentials: true,
+  });
 
   const navigate = useNavigate();
 
   const handleSignIn = () => {
-    instance.post("http://localhost:4000/login", {
-      email: email,
-      password: password,
-    })
+    instance
+      .post("http://localhost:4000/auth/login", {
+        email: email,
+        password: password,
+      })
       .then((response) => {
         console.log(response);
-        navigate('/')
+        navigate("/");
       })
       // .then(data => {
       //   if (data.success == false){
@@ -92,7 +93,7 @@ function SignIn() {
         <TextField
           sx={formInputStyle}
           label="Password"
-          type={showPassword ? 'text' : 'password'}
+          type={showPassword ? "text" : "password"}
           name="password"
           placeholder="Enter password"
           required

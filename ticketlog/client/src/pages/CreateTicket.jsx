@@ -49,6 +49,7 @@ function CreateTicket() {
 
       }, config)
       .then((response) => {
+        
         // alert(JSON.stringify(response.data.message).replace(/"/g, ''))
         console.log(response);
       })

@@ -7,11 +7,80 @@ import {
   InputLabel,
   TextField,
 } from "@mui/material";
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Cookies from "js-cookie";
+import axios from "axios";
+
 
 function Account() {
+  const navigate = useNavigate();
+  const instance = axios.create({
+    withCredentials: true,
+  });
+
+  const [userData, setUserData] = useState({});
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [location, setLocation] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+
+  useEffect(() => {
+    const userToken = Cookies.get("user");
+    if (userToken !== undefined && userToken !== "undefined") {
+      instance
+        .get("http://localhost:4000/profile", {
+          headers: { Authorization: `Bearer ${userToken}` },
+        })
+        .then((res) => {
+          // console.log(res.data)
+          setUserData(res.data);
+          setName(res.data.name);
+          setEmail(res.data.email_address);
+          setLocation(res.data.location);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, []);
+  const handleCancel = () => {
+      navigate('/Profile');
+  }
+  const handleSubmit = () => {
+    if (!validateForm()) return;
+    const userToken = Cookies.get("user");
+    if (userToken !== undefined && userToken !== "undefined") {
+      
+      instance
+        .patch(
+          "http://localhost:4000/profile",
+          {
+            name: name,
+            location: location,
+            currentPassword: currentPassword,
+            newPassword: newPassword,
+          },
+          { headers: { Authorization: `Bearer ${userToken}` } }
+        )
+        .then((res) => {
+          console.log(res.data);
+          navigate('/Profile');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  const validateForm = () => {
+    if (name == '' || location == '') {
+      return false;
+    }
+    return true;
+  };
   return (
     <Box
       className="flex-container"
@@ -27,17 +96,16 @@ function Account() {
           width: "100%",
           maxWidth: "600px",
           minWidth: "300px",
-          padding:"0 30px"
+          padding: "0 30px",
         }}
       >
         <IconButton component={NavLink} to="/Profile">
           <ArrowBackIcon />
         </IconButton>
         <h1 style={{ textAlign: "center", flexGrow: "1" }}>Account</h1>
-        <IconButton sx={{visibility:"hidden"}}>
+        <IconButton sx={{ visibility: "hidden" }}>
           <ArrowBackIcon />
         </IconButton>
-
       </Box>
       <Box className="flex-container" sx={{ flexDirection: "column" }}>
         <img
@@ -54,14 +122,14 @@ function Account() {
             width: "100%",
             maxWidth: "600px",
             minWidth: "200px",
-            padding: "30px",
+            padding: "20px",
           }}
         >
           <Box
             className="flex-container"
             sx={{ flexDirection: { xs: "column", sm: "row" } }}
           >
-            <Box sx={{ width: "100%", maxWidth: "250px", minWidth: "200px" }}>
+            <Box sx={{ width: "100%", maxWidth: "250px", minWidth: "230px" }}>
               <div>
                 <InputLabel>Display Name</InputLabel>
                 <TextField
@@ -69,6 +137,11 @@ function Account() {
                   size="small"
                   type="text"
                   variant="outlined"
+                  placeholder={userData.name}
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
                 />
               </div>
               <div>
@@ -78,6 +151,11 @@ function Account() {
                   size="small"
                   type="email"
                   variant="outlined"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  disabled
                 />
               </div>
               <div>
@@ -87,18 +165,24 @@ function Account() {
                   size="small"
                   type="text"
                   variant="outlined"
+                  placeholder={userData.location}
+                  value={location}
+                  onChange={(e) => {
+                    setLocation(e.target.value);
+                  }}
                 />
               </div>
             </Box>
             <Divider orientation="vertical" sx={{ margin: "20px" }} flexItem />
             {/* section2 */}
-            <Box sx={{ width: "100%", maxWidth: "250px", minWidth: "200px" }}>
+            <Box sx={{ width: "100%", maxWidth: "250px", minWidth: "230px" }}>
               <div>
                 <InputLabel>Current password</InputLabel>
                 <TextField
                   sx={textFieldStyle}
                   size="small"
                   type="password"
+                  placeholder="Enter your current password"
                   variant="outlined"
                 />
               </div>
@@ -133,8 +217,10 @@ function Account() {
               marginTop: "30px",
             }}
           >
-            <Button component={NavLink} to="/Profile" sx={saveButtonStyle}>Save</Button>
-            <Button component={NavLink} to="/Profile" sx={cancelButtonStyle} variant="outlined" color="black">
+            <Button sx={saveButtonStyle} onClick={handleSubmit}>
+              Save
+            </Button>
+            <Button sx={cancelButtonStyle} onClick={handleCancel} variant="outlined" color="black">
               Cancel
             </Button>
           </Box>

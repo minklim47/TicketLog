@@ -1,18 +1,47 @@
-import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider } from "@mui/material";
-import React from "react";
-import SignIn from "./SignIn";
-import Account from "./Account";
+import {
+  Box,
+  Button,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Divider,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import Cookies from "js-cookie";
+import axios from "axios";
 
-function Profile({ userLogin, setUserLogin }) {
+function Profile() {
   const [open, setOpen] = React.useState(false);
 
+  const [userData, setUserData] = useState({});
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
+  const instance = axios.create({
+    withCredentials: true,
+  });
+
+  useEffect(() => {
+    const userToken = Cookies.get("user");
+    if (userToken !== undefined && userToken !== "undefined") {
+      instance
+        .get("http://localhost:4000/profile", { headers: { Authorization: `Bearer ${userToken}` } })
+        .then((res) => {
+          // console.log(res.data)
+          setUserData(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, []);
 
   return (
     <Box
@@ -55,18 +84,23 @@ function Profile({ userLogin, setUserLogin }) {
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                Click "Sign out" to sign out from this website. 
+                Click "Sign out" to sign out from this website.
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button sx={signOutButtonStyle} onClick={handleClose}>Cancel</Button>
-              <Button sx={signOutButtonStyle} component={NavLink} to="/SignIn" autoFocus>
+              <Button sx={signOutButtonStyle} onClick={handleClose}>
+                Cancel
+              </Button>
+              <Button
+                sx={signOutButtonStyle}
+                component={NavLink}
+                to="/SignIn"
+                autoFocus
+              >
                 Sign out
               </Button>
             </DialogActions>
           </Dialog>
-
-
         </Box>
 
         <Divider
@@ -98,8 +132,8 @@ function Profile({ userLogin, setUserLogin }) {
             style={{ borderRadius: "50%", width: "200px", height: "200px" }}
           />
           <Box sx={{ margin: "20px 0", textAlign: "center" }}>
-            <h4 style={infoStyle}>MinkLim</h4>
-            <h4 style={infoStyle}>@Bangkok</h4>
+            <h4 style={infoStyle}>{userData.name}</h4>
+            <h4 style={infoStyle}>{"@"+userData.location}</h4>
             <h4 style={infoStyle}>1Y 2M </h4>
           </Box>
         </Box>
@@ -148,7 +182,6 @@ const signOutButtonStyle = {
 
   "&:hover": {
     // backgroundColor: "black.dark",
-  
   },
 };
 
