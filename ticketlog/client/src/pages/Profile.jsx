@@ -15,7 +15,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import profilePic from '../assets/fin.jpeg'
 
-function Profile() {
+function Profile({onSignOut}) {
   const [open, setOpen] = React.useState(false);
 
   const [userData, setUserData] = useState({});
@@ -25,10 +25,6 @@ function Profile() {
   const handleClose = () => {
     setOpen(false);
   };
-  const handleSignOut = () => {
-    localStorage.removeItem('userId');
-    localStorage.removeItem('token');
-  }
   const instance = axios.create({
     withCredentials: true,
   });
@@ -102,7 +98,7 @@ function Profile() {
                 component={NavLink}
                 to="/SignIn"
                 autoFocus
-                onClick={handleSignOut}
+                onClick={onSignOut}
               >
                 Sign out
               </Button>
@@ -193,9 +189,3 @@ const signOutButtonStyle = {
 };
 
 export default Profile;
-
-{
-  /* {userLogin? <Account/>
-    
-    : <SignIn userLogin={userLogin} setUserLogin={setUserLogin}/>} */
-}

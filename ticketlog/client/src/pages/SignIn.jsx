@@ -16,7 +16,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-function SignIn() {
+function SignIn({ onSignIn }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -38,34 +38,39 @@ function SignIn() {
   };
 
   const handleSignIn = () => {
+    if (!validateForm()) {
+      console.log("Must enter email and password");
+      return;
+    }
     instance
       .post("http://localhost:4000/auth/login", {
         email: email,
         password: password,
       })
       .then((res) => {
-        console.log(res.data.user.id);
         if (res.data.success == true) {
-          localStorage.setItem('userId', res.data.user.id);
-          localStorage.setItem('token', res.data.token);
-          console.log("login success")
-          navigateToProfile(res.data.user.id);
+
+          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("userId", res.data.user.id);
+          onSignIn();
+          console.log("login success");
+          navigateToProfile(localStorage.getItem("userId"));
+        } else {
+          console.log("fail");
         }
-      
-        
       })
-      // .then(data => {
-      //   if (data.success == false){
-      //     alert("login failed")
-      //   } else {
-      //     alert("login success")
-      //   }
-      // })
       .catch((err) => {
         console.log(err);
       });
   };
 
+  const validateForm = () => {
+    if (email == "" || password == "") {
+      return false;
+    } else {
+      return true;
+    }
+  };
   return (
     <Box
       sx={{

@@ -40,22 +40,37 @@ function App() {
       },
     },
   });
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   function checkAuthentication() {
     const token = localStorage.getItem("token");
     if (token) {
-      console.log("true");
       setIsAuthenticated(true);
     } else {
-      console.log("false");
       setIsAuthenticated(false);
-    } // Returns true if token is present, false otherwise
+    }
+    setIsLoading(false);
   }
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     checkAuthentication();
   }, []);
+  useEffect(() => {
+    // console.log(isAuthenticated);
+  }, [isAuthenticated]);
 
+  function onSignOut() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    checkAuthentication();
+  }
+  function onSignIn() {
+    checkAuthentication();
+  }
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
@@ -66,16 +81,19 @@ function App() {
               <Route exact path="/" element={<Home />} />
               <Route path="/Community" element={<Community />} />
               <Route path="/Collection" element={<Collection />} />
-              <Route path="/Profile/:userId" element={<Profile />} />
+              <Route
+                path="/Profile/:userId"
+                element={<Profile onSignOut={onSignOut} />}
+              />
               <Route path="/CreateTicket" element={<CreateTicket />} />
               <Route path="/Profile/:userId/edit" element={<Account />} />
-              <Route path="/SignIn" element={<SignIn />} />
+              <Route path="/SignIn" element={<SignIn onSignIn={onSignIn} />} />
               <Route path="/SignUp" element={<SignUp />} />
               <Route path="/ForgotPassword" element={<ForgotPassword />} />
             </Routes>
           ) : (
             <Routes>
-              <Route path="/SignIn" element={<SignIn />} />
+              <Route path="/SignIn" element={<SignIn onSignIn={onSignIn} />} />
               <Route path="/SignUp" element={<SignUp />} />
               <Route path="/ForgotPassword" element={<ForgotPassword />} />
               <Route path="/*" element={<Navigate to="/SignIn" replace />} />
