@@ -78,7 +78,7 @@ router.post(
     const email = req.body.email;
     const password = req.body.password;
     const errors = validationResult(req);
-
+   
     if (!errors.isEmpty()) {
       return res.json({
         errors: errors.array(),

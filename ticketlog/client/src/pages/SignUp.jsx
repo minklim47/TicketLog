@@ -1,4 +1,11 @@
-import { Box, Button, IconButton, InputAdornment, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Axios from "axios";
@@ -18,52 +25,58 @@ function SignUp() {
     navigate(`/Profile/${userId}`);
   };
 
-  const handleClickShowPassword = () => setShowPassword((showPassword) => !showPassword);
+  const handleClickShowPassword = () =>
+    setShowPassword((showPassword) => !showPassword);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
   const handleSubmit = () => {
-      if (validateConfirmPassword() && validateForm()){
-        register();
-      }
-      else {
-        alert("Passwords did not match");
-      }
-  }
+    if (validateConfirmPassword() && validateForm()) {
+      register();
+    } else {
+      alert("Passwords did not match");
+    }
+  };
 
   const validateConfirmPassword = () => {
-    return (password === confirmPassword)
-  }
+    return password === confirmPassword;
+  };
   const register = () => {
     Axios.post("http://localhost:4000/auth/register", {
       name: name,
       location: location,
       email: email,
       password: password,
-      
-    }).then(res => {
-      // alert(JSON.stringify(response.data.message).replace(/"/g, ''))
-      if (res.data.success == true) {
-        // console.log(res.data.userId);
-        navigateToProfile(res.data.userId)
-      }
-      
-      
     })
-    .catch(err => {
-      console.log(err);
-      // display error message to user
-    });
-  }
-  
+      .then((res) => {
+        // alert(JSON.stringify(response.data.message).replace(/"/g, ''))
+        if (res.data.success == true) {
+          // console.log(res.data.userId);
+          localStorage.setItem("userId", res.data.userId);
+          localStorage.setItem("token", res.data.token);
+          navigateToProfile(res.data.userId);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        // display error message to user
+      });
+  };
+
   const validateForm = () => {
-    if (name != "" && location != "" && email != "" && password != "" && confirmPassword != ""){
-      return true
+    if (
+      name != "" &&
+      location != "" &&
+      email != "" &&
+      password != "" &&
+      confirmPassword != ""
+    ) {
+      return true;
     }
-    return false
-  }
+    return false;
+  };
 
   return (
     <Box
@@ -101,7 +114,7 @@ function SignUp() {
             setName(e.target.value);
           }}
         />
-         <TextField
+        <TextField
           sx={formInputStyle}
           label="Location"
           type="text"
@@ -128,7 +141,7 @@ function SignUp() {
         <TextField
           sx={formInputStyle}
           label="Password"
-          type={showPassword ? 'text' : 'password'}
+          type={showPassword ? "text" : "password"}
           name="password"
           placeholder="Enter password"
           required
@@ -139,29 +152,26 @@ function SignUp() {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
             ),
           }}
-          
-          
         />
 
         <TextField
           sx={formInputStyle}
           label="Confirm password"
-          type={showPassword ? 'text' : 'password'}
+          type={showPassword ? "text" : "password"}
           name="confirmPassword"
           placeholder="Confirm password"
           required
-
           value={confirmPassword}
           onChange={(e) => {
             setConfirmPassword(e.target.value);
@@ -169,19 +179,18 @@ function SignUp() {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
             ),
           }}
         />
-
       </Box>
 
       <Button

@@ -1,9 +1,15 @@
-
 import "./App.css";
-import React from 'react';
+import React, { useEffect, useState } from "react";
 
 import { createTheme, colors, ThemeProvider } from "@mui/material";
-import { BrowserRouter, Routes, Route,useParams, useLocation} from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useParams,
+  useLocation,
+  Navigate,
+} from "react-router-dom";
 import Collection from "./pages/Collection";
 import Profile from "./pages/Profile";
 import Home from "./pages/Home";
@@ -14,7 +20,6 @@ import Account from "./pages/Account";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import ForgotPassword from "./pages/ForgotPassword";
-
 
 function App() {
   const theme = createTheme({
@@ -35,33 +40,50 @@ function App() {
       },
     },
   });
+  function checkAuthentication() {
+    const token = localStorage.getItem("token");
+    if (token) {
+      console.log("true");
+      setIsAuthenticated(true);
+    } else {
+      console.log("false");
+      setIsAuthenticated(false);
+    } // Returns true if token is present, false otherwise
+  }
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    checkAuthentication();
+  }, []);
 
   return (
-      <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <div>
-            <Nav />
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <div>
+          <Nav />
+          {isAuthenticated ? (
             <Routes>
               <Route exact path="/" element={<Home />} />
               <Route path="/Community" element={<Community />} />
               <Route path="/Collection" element={<Collection />} />
-              <Route
-                path="/Profile/:userId"
-                element={
-                  <Profile />
-                }
-              />
+              <Route path="/Profile/:userId" element={<Profile />} />
               <Route path="/CreateTicket" element={<CreateTicket />} />
               <Route path="/Profile/:userId/edit" element={<Account />} />
               <Route path="/SignIn" element={<SignIn />} />
               <Route path="/SignUp" element={<SignUp />} />
               <Route path="/ForgotPassword" element={<ForgotPassword />} />
-
             </Routes>
-          </div>
-        </BrowserRouter>
-      </ThemeProvider>
-      
+          ) : (
+            <Routes>
+              <Route path="/SignIn" element={<SignIn />} />
+              <Route path="/SignUp" element={<SignUp />} />
+              <Route path="/ForgotPassword" element={<ForgotPassword />} />
+              <Route path="/*" element={<Navigate to="/SignIn" replace />} />
+            </Routes>
+          )}
+        </div>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

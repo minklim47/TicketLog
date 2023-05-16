@@ -25,10 +25,13 @@ function Profile() {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleSignOut = () => {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('token');
+  }
   const instance = axios.create({
     withCredentials: true,
   });
-
   const { userId } = useParams();
 
   useEffect(() => {
@@ -99,6 +102,7 @@ function Profile() {
                 component={NavLink}
                 to="/SignIn"
                 autoFocus
+                onClick={handleSignOut}
               >
                 Sign out
               </Button>

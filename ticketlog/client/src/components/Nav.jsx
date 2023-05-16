@@ -21,7 +21,7 @@ function Nav() {
   const toggleDrawer = (open) => (event) => {
     setState(open);
   };
-  const userId = useParams();
+  const userId = localStorage.getItem('userId')
   // const handleProfileClick = () => {
   //   navigate(`/Profile/${userId}`);
   // };

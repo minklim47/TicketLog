@@ -45,7 +45,14 @@ function SignIn() {
       })
       .then((res) => {
         console.log(res.data.user.id);
-        navigateToProfile(res.data.user.id);
+        if (res.data.success == true) {
+          localStorage.setItem('userId', res.data.user.id);
+          localStorage.setItem('token', res.data.token);
+          console.log("login success")
+          navigateToProfile(res.data.user.id);
+        }
+      
+        
       })
       // .then(data => {
       //   if (data.success == false){
