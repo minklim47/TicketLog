@@ -8,10 +8,11 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Cookies from "js-cookie";
 import axios from "axios";
+import profilePic from '../assets/fin.jpeg'
 
 
 function Account() {
@@ -19,6 +20,7 @@ function Account() {
   const instance = axios.create({
     withCredentials: true,
   });
+  const { userId } = useParams();
 
   const [userData, setUserData] = useState({});
   const [name, setName] = useState("");
@@ -31,7 +33,7 @@ function Account() {
     const userToken = Cookies.get("user");
     if (userToken !== undefined && userToken !== "undefined") {
       instance
-        .get("http://localhost:4000/profile", {
+        .get(`http://localhost:4000/user/${userId}`, {
           headers: { Authorization: `Bearer ${userToken}` },
         })
         .then((res) => {
@@ -47,7 +49,7 @@ function Account() {
     }
   }, []);
   const handleCancel = () => {
-      navigate('/Profile');
+      navigate(`/Profile/${userId}`);
   }
   const handleSubmit = () => {
     if (!validateForm()) return;
@@ -56,8 +58,9 @@ function Account() {
       
       instance
         .patch(
-          "http://localhost:4000/profile",
+          `http://localhost:4000/user/${userId}`,
           {
+            
             name: name,
             location: location,
             currentPassword: currentPassword,
@@ -67,7 +70,7 @@ function Account() {
         )
         .then((res) => {
           console.log(res.data);
-          navigate('/Profile');
+          navigate(`/Profile/${userId}`);
         })
         .catch((err) => {
           console.log(err);
@@ -99,7 +102,7 @@ function Account() {
           padding: "0 30px",
         }}
       >
-        <IconButton component={NavLink} to="/Profile">
+        <IconButton component={NavLink} to={`/Profile/${userId}`}>
           <ArrowBackIcon />
         </IconButton>
         <h1 style={{ textAlign: "center", flexGrow: "1" }}>Account</h1>
@@ -109,7 +112,7 @@ function Account() {
       </Box>
       <Box className="flex-container" sx={{ flexDirection: "column" }}>
         <img
-          src="src/assets/fin.jpeg"
+          src={profilePic}
           style={{ borderRadius: "50%", width: "200px", height: "200px" }}
         />
 

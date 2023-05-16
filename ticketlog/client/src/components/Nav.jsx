@@ -11,16 +11,22 @@ import {
 } from "@mui/material";
 
 import MenuIcon from "@mui/icons-material/Menu";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams, useNavigate} from "react-router-dom";
 import DrawerMenu from "./DrawerMenu";
+import logo from "../assets/logo.png"
 
 function Nav() {
   const [open, setState] = useState(false);
-
+  const navigate = useNavigate();
   const toggleDrawer = (open) => (event) => {
     setState(open);
   };
+  const userId = useParams();
+  // const handleProfileClick = () => {
+  //   navigate(`/Profile/${userId}`);
+  // };
 
+  
   return (
     <AppBar position="static" sx={navBarStyle}>
       <Toolbar
@@ -41,7 +47,7 @@ function Nav() {
               borderRadius: "5px",
             }}
             alt="logo"
-            src="src/assets/logo.png"
+            src={logo}
           />
         </Button>
         <Stack
@@ -75,7 +81,8 @@ function Nav() {
           </Button>
           <Button
             component={NavLink}
-            to="/Profile"
+            to={`/Profile/${userId}`}
+            // onClick={handleProfileClick}
             color="inherit"
             sx={navButtonStyle}
           >

@@ -1,10 +1,9 @@
-import { useState } from "react";
 
 import "./App.css";
 import React from 'react';
 
 import { createTheme, colors, ThemeProvider } from "@mui/material";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route,useParams, useLocation} from "react-router-dom";
 import Collection from "./pages/Collection";
 import Profile from "./pages/Profile";
 import Home from "./pages/Home";
@@ -36,7 +35,6 @@ function App() {
       },
     },
   });
-  const [userLogin, setUserLogin] = useState(true);
 
   return (
       <ThemeProvider theme={theme}>
@@ -48,13 +46,13 @@ function App() {
               <Route path="/Community" element={<Community />} />
               <Route path="/Collection" element={<Collection />} />
               <Route
-                path="/Profile"
+                path="/Profile/:userId"
                 element={
-                  <Profile userLogin={userLogin} setUserLogin={setUserLogin} />
+                  <Profile />
                 }
               />
               <Route path="/CreateTicket" element={<CreateTicket />} />
-              <Route path="/Account" element={<Account />} />
+              <Route path="/Profile/:userId/edit" element={<Account />} />
               <Route path="/SignIn" element={<SignIn />} />
               <Route path="/SignUp" element={<SignUp />} />
               <Route path="/ForgotPassword" element={<ForgotPassword />} />

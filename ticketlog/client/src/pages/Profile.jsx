@@ -10,9 +10,10 @@ import {
   Divider,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams, useLocation } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
+import profilePic from '../assets/fin.jpeg'
 
 function Profile() {
   const [open, setOpen] = React.useState(false);
@@ -28,11 +29,13 @@ function Profile() {
     withCredentials: true,
   });
 
+  const { userId } = useParams();
+
   useEffect(() => {
     const userToken = Cookies.get("user");
     if (userToken !== undefined && userToken !== "undefined") {
       instance
-        .get("http://localhost:4000/profile", { headers: { Authorization: `Bearer ${userToken}` } })
+        .get(`http://localhost:4000/user/${userId}`, { headers: { Authorization: `Bearer ${userToken}` } })
         .then((res) => {
           // console.log(res.data)
           setUserData(res.data);
@@ -41,7 +44,7 @@ function Profile() {
           console.log(err);
         });
     }
-  }, []);
+  }, [userId]);
 
   return (
     <Box
@@ -66,7 +69,7 @@ function Profile() {
             flexDirection: "column",
           }}
         >
-          <Button sx={navButtonStyle} component={NavLink} to="/Account">
+          <Button sx={navButtonStyle} component={NavLink} to={`/profile/${userId}/edit`}>
             Account
           </Button>
           <Button sx={navButtonStyle} onClick={handleClickOpen}>
@@ -128,7 +131,7 @@ function Profile() {
           }}
         >
           <img
-            src="src/assets/fin.jpeg"
+            src={profilePic}
             style={{ borderRadius: "50%", width: "200px", height: "200px" }}
           />
           <Box sx={{ margin: "20px 0", textAlign: "center" }}>

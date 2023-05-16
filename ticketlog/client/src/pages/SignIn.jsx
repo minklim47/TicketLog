@@ -33,6 +33,9 @@ function SignIn() {
   });
 
   const navigate = useNavigate();
+  const navigateToProfile = (userId) => {
+    navigate(`/Profile/${userId}`);
+  };
 
   const handleSignIn = () => {
     instance
@@ -40,9 +43,9 @@ function SignIn() {
         email: email,
         password: password,
       })
-      .then((response) => {
-        console.log(response);
-        navigate("/");
+      .then((res) => {
+        console.log(res.data.user.id);
+        navigateToProfile(res.data.user.id);
       })
       // .then(data => {
       //   if (data.success == false){
@@ -51,8 +54,8 @@ function SignIn() {
       //     alert("login success")
       //   }
       // })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        console.log(err);
       });
   };
 

@@ -5,8 +5,8 @@ const jwt = require("jsonwebtoken");
 const secret = "secretjaaaaaa";
 const cookieParser = require("cookie-parser");
 const { check, validationResult } = require("express-validator");
-const connection = require('../db');
-const auth = require('../middleware/auth');
+const connection = require("../db");
+const auth = require("../middleware/auth");
 
 router.get("/", (req, res) => {
   res.send({ data: "Here is your data" });
@@ -52,6 +52,7 @@ router.post("/login", (req, res) => {
             success: true,
             message: "login success",
             user: rows[0],
+
             token: token,
           });
         }
@@ -81,6 +82,7 @@ router.post(
     if (!errors.isEmpty()) {
       return res.json({
         errors: errors.array(),
+        success: false,
         message: "password format is not valid",
       });
     }
@@ -91,21 +93,22 @@ router.post(
       [name, location, email, hashedPassword],
       (err, results) => {
         if (err) {
-          //   res.json({
-          //     success: false,
-          //     data: null,
-          //     error: err.message,
-          //   });
+          res.json({
+            success: false,
+            data: null,
+            error: err.message,
+          });
           return connection.rollback(() => {
-            console.error("Error inserting row:", error.stack);
-            throw error;
+            console.error("Error inserting row:", err.stack);
+            throw err;
           });
         } else {
           if (results) {
             res.json({
-              success: true,
-              message: "register success",
-            });
+                success: true,
+                message: "register success",
+                userId: results.insertId,
+              });
           }
         }
       }

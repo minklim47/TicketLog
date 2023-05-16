@@ -1,6 +1,6 @@
 import { Box, Button, IconButton, InputAdornment, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
@@ -13,6 +13,11 @@ function SignUp() {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  const navigate = useNavigate();
+  const navigateToProfile = (userId) => {
+    navigate(`/Profile/${userId}`);
+  };
+
   const handleClickShowPassword = () => setShowPassword((showPassword) => !showPassword);
 
   const handleMouseDownPassword = (event) => {
@@ -20,7 +25,7 @@ function SignUp() {
   };
 
   const handleSubmit = () => {
-      if (validateConfirmPassword()){
+      if (validateConfirmPassword() && validateForm()){
         register();
       }
       else {
@@ -32,23 +37,33 @@ function SignUp() {
     return (password === confirmPassword)
   }
   const register = () => {
-    Axios.post("http://localhost:4000/register", {
+    Axios.post("http://localhost:4000/auth/register", {
       name: name,
       location: location,
       email: email,
       password: password,
       
-    }).then(response => {
+    }).then(res => {
       // alert(JSON.stringify(response.data.message).replace(/"/g, ''))
-      console.log(response)
+      if (res.data.success == true) {
+        // console.log(res.data.userId);
+        navigateToProfile(res.data.userId)
+      }
+      
       
     })
-    .catch(error => {
-      console.log(error);
+    .catch(err => {
+      console.log(err);
       // display error message to user
     });
   }
-    
+  
+  const validateForm = () => {
+    if (name != "" && location != "" && email != "" && password != "" && confirmPassword != ""){
+      return true
+    }
+    return false
+  }
 
   return (
     <Box

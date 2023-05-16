@@ -28,7 +28,7 @@ const corsOptions = {
   credentials: true,
   exposedHeaders: ["set-cookie"],
 };
-
+app.use(express.static('assets'));
 app.use(cors(corsOptions));
 
 app.use(bodyParser.json({ type: "application/json" }));
@@ -39,18 +39,15 @@ app.listen(port, () => {
 });
 
 const authRoute = require('./routes/auth');
-const profileRoute = require('./routes/profile');
-
+const userRoute = require('./routes/user');
 
 app.use("/auth", authRoute)
-app.use("/profile", profileRoute)
-
+app.use("/user", userRoute)
 
 
 app.get("/", (req, res) => {
   res.send("hello mink");
 });
-
 
 
 app.get("/get", (req, res) => {
