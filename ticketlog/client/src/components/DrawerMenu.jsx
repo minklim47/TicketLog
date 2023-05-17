@@ -12,11 +12,12 @@ function DrawerMenu() {
       end
     />
   ));
+  const userId = localStorage.getItem('userId')
   return (
     
       <Box>
         <List  sx={{padding:"0"}}>
-          <ListItemButton component={CustomNavLink}to="/" sx={drawerListItemStyle}>
+          <ListItemButton component={CustomNavLink}to={`/Home/${userId}`} sx={drawerListItemStyle}>
             <ListItemText primary="Home" />
           </ListItemButton>
           <ListItemButton component={CustomNavLink} to="/Community" sx={drawerListItemStyle}>
@@ -25,7 +26,7 @@ function DrawerMenu() {
           <ListItemButton component={CustomNavLink} to="/Collection" sx={drawerListItemStyle}>
             <ListItemText primary="Collection" />
           </ListItemButton>
-          <ListItemButton component={CustomNavLink} to="/Profile" sx={drawerListItemStyle}>
+          <ListItemButton component={CustomNavLink} to={`/Profile/${userId}`} sx={drawerListItemStyle}>
             <ListItemText primary="Profile" />
           </ListItemButton>
         </List>

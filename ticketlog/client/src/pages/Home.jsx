@@ -1,14 +1,38 @@
 import React from "react";
-import Nav from "../components/Nav";
 import { Box, Button, Container, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import SearchTicket from "../components/SearchTicket";
 import SortDropdown from "../components/SortDropdown";
 import Ticket from "../components/Ticket";
+import { useEffect, useState } from 'react';
+import axios from "axios";
+import Cookies from "js-cookie";
 
 function Home() {
+  const instance = axios.create({
+    withCredentials: true,
+  });
+  
+  useEffect(() => {
+    const userToken = Cookies.get("user");
+    const userId = localStorage.getItem("userId");
+    instance.get(`http://localhost:4000/ticket/${userId}`, { headers: { Authorization: `Bearer ${userToken}` } })
+    .then((res) => {
+      console.log(res.data)
+      setTickets(res.data)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+    
+  },[])
+  
+  const [tickets, setTickets] = useState([]);
   return (
-    <Container className="flex-container" sx={{ flexDirection: "column" ,marginTop:"100px"}}>
+    <Container
+      className="flex-container"
+      sx={{ flexDirection: "column", marginTop: "100px" }}
+    >
       <Box
         className="flex-container"
         sx={{
@@ -37,10 +61,9 @@ function Home() {
       </Box>
       <SearchTicket />
       <Box
-      className="flex-container"
+        className="flex-container"
         sx={{
           justifyContent: "flex-end",
-          
           margin: "20px 0",
         }}
       >
@@ -48,7 +71,14 @@ function Home() {
       </Box>
       {/* <Box sx={{display:"inline-flex", flexFlow:{xs:"row wrap"},justifyContent:"center",}}> */}
       <Box sx={grid}>
-        <Ticket/><Ticket/><Ticket/><Ticket/><Ticket/>
+       
+        {tickets.map((ticket) => (
+        <Ticket
+          key={ticket.id}
+          ticket={ticket}
+          // onEdit={handleTicketEdit}
+        />
+      ))}
       </Box>
     </Container>
   );

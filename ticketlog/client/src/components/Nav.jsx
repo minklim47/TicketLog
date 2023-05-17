@@ -38,7 +38,7 @@ function Nav() {
         }}
       >
         <Button component={NavLink}
-            to="/" sx={{ borderRadius: "15px", bgcolor: "white.main" }}>
+            to={`/Home/${userId}`} sx={{ borderRadius: "15px", bgcolor: "white.main" }}>
           <Box
             component="img"
             sx={{
@@ -57,7 +57,7 @@ function Nav() {
         >
           <Button
             component={NavLink}
-            to="/"
+            to={`/Home/${userId}`}
             color="inherit"
             sx={navButtonStyle}
           >
@@ -128,7 +128,7 @@ function Nav() {
                     borderRadius: "5px",
                   }}
                   alt="logo"
-                  src="src/assets/logo.png"
+                  src={logo}
                 />
               </Button>
               <IconButton

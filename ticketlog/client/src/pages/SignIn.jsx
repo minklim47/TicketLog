@@ -49,7 +49,6 @@ function SignIn({ onSignIn }) {
       })
       .then((res) => {
         if (res.data.success == true) {
-
           localStorage.setItem("token", res.data.token);
           localStorage.setItem("userId", res.data.user.id);
           onSignIn();
@@ -57,6 +56,7 @@ function SignIn({ onSignIn }) {
           navigateToProfile(localStorage.getItem("userId"));
         } else {
           console.log("fail");
+          console.log(res);
         }
       })
       .catch((err) => {

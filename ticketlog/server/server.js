@@ -39,16 +39,16 @@ app.listen(port, () => {
 });
 
 const authRoute = require('./routes/auth');
-const userRoute = require('./routes/user');
+const userRoute = require('./routes/User');
+const ticketRoute = require('./routes/ticket');
 
 app.use("/auth", authRoute)
 app.use("/user", userRoute)
-
+app.use("/ticket", ticketRoute)
 
 app.get("/", (req, res) => {
   res.send("hello mink");
 });
-
 
 app.get("/get", (req, res) => {
   const sqlSelect = "SELECT * FROM users";

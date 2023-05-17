@@ -10,17 +10,16 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { CheckBox } from "@mui/icons-material";
 import "../styles/Ticket.css";
 
-import Ticket from "../components/Ticket";
+import TicketForCreate from "../components/TicketForCreate";
 import axios from "axios";
 
 function CreateTicket() {
   const [selectedStyle, setSelectedStyle] = useState("style-1");
-
   const handleStyleChange = (event) => {
     setSelectedStyle(event.target.value);
     console.log(event.target.value);
@@ -31,32 +30,56 @@ function CreateTicket() {
     { value: "style-3", label: "3" },
   ];
 
+  const instance = axios.create({
+    withCredentials: true,
+  });
+  const navigate = useNavigate();
+  const userId = localStorage.getItem("userId");
   const handleSubmit = (event) => {
     event.preventDefault();
-    const token = localStorage.getItem('token');
+    if (!validateForm()) return;
+    const token = localStorage.getItem("token");
+ 
+
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
-    axios
-      .post("http://localhost:4000/create_ticket", {
-        title: title,
-        date: date,
-        time: time,
-        cinema: cinema,
-        seat: seat,
-        selectedStyle: selectedStyle,
-        isPrivate: isPrivate,
-
-      }, config)
-      .then((response) => {
-        
-        // alert(JSON.stringify(response.data.message).replace(/"/g, ''))
-        console.log(response);
+    instance
+      .post(
+        "http://localhost:4000/ticket",
+        {
+          title: title,
+          date: date,
+          time: time,
+          cinema: cinema,
+          seat: seat,
+          selectedStyle: selectedStyle,
+          isPrivate: isPrivate,
+          userId: userId,
+        },
+        config
+      )
+      .then((res) => {
+        console.log(res);
+        navigate(`/Home/${userId}`)
       })
-      .catch((error) => {
-        console.log(error);
-        // display error message to user
+      .catch((err) => {
+        console.log(err);
       });
+  };
+  const handleCancel = () => {
+    
+    navigate(`/Home/${userId}`)
+    };
+  const validateForm = () => {
+    const fields = [title, cinema, seat, date.toString(), time.toString()];
+    for (const field of fields) {
+      if (!field || !field.trim()) {
+        console.log('Please fill all the fields');
+        return false;
+      }
+    }
+    return true;
   };
 
   const [title, setTitle] = useState("");
@@ -105,8 +128,8 @@ function CreateTicket() {
           padding: "0 30px",
         }}
       >
-        <IconButton>
-          <ArrowBackIcon />
+        <IconButton onClick={()=> {navigate(`/Home/${userId}`)}}>
+          <ArrowBackIcon/>
         </IconButton>
         <h1 style={{ textAlign: "center", flexGrow: "1" }}>Create Ticket</h1>
         <IconButton sx={{ visibility: "hidden" }}>
@@ -119,7 +142,7 @@ function CreateTicket() {
       >
         {/* ============= Display of ticket and select style =============== */}
         <Box>
-          <Ticket
+          <TicketForCreate
             selectedStyle={selectedStyle}
             title={title}
             cinema={cinema}
@@ -295,20 +318,14 @@ function CreateTicket() {
 
           {/* ====== save and cancel button ======= */}
           <Box className="flex-container" sx={{ margin: "0 auto" }}>
-            <Button
-              
-              sx={saveButtonStyle}
-              type="submit"
-              onClick={handleSubmit}
-            >
+            <Button sx={saveButtonStyle} type="submit" onClick={handleSubmit}>
               Save
             </Button>
             <Button
-              component={NavLink}
-              to="/Profile"
               sx={cancelButtonStyle}
               variant="outlined"
               color="black"
+              onClick={handleCancel}
             >
               Cancel
             </Button>

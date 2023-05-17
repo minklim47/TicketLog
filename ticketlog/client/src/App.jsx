@@ -56,9 +56,6 @@ function App() {
   useEffect(() => {
     checkAuthentication();
   }, []);
-  useEffect(() => {
-    // console.log(isAuthenticated);
-  }, [isAuthenticated]);
 
   function onSignOut() {
     localStorage.removeItem("token");
@@ -78,7 +75,7 @@ function App() {
           <Nav />
           {isAuthenticated ? (
             <Routes>
-              <Route exact path="/" element={<Home />} />
+              <Route exact path="/Home/:userId" element={<Home />} />
               <Route path="/Community" element={<Community />} />
               <Route path="/Collection" element={<Collection />} />
               <Route
