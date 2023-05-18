@@ -20,6 +20,7 @@ import Account from "./pages/Account";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import ForgotPassword from "./pages/ForgotPassword";
+import ShowTicket from "./pages/ShowTicket";
 
 function App() {
   const theme = createTheme({
@@ -87,6 +88,7 @@ function App() {
               <Route path="/SignIn" element={<SignIn onSignIn={onSignIn} />} />
               <Route path="/SignUp" element={<SignUp />} />
               <Route path="/ForgotPassword" element={<ForgotPassword />} />
+              <Route path="/Ticket/:ticketId" element={<ShowTicket/>}/>
             </Routes>
           ) : (
             <Routes>

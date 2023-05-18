@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Button, Container, Typography } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import SearchTicket from "../components/SearchTicket";
 import SortDropdown from "../components/SortDropdown";
 import Ticket from "../components/Ticket";
@@ -12,11 +12,15 @@ function Home() {
   const instance = axios.create({
     withCredentials: true,
   });
-  
+  const navigate = useNavigate();
   useEffect(() => {
+    fetchTickets();
+  },[])
+
+  const fetchTickets = async () => {
     const userToken = Cookies.get("user");
     const userId = localStorage.getItem("userId");
-    instance.get(`http://localhost:4000/ticket/${userId}`, { headers: { Authorization: `Bearer ${userToken}` } })
+    await instance.get(`http://localhost:4000/ticket/home/${userId}`, { headers: { Authorization: `Bearer ${userToken}` } })
     .then((res) => {
       console.log(res.data)
       setTickets(res.data)
@@ -24,9 +28,11 @@ function Home() {
     .catch((err) => {
       console.log(err)
     })
-    
-  },[])
-  
+  }
+  const handleClick = (ticketId) => {
+    localStorage.setItem('ticketId', ticketId);
+    navigate(`/Ticket/${ticketId}`);
+  }
   const [tickets, setTickets] = useState([]);
   return (
     <Container
@@ -76,6 +82,9 @@ function Home() {
         <Ticket
           key={ticket.id}
           ticket={ticket}
+          onClick={()=> {
+            handleClick(ticket.id)
+          }}
           // onEdit={handleTicketEdit}
         />
       ))}

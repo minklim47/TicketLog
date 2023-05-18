@@ -1,13 +1,13 @@
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import React from "react";
 
-function Ticket({ ticket}) {
-  const titleMap = ticket.title
+function Ticket({ ticket, onClick}) {
+    const handleClick = () => {
+        onClick();
+    }
   return (
-   
     <Card className={ticket.style} sx={ticketStyle}>
-       {/* <div>{ticket.title}</div> */}
-      <div className="container">
+      <div className="container" onClick={handleClick}>
         <p className="title">{ticket.title}</p>
         <div className="not-title">
           <div className="cinema-seat">
@@ -20,7 +20,6 @@ function Ticket({ ticket}) {
               <p className="seat-value">{ticket.seat}</p>
             </div>
           </div>
-
           <div className="date-time">
             <div className="date-item">
               <p className="date">Date</p>
@@ -29,7 +28,8 @@ function Ticket({ ticket}) {
             <div className="time-item">
               <p className="time">Time</p>
               {/* <div className="time-value">{new Date(ticket.time).toTimeString().substr(0, 5)}</div> */}
-              <div className="time-value">{ticket["time"].substr(0, 5)}</div>
+              {/* <div className="time-value">{ticket["time"].substr(0, 5)}</div> */}
+              <div className="time-value">{ticket["time"]}</div>
               {/* <div className="time-value">{new Date(ticket.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div> */}
 
             </div>

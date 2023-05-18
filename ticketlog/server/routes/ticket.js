@@ -3,7 +3,7 @@ const router = express.Router();
 const connection = require("../db");
 const auth = require("../middleware/auth");
 
-router.get("/:userId", auth, (req, res) => {
+router.get("/home/:userId", auth, (req, res) => {
   try {
     const userId = req.params.userId;
     const sqlSelect = "SELECT * FROM tickets WHERE user_id = ?";
@@ -22,8 +22,32 @@ router.get("/:userId", auth, (req, res) => {
     console.error(err);
   }
 });
-
-router.post("/", auth,(req, res) => {
+router.get("/:ticketId", auth, (req, res) => {
+  try {
+    const ticketId = req.params.ticketId;
+    const sqlSelect = "SELECT * FROM tickets WHERE id = ?";
+    connection.query(sqlSelect, [ticketId], (err, results) => {
+      if (err) {
+        res.json({
+          success: false,
+          data: null,
+          error: err.message,
+          message: "hello",
+        });
+      } else {
+        numRows = results.length;
+        if (numRows == 0) {
+          console.log("not found");
+        } else {
+          return res.json(results);
+        }
+      }
+    });
+  } catch (err) {
+    console.error(err);
+  }
+});
+router.post("/", auth, (req, res) => {
   const { title, date, time, cinema, seat, selectedStyle, isPrivate, userId } =
     req.body;
   const formattedDate = new Date(date).toISOString().split("T")[0];

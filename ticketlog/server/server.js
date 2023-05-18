@@ -56,31 +56,3 @@ app.get("/get", (req, res) => {
     res.send(results);
   });
 });
-
-app.post("/create_ticket", (req, res) => {
-  const { title, date, time, cinema, seat, isPrivate, selectedStyle } =
-    req.body;
-  const userId = req.user.userId;
-  const sqlInsert =
-    "INSERT INTO tickets (title,date,time,cinema,seat,isPrivate,selectedStyle, user_id) VALUES (?,?,?,?,?,?,?,?)";
-
-  connection.query(
-    sqlInsert,
-    [title, date, time, cinema, seat, isPrivate, selectedStyle, userId],
-    (req, res) => {
-      if (err) {
-        return connection.rollback(() => {
-          console.error("Error inserting row:", error.stack);
-          throw error;
-        });
-      } else {
-        if (results) {
-          res.json({
-            success: true,
-            message: "create ticket success",
-          });
-        }
-      }
-    }
-  );
-});
