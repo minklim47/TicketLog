@@ -86,4 +86,73 @@ router.post("/", auth, (req, res) => {
   });
 });
 
+router.patch("/:ticketId", auth, (req, res) => {
+  const ticketId = req.params.ticketId;
+  const updates = req.body.ticket;
+// console.log(updates.date)
+  const formattedDate = updates.date.split("T")[0];
+//   const formattedTime = new Date(updates.time)
+//   console.log(ticketId)
+//   console.log(updates.title)
+//   console.log(updates)
+//   console.log(updates.title)
+// console.log("hello")
+  sqlUpdate =
+    // "UPDATE tickets SET title=?, date=?,time=?,cinema=?,seat=?,style=?,is_private=? WHERE id = ?";
+    "UPDATE tickets SET title=?,date=?,time=?,cinema=?,seat=?,style=?,is_private=? WHERE id = ?";
+
+  connection.query(
+    sqlUpdate,
+    [
+      updates.title,
+        formattedDate,
+      updates.time,
+      updates.cinema,
+      updates.seat,
+      updates.style,
+      updates.is_private,
+      ticketId,
+    ],
+    (err, results) => {
+      if (err) {
+        console.log(err);
+        res.json({
+          success: false,
+          data: null,
+          error: err.message,
+        });
+      } else {
+        console.log(`Ticket ${ticketId} updated successfully`);
+        res.json({
+          success: true,
+          data: {
+            id: ticketId,
+          },
+          error: null,
+        });
+      }
+    }
+  );
+});
+
+router.delete("/:ticketId", auth, (req, res) => {
+    const ticketId = req.params.ticketId;
+    sqlDelete = "DELETE FROM tickets WHERE id = ?";
+    connection.query(sqlDelete,[ticketId], (err,results) => {
+        if (err) {
+            console.log(err);
+            res.json({
+              success: false,
+              data: null,
+              error: err.message,
+            });
+          } else {
+            console.log(`Ticket ${ticketId} deleted successfully`);
+            res.json({
+              success: true,
+              error: null,
+            });
+          }
+    })
+})
 module.exports = router;

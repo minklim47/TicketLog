@@ -29,7 +29,7 @@ function Ticket({ ticket, onClick}) {
               <p className="time">Time</p>
               {/* <div className="time-value">{new Date(ticket.time).toTimeString().substr(0, 5)}</div> */}
               {/* <div className="time-value">{ticket["time"].substr(0, 5)}</div> */}
-              <div className="time-value">{ticket["time"]}</div>
+              <div className="time-value">{ticket["time"].substring(0,5)}</div>
               {/* <div className="time-value">{new Date(ticket.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div> */}
 
             </div>

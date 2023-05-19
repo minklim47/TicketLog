@@ -21,6 +21,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import ForgotPassword from "./pages/ForgotPassword";
 import ShowTicket from "./pages/ShowTicket";
+import EditTicket from "./pages/EditTicket";
 
 function App() {
   const theme = createTheme({
@@ -84,11 +85,13 @@ function App() {
                 element={<Profile onSignOut={onSignOut} />}
               />
               <Route path="/CreateTicket" element={<CreateTicket />} />
+              <Route path="/EditTicket/:ticketId/edit" element={<EditTicket />} />
+
               <Route path="/Profile/:userId/edit" element={<Account />} />
               <Route path="/SignIn" element={<SignIn onSignIn={onSignIn} />} />
               <Route path="/SignUp" element={<SignUp />} />
               <Route path="/ForgotPassword" element={<ForgotPassword />} />
-              <Route path="/Ticket/:ticketId" element={<ShowTicket/>}/>
+              <Route path="/Ticket/:ticketId" element={<ShowTicket />} />
             </Routes>
           ) : (
             <Routes>

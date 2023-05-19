@@ -8,21 +8,33 @@ import {
   InputLabel,
   TextField,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { NavLink, useNavigate } from "react-router-dom";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { CheckBox } from "@mui/icons-material";
 import "../styles/Ticket.css";
 
-import TicketForCreate from "../components/TicketForCreate";
+import TicketForEdit from "../components/TicketForEdit";
 import axios from "axios";
+import Cookies from "js-cookie";
 
-function CreateTicket() {
-  const [selectedStyle, setSelectedStyle] = useState("style-1");
+function EditTicket() {
+  const [ticket, setTicket] = useState(null);
+//   const [title, setTitle] = useState("");
+//   const [cinema, setCinema] = useState("");
+//   const [seat, setSeat] = useState("");
+//   const [date, setDate] = useState(new Date());
+//   const [time, setTime] = useState(new Date());
+//   const [isPrivate, setIsPrivate] = useState(false);
+
+//   const [selectedStyle, setSelectedStyle] = useState("style-1");
   const handleStyleChange = (event) => {
-    setSelectedStyle(event.target.value);
-    console.log(event.target.value);
+    setTicket( (prevState) => ({
+        ...prevState,
+        style: event.target.value,
+      }));
+   
   };
   const styleOptions = [
     { value: "style-1", label: "1" },
@@ -35,6 +47,25 @@ function CreateTicket() {
   });
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
+  const ticketId = localStorage.getItem("ticketId");
+  const userToken = Cookies.get("user");
+
+  useEffect(() => {
+    instance
+      .get(`http://localhost:4000/ticket/${ticketId}`, {
+        headers: { Authorization: `Bearer ${userToken}` },
+      })
+      .then((res) => {
+        console.log(res.data[0])
+        setTicket(res.data[0]);
+        setIsLoading(false);
+      });
+  }, []);
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!validateForm()) return;
@@ -43,72 +74,93 @@ function CreateTicket() {
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
+    // console.log(ticket)
+
+
+    // console.log(ticket.date)
+    console.log(ticket.time)
+
     instance
-      .post(
-        "http://localhost:4000/ticket",
+      .patch(
+        `http://localhost:4000/ticket/${ticketId}`,
         {
-          title: title,
-          date: date,
-          time: time,
-          cinema: cinema,
-          seat: seat,
-          selectedStyle: selectedStyle,
-          isPrivate: isPrivate,
-          userId: userId,
+        //   title: ticket.title,
+        //   date: ticket.date,
+        //   time: ticket.time,
+        //   cinema: ticket.cinema,
+        //   seat: ticket.seat,
+        //   selectedStyle: ticket.style,
+        //   isPrivate: ticket.is_private,
+        //   userId: ticket.user_id,
+        ticket:ticket
         },
         config
       )
       .then((res) => {
         console.log(res);
-        navigate(`/Home/${userId}`)
+        navigate(`/Ticket/${ticketId}`);
       })
       .catch((err) => {
         console.log(err);
       });
   };
   const handleCancel = () => {
-    
-    navigate(`/Home/${userId}`)
-    };
+    navigate(`/Home/${userId}`);
+  };
   const validateForm = () => {
-    const fields = [title, cinema, seat, date.toString(), time.toString()];
+    const fields = [ticket.title, ticket.cinema, ticket.seat, ticket.date.toString(), ticket.time.toString()];
     for (const field of fields) {
       if (!field || !field.trim()) {
-        console.log('Please fill all the fields');
+        console.log("Please fill all the fields");
         return false;
       }
     }
     return true;
   };
 
-  const [title, setTitle] = useState("");
-  const [cinema, setCinema] = useState("");
-  const [seat, setSeat] = useState("");
-  const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState(new Date());
-  const [isPrivate, setIsPrivate] = useState(false);
-
   const handleTitleChange = (event) => {
-    setTitle(event.target.value.substring(0, 18));
+    // setTicket( event.target.value.substring(0, 18));
+    setTicket((prevState) => ({
+        ...prevState,
+        title: event.target.value.substring(0, 18),
+      }));
   };
   const handleCinemaChange = (event) => {
-    setCinema(event.target.value.substring(0, 10));
+    setTicket((prevState) => ({
+        ...prevState,
+        cinema: event.target.value.substring(0, 10),
+      }));
   };
   const handleSeatChange = (event) => {
-    setSeat(event.target.value.substring(0, 3));
+    setTicket((prevState) => ({
+        ...prevState,
+        seat: event.target.value.substring(0, 3),
+      }));
   };
   const handleDateChange = (event) => {
-    setDate(new Date(event.target.value));
+    setTicket((prevState) => ({
+        ...prevState,
+        date: new Date(event.target.value),
+      }))
   };
   const handleTimeChange = (event) => {
     const [hours, minutes] = event.target.value.split(":");
-    const newTime = new Date();
-    newTime.setHours(hours);
-    newTime.setMinutes(minutes);
-    setTime(newTime);
+    // const newTime = new Date();
+    // newTime.setHours(hours);
+    // newTime.setMinutes(minutes);
+    const formattedTime = hours+":"+minutes
+    console.log(formattedTime)
+    // setTime(formattedTime);
+    setTicket((prevState) => ({
+        ...prevState,
+        time: formattedTime,
+      }));
   };
   const handleIsPrivateChange = (event) => {
-    setIsPrivate(!isPrivate);
+    setTicket((prevState) => ({
+        ...prevState,
+        is_private: !ticket.is_private,
+      }));
     console.log(event.target.value);
   };
 
@@ -127,8 +179,12 @@ function CreateTicket() {
           padding: "0 30px",
         }}
       >
-        <IconButton onClick={()=> {navigate(`/Home/${userId}`)}}>
-          <ArrowBackIcon/>
+        <IconButton
+          onClick={() => {
+            navigate(`/Home/${userId}`);
+          }}
+        >
+          <ArrowBackIcon />
         </IconButton>
         <h1 style={{ textAlign: "center", flexGrow: "1" }}>Create Ticket</h1>
         <IconButton sx={{ visibility: "hidden" }}>
@@ -141,13 +197,13 @@ function CreateTicket() {
       >
         {/* ============= Display of ticket and select style =============== */}
         <Box>
-          <TicketForCreate
-            selectedStyle={selectedStyle}
-            title={title}
-            cinema={cinema}
-            seat={seat}
-            date={date}
-            time={time}
+          <TicketForEdit
+            selectedStyle={ticket.style}
+            title={ticket.title}
+            cinema={ticket.cinema}
+            seat={ticket.seat}
+            date={ticket.date}
+            time={ticket.time}
           />
           <Box
             className="flex-container"
@@ -176,7 +232,7 @@ function CreateTicket() {
                       type="radio"
                       name="style"
                       value={option.value}
-                      checked={selectedStyle === option.value}
+                      checked={ticket.style === option.value}
                       onChange={handleStyleChange}
                     />{" "}
                     <span className="checkmark"></span>
@@ -214,7 +270,7 @@ function CreateTicket() {
                 size="small"
                 type="text"
                 variant="outlined"
-                value={title}
+                value={ticket.title}
                 onChange={handleTitleChange}
                 placeholder="Movie Title"
                 required
@@ -233,13 +289,14 @@ function CreateTicket() {
                   size="small"
                   type="date"
                   variant="outlined"
-                  value={
-                    date.getDate() +
-                    "-" +
-                    parseInt(date.getMonth() + 1) +
-                    "-" +
-                    date.getFullYear()
-                  }
+                //   value={
+                //     date.getDate() +
+                //     "-" +
+                //     parseInt(date.getMonth() + 1) +
+                //     "-" +
+                //     date.getFullYear()
+                //   }
+                value={ticket.date}
                   onChange={handleDateChange}
                   required
                 />
@@ -251,7 +308,8 @@ function CreateTicket() {
                   size="small"
                   type="time"
                   variant="outlined"
-                  value={time.toTimeString().substr(0, 5)}
+                //   value={time.toTimeString().substr(0, 5)}
+                value={ticket.time.substring(0,5)}
                   onChange={handleTimeChange}
                   required
                 />
@@ -268,7 +326,7 @@ function CreateTicket() {
                   size="small"
                   type="text"
                   variant="outlined"
-                  value={cinema}
+                  value={ticket.cinema}
                   maxLength="10"
                   onChange={handleCinemaChange}
                 />
@@ -280,7 +338,7 @@ function CreateTicket() {
                   size="small"
                   type="text"
                   variant="outlined"
-                  value={seat}
+                  value={ticket.seat}
                   maxLength="3"
                   onChange={handleSeatChange}
                 />
@@ -297,7 +355,7 @@ function CreateTicket() {
             <FormControlLabel
               control={
                 <Checkbox
-                  value={isPrivate}
+                  value={ticket.is_private}
                   sx={{
                     color: "#000000",
                     width: "24px",
@@ -377,4 +435,4 @@ const cancelButtonStyle = {
   },
 };
 
-export default CreateTicket;
+export default EditTicket;

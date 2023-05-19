@@ -86,6 +86,7 @@ router.post(
         message: "password format is not valid",
       });
     }
+    
     const hashedPassword = await bcrypt.hash(password, 10);
     const sqlInsert = `INSERT INTO users (name,location,email_address,hashed_password) VALUES (?,?,?,?)`;
     connection.query(
@@ -119,7 +120,7 @@ router.post(
 router.get("/checklogin", (req, res) => {
   const token = req.cookies.user;
   const decoded = jwt.verify(token, secret);
-  if (decoded) {
+  if (decoded) { 
     res.json({
       success: true,
       message:

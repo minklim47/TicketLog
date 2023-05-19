@@ -3,10 +3,13 @@ import React, { useEffect } from "react";
 
 import ticket1 from "../assets/ticket/ticket2-black.png";
 
-function Ticket({selectedStyle, title, cinema, seat, time, date }) {
+function TicketForEdit({selectedStyle, title, cinema, seat, time, date }) {
 
-  console.log(time)
-  const formattedTime = time.toString().split(" ")[4].substring(0,5)
+  
+  // const formattedTime = time.toString().split(" ")[4]
+  // const timePart = time.toLocaleTimeString().split(':');
+  // const hours = time.getHours();
+  // const minutes = time.getMinutes();
   return (
    
     <Card className={selectedStyle} sx={ticketStyle}>
@@ -32,7 +35,7 @@ function Ticket({selectedStyle, title, cinema, seat, time, date }) {
             </div>
             <div className="time-item">
               <p className="time">Time</p>
-              <div className="time-value">{formattedTime}</div>
+              <div className="time-value">{time.substring(0,5)}</div>
             </div>
           </div>
         </div>
@@ -48,4 +51,4 @@ const ticketStyle = {
   margin: "10px",
 };
 
-export default Ticket;
+export default TicketForEdit;

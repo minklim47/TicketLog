@@ -8,22 +8,69 @@ import { useEffect, useState } from 'react';
 import axios from "axios";
 import Cookies from "js-cookie";
 
+
 function Home() {
   const instance = axios.create({
     withCredentials: true,
   });
   const navigate = useNavigate();
+  const [tickets, setTickets] = useState([]);
+  const [sortingType, setSortingType] = useState("");
+  const [sortedTickets, setSortedTickets] = useState([]);
+
+  const handleSortingChange = (event) => {
+    setSortingType(event.target.value);
+
+
+  }
+  const sortTickets = () => {
+    let sortedTickets = [...tickets];
+    switch (sortingType) {
+      case "ticket_date_new":
+        sortedTickets.sort((a, b) => new Date(b.ticket_date) - new Date(a.ticket_date));
+        break;
+      case "ticket_date_old":
+        sortedTickets.sort((a, b) => new Date(a.ticket_date) - new Date(b.ticket_date));
+        break;
+      case "created_at_new":
+        sortedTickets.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        break;
+      case "created_at_old":
+        sortedTickets.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+        break;
+      case "alphabetical_a":
+        sortedTickets.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case "alphabetical_z":
+        sortedTickets.sort((a, b) => b.title.localeCompare(a.title));
+        break;
+      default:
+        break;
+    }
+    setSortedTickets(sortedTickets);
+  };
+
   useEffect(() => {
     fetchTickets();
+
+
   },[])
+
+  useEffect(() => {
+    sortTickets();
+  }, [sortingType]);
+
 
   const fetchTickets = async () => {
     const userToken = Cookies.get("user");
     const userId = localStorage.getItem("userId");
     await instance.get(`http://localhost:4000/ticket/home/${userId}`, { headers: { Authorization: `Bearer ${userToken}` } })
     .then((res) => {
-      console.log(res.data)
+      // console.log(res.data)
       setTickets(res.data)
+      setSortingType("ticket_date_new")
+
+      
     })
     .catch((err) => {
       console.log(err)
@@ -33,7 +80,7 @@ function Home() {
     localStorage.setItem('ticketId', ticketId);
     navigate(`/Ticket/${ticketId}`);
   }
-  const [tickets, setTickets] = useState([]);
+
   return (
     <Container
       className="flex-container"
@@ -70,22 +117,21 @@ function Home() {
         className="flex-container"
         sx={{
           justifyContent: "flex-end",
-          margin: "20px 0",
+          margin: "20px 30px",
         }}
       >
-        <SortDropdown />
+        <SortDropdown sortingType={sortingType} onSortingChange={handleSortingChange} />
       </Box>
       {/* <Box sx={{display:"inline-flex", flexFlow:{xs:"row wrap"},justifyContent:"center",}}> */}
       <Box sx={grid}>
        
-        {tickets.map((ticket) => (
+        {sortedTickets.map((ticket) => (
         <Ticket
           key={ticket.id}
           ticket={ticket}
           onClick={()=> {
             handleClick(ticket.id)
           }}
-          // onEdit={handleTicketEdit}
         />
       ))}
       </Box>

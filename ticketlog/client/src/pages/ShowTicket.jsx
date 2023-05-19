@@ -5,6 +5,9 @@ import Ticket from "../components/Ticket";
 import { Box, Button, IconButton } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import DeleteIcon from "@mui/icons-material/Delete";
+
 function ShowTicket() {
   const [ticket, setTicket] = useState([]);
   const navigate = useNavigate();
@@ -16,12 +19,13 @@ function ShowTicket() {
     localStorage.setItem("ticketId", ticketId);
     navigate(`/Ticket/${ticketId}`);
   };
+  const ticketId = localStorage.getItem("ticketId");
+  const userToken = Cookies.get("user");
+
   useEffect(() => {
     fetchTicket();
   }, []);
   const fetchTicket = async () => {
-    const userToken = Cookies.get("user");
-    const ticketId = localStorage.getItem("ticketId");
 
     await instance
       .get(`http://localhost:4000/ticket/${ticketId}`, {
@@ -35,7 +39,14 @@ function ShowTicket() {
         console.log(err);
       });
   };
-
+  const handleEdit = () => {
+    navigate(`/EditTicket/${ticketId}/edit`)
+  }
+  const handleDelete = () => {
+    instance.delete(`http://localhost:4000/ticket/${ticketId}`,
+     { headers: { Authorization: `Bearer ${userToken}`} })
+    navigate(`/Home/${userId}`)
+  }
   return (
     <Box
       className="flex-container"
@@ -72,14 +83,16 @@ function ShowTicket() {
           />
         )}
       </Box>
-      <Button sx={saveButtonStyle} type="submit">
+      <Button sx={editButtonStyle} type="submit" endIcon={<ModeEditIcon />}
+      onClick={handleEdit}>
         Edit ticket
       </Button>
       <Button
         sx={cancelButtonStyle}
         variant="outlined"
         color="black"
-
+        endIcon={<DeleteIcon />}
+        onClick={handleDelete}
       >
         Delete ticket
       </Button>
@@ -87,11 +100,11 @@ function ShowTicket() {
   );
 }
 
-const saveButtonStyle = {
+const editButtonStyle = {
   textTransform: "none",
   fontSize: 14,
-  width: "120px",
-  height: "30px",
+  width: "150px",
+  height: "35px",
   bgcolor: "black.main",
   color: "white.main",
   "&:hover": {
@@ -101,11 +114,11 @@ const saveButtonStyle = {
 const cancelButtonStyle = {
   textTransform: "none",
   fontSize: 14,
-  width: "120px",
-  height: "30px",
+  width: "150px",
+  height: "35px",
   borderColor: "black.main",
   color: "black.main",
-  margin: "30px 0",
+  margin: "20px 0",
   "&:hover": {
     backgroundColor: "black.light",
   },
