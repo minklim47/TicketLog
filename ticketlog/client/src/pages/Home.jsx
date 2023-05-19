@@ -20,8 +20,6 @@ function Home() {
 
   const handleSortingChange = (event) => {
     setSortingType(event.target.value);
-
-
   }
   const sortTickets = () => {
     let sortedTickets = [...tickets];
@@ -52,8 +50,6 @@ function Home() {
 
   useEffect(() => {
     fetchTickets();
-
-
   },[])
 
   useEffect(() => {
@@ -80,6 +76,13 @@ function Home() {
     localStorage.setItem('ticketId', ticketId);
     navigate(`/Ticket/${ticketId}`);
   }
+  const handleSearch = (searchTerm) => {
+    const filteredTickets = tickets.filter((ticket) =>
+      ticket.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    setSortedTickets(filteredTickets);
+  };
 
   return (
     <Container
@@ -112,7 +115,7 @@ function Home() {
           Add a Ticket
         </Button>
       </Box>
-      <SearchTicket />
+      <SearchTicket tickets={tickets} onSearch={handleSearch}/>
       <Box
         className="flex-container"
         sx={{
