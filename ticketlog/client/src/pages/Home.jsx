@@ -4,10 +4,9 @@ import { NavLink, useNavigate } from "react-router-dom";
 import SearchTicket from "../components/SearchTicket";
 import SortDropdown from "../components/SortDropdown";
 import Ticket from "../components/Ticket";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-
 
 function Home() {
   const instance = axios.create({
@@ -20,21 +19,29 @@ function Home() {
 
   const handleSortingChange = (event) => {
     setSortingType(event.target.value);
-  }
+  };
   const sortTickets = () => {
     let sortedTickets = [...tickets];
     switch (sortingType) {
       case "ticket_date_new":
-        sortedTickets.sort((a, b) => new Date(b.ticket_date) - new Date(a.ticket_date));
+        sortedTickets.sort(
+          (a, b) => new Date(b.ticket_date) - new Date(a.ticket_date)
+        );
         break;
       case "ticket_date_old":
-        sortedTickets.sort((a, b) => new Date(a.ticket_date) - new Date(b.ticket_date));
+        sortedTickets.sort(
+          (a, b) => new Date(a.ticket_date) - new Date(b.ticket_date)
+        );
         break;
       case "created_at_new":
-        sortedTickets.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        sortedTickets.sort(
+          (a, b) => new Date(b.created_at) - new Date(a.created_at)
+        );
         break;
       case "created_at_old":
-        sortedTickets.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+        sortedTickets.sort(
+          (a, b) => new Date(a.created_at) - new Date(b.created_at)
+        );
         break;
       case "alphabetical_a":
         sortedTickets.sort((a, b) => a.title.localeCompare(b.title));
@@ -50,32 +57,36 @@ function Home() {
 
   useEffect(() => {
     fetchTickets();
-  },[])
+  }, []);
 
   useEffect(() => {
     sortTickets();
   }, [sortingType]);
 
-
+  const userToken = Cookies.get("user");
+  const userId = localStorage.getItem("userId");
   const fetchTickets = async () => {
-    const userToken = Cookies.get("user");
-    const userId = localStorage.getItem("userId");
-    await instance.get(`http://localhost:4000/ticket/home/${userId}`, { headers: { Authorization: `Bearer ${userToken}` } })
-    .then((res) => {
-      // console.log(res.data)
-      setTickets(res.data)
-      setSortingType("ticket_date_new")
-
-      
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  }
+    await instance
+      .get(`http://localhost:4000/ticket/home/${userId}`, {
+        headers: { Authorization: `Bearer ${userToken}` },
+      })
+      .then((res) => {
+        // console.log(res.data)
+        setTickets(res.data);
+        setSortingType("ticket_date_new");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const fetchNote = async () => {
+    // const
+  };
   const handleClick = (ticketId) => {
-    localStorage.setItem('ticketId', ticketId);
+    localStorage.setItem("ticketId", ticketId);
     navigate(`/Ticket/${ticketId}`);
-  }
+  };
+  const handleNoteClick = (ticketId) => {};
   const handleSearch = (searchTerm) => {
     const filteredTickets = tickets.filter((ticket) =>
       ticket.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -115,7 +126,7 @@ function Home() {
           Add a Ticket
         </Button>
       </Box>
-      <SearchTicket tickets={tickets} onSearch={handleSearch}/>
+      <SearchTicket tickets={tickets} onSearch={handleSearch} />
       <Box
         className="flex-container"
         sx={{
@@ -123,20 +134,22 @@ function Home() {
           margin: "20px 30px",
         }}
       >
-        <SortDropdown sortingType={sortingType} onSortingChange={handleSortingChange} />
+        <SortDropdown
+          sortingType={sortingType}
+          onSortingChange={handleSortingChange}
+        />
       </Box>
       {/* <Box sx={{display:"inline-flex", flexFlow:{xs:"row wrap"},justifyContent:"center",}}> */}
       <Box sx={grid}>
-       
         {sortedTickets.map((ticket) => (
-        <Ticket
-          key={ticket.id}
-          ticket={ticket}
-          onClick={()=> {
-            handleClick(ticket.id)
-          }}
-        />
-      ))}
+          <Ticket
+            key={ticket.id}
+            ticket={ticket}
+            onClick={() => {
+              handleClick(ticket.id);
+            }}
+          />
+        ))}
       </Box>
     </Container>
   );

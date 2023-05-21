@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const connection = require("../db");
 const auth = require("../middleware/auth");
+const e = require("express");
 
 router.get("/home/:userId", auth, (req, res) => {
   try {
@@ -48,15 +49,24 @@ router.get("/:ticketId", auth, (req, res) => {
   }
 });
 router.post("/", auth, (req, res) => {
-  const { title, date, time, cinema, seat, selectedStyle, isPrivate, userId } =
-    req.body;
+  const {
+    title,
+    date,
+    time,
+    cinema,
+    seat,
+    selectedStyle,
+    isPrivate,
+    userId,
+    note,
+  } = req.body;
   const formattedDate = new Date(date).toISOString().split("T")[0];
   const formattedTime = new Date(time)
     .toISOString()
     .split("T")[1]
     .substring(0, 8);
 
-  const sqlInsert =
+  const insertTicket =
     "INSERT INTO tickets (title,cinema,seat,date,time,style,is_private,created_at,user_id) VALUES (?,?,?,?,?,?,?,CONVERT_TZ(NOW(), 'UTC', 'Asia/Bangkok'),?)";
   const values = [
     title,
@@ -68,35 +78,56 @@ router.post("/", auth, (req, res) => {
     isPrivate,
     userId,
   ];
-
-  connection.query(sqlInsert, values, (err, results) => {
+  let ticketId = -1;
+  connection.query(insertTicket, values, (err, results) => {
     if (err) {
-      res.json({
+      return res.json({
         success: false,
         data: null,
         error: err.message,
       });
     } else {
-      res.json({
-        success: true,
-        message: "create ticket successful",
-        user: results[0],
-      });
+      note.ticketId = results.insertId;
+      const insertNote =
+        "INSERT INTO notes (ticket_id, title, content) VALUES (?,?,?)";
+
+      connection.query(
+        insertNote,
+        [note.ticketId, note.title, note.content],
+        (err, results) => {
+          if (err) {
+            res.json({
+              success: false,
+              data: null,
+              error: err.message,
+            });
+          } else {
+            res.json({
+              success: true,
+              message: "create ticket and note successful",
+              ticketId: note.ticketId,
+              noteId: results.insertId,
+            });
+          }
+        }
+      );
     }
   });
+
+  //   connec
 });
 
 router.patch("/:ticketId", auth, (req, res) => {
   const ticketId = req.params.ticketId;
   const updates = req.body.ticket;
-// console.log(updates.date)
+  // console.log(updates.date)
   const formattedDate = updates.date.split("T")[0];
-//   const formattedTime = new Date(updates.time)
-//   console.log(ticketId)
-//   console.log(updates.title)
-//   console.log(updates)
-//   console.log(updates.title)
-// console.log("hello")
+  //   const formattedTime = new Date(updates.time)
+  //   console.log(ticketId)
+  //   console.log(updates.title)
+  //   console.log(updates)
+  //   console.log(updates.title)
+  // console.log("hello")
   sqlUpdate =
     // "UPDATE tickets SET title=?, date=?,time=?,cinema=?,seat=?,style=?,is_private=? WHERE id = ?";
     "UPDATE tickets SET title=?,date=?,time=?,cinema=?,seat=?,style=?,is_private=? WHERE id = ?";
@@ -105,7 +136,7 @@ router.patch("/:ticketId", auth, (req, res) => {
     sqlUpdate,
     [
       updates.title,
-        formattedDate,
+      formattedDate,
       updates.time,
       updates.cinema,
       updates.seat,
@@ -136,23 +167,23 @@ router.patch("/:ticketId", auth, (req, res) => {
 });
 
 router.delete("/:ticketId", auth, (req, res) => {
-    const ticketId = req.params.ticketId;
-    sqlDelete = "DELETE FROM tickets WHERE id = ?";
-    connection.query(sqlDelete,[ticketId], (err,results) => {
-        if (err) {
-            console.log(err);
-            res.json({
-              success: false,
-              data: null,
-              error: err.message,
-            });
-          } else {
-            console.log(`Ticket ${ticketId} deleted successfully`);
-            res.json({
-              success: true,
-              error: null,
-            });
-          }
-    })
-})
+  const ticketId = req.params.ticketId;
+  sqlDelete = "DELETE FROM tickets WHERE id = ?";
+  connection.query(sqlDelete, [ticketId], (err, results) => {
+    if (err) {
+      console.log(err);
+      res.json({
+        success: false,
+        data: null,
+        error: err.message,
+      });
+    } else {
+      console.log(`Ticket ${ticketId} deleted successfully`);
+      res.json({
+        success: true,
+        error: null,
+      });
+    }
+  });
+});
 module.exports = router;

@@ -17,6 +17,7 @@ import "../styles/Ticket.css";
 
 import TicketForCreate from "../components/TicketForCreate";
 import axios from "axios";
+import CreateNote from "../components/CreateNote";
 
 function CreateTicket() {
   const [selectedStyle, setSelectedStyle] = useState("style-1");
@@ -29,7 +30,6 @@ function CreateTicket() {
     { value: "style-2", label: "2" },
     { value: "style-3", label: "3" },
   ];
-
   const instance = axios.create({
     withCredentials: true,
   });
@@ -55,30 +55,20 @@ function CreateTicket() {
           selectedStyle: selectedStyle,
           isPrivate: isPrivate,
           userId: userId,
+          note: note
         },
         config
       )
       .then((res) => {
         console.log(res);
-        navigate(`/Home/${userId}`)
+        navigate(`/Home/${userId}`);
       })
       .catch((err) => {
         console.log(err);
       });
   };
   const handleCancel = () => {
-    
-    navigate(`/Home/${userId}`)
-    };
-  const validateForm = () => {
-    const fields = [title, cinema, seat, date.toString(), time.toString()];
-    for (const field of fields) {
-      if (!field || !field.trim()) {
-        console.log('Please fill all the fields');
-        return false;
-      }
-    }
-    return true;
+    navigate(`/Home/${userId}`);
   };
 
   const [title, setTitle] = useState("");
@@ -112,6 +102,29 @@ function CreateTicket() {
     console.log(event.target.value);
   };
 
+  const [open, setOpen] = useState(false);
+  const handleAddNote = () => {
+    setOpen(true);
+  };
+
+  const [noteTitle, setNoteTitle] = useState("");
+  const [noteContent, setNoteContent] = useState("");
+  const [note, setNote] = useState({title:"", content:""});
+
+  const handleNoteSubmit = (note) => {
+    setNote(note);
+  }
+
+  const validateForm = () => {
+    const fields = [title, cinema, seat, date.toString(), time.toString()];
+    for (const field of fields) {
+      if (!field || !field.trim()) {
+        console.log("Please fill all the fields");
+        return false;
+      }
+    }
+    return true;
+  };
   return (
     <Box
       className="flex-container"
@@ -127,8 +140,12 @@ function CreateTicket() {
           padding: "0 30px",
         }}
       >
-        <IconButton onClick={()=> {navigate(`/Home/${userId}`)}}>
-          <ArrowBackIcon/>
+        <IconButton
+          onClick={() => {
+            navigate(`/Home/${userId}`);
+          }}
+        >
+          <ArrowBackIcon />
         </IconButton>
         <h1 style={{ textAlign: "center", flexGrow: "1" }}>Create Ticket</h1>
         <IconButton sx={{ visibility: "hidden" }}>
@@ -155,7 +172,7 @@ function CreateTicket() {
               flexDirection: "column",
               justifyContent: { xs: "center", sm: "flex-start" },
               alignItems: { xs: "center", sm: "flex-start" },
-              margin: "20px",
+              margin: "20px 20px 20px 40px",
             }}
           >
             <h4 style={{ marginBottom: "10px" }}>Choose style</h4>
@@ -289,7 +306,22 @@ function CreateTicket() {
           </form>
 
           {/* ====== Add note button ======= */}
-          <Button endIcon={<AddCircleIcon />} sx={addButtonStyle}>
+          {open ? (
+            <CreateNote
+              onClick={handleAddNote}
+              open={open}
+              setOpen={setOpen}
+              onSubmit={handleNoteSubmit}
+              initialNote={note}
+            />
+          ) : (
+            ""
+          )}
+          <Button
+            endIcon={<AddCircleIcon />}
+            sx={addButtonStyle}
+            onClick={handleAddNote}
+          >
             Add Note
           </Button>
           {/* ====== checkbox ======= */}

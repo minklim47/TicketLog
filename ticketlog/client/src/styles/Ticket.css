@@ -67,6 +67,12 @@
   align-items: center;
   margin-bottom: 20px;
 }
+.style-1 .note {
+  color: #ffffff;
+  justify-self: flex-end;
+  align-self: flex-end;
+  margin: 10px 15px 0 0;
+}
 
 /*=========== ticket style 2 ==============*/
 
@@ -77,6 +83,7 @@
   height: 250px;
   justify-content: flex-start;
   align-items: flex-start;
+  position: relative;
 }
 .style-2 .not-title {
   display: flex;
@@ -86,12 +93,12 @@
 }
 .style-2 .title {
   font-size: 26px;
-  margin: 10px 20px ;
+  margin: 10px 20px;
 }
 .style-2 .cinema-seat {
   display: flex;
   justify-content: space-evenly;
-  margin:  5px;
+  margin: 5px;
 }
 .style-2 .date-time {
   flex-direction: column;
@@ -112,39 +119,51 @@
   background-size: 250px 250px;
 }
 
+.style-2 .note {
+  position: absolute;
+  /* z-index: 999; */
+  bottom:15px;
+  right: 15px;
+  color: #000000;
+}
 /*=========== ticket style 3 ==============*/
 
 .style-3 .container {
-    display: flex;
-    flex-direction: column;
-    width: 250px;
-    height: 250px;
-   
-  }
-  .style-3 .not-title {
-    display: flex;
-    flex-direction: column;
-  }
-  .style-3 .title {
-    font-size: 26px;
-    margin: 10px 20px 20px 20px ;
-  }
-  .style-3 .cinema-seat {
-    align-self: flex-end;
-    color: #FAFAFA;
-    margin-right: 20px;
-  }
-  .style-3 .date-time {
-    align-self: flex-start;
-    margin-left: 20px;
-  }
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  height: 250px;
+  position: relative;
+}
+.style-3 .not-title {
+  display: flex;
+  flex-direction: column;
+}
+.style-3 .title {
+  font-size: 26px;
+  margin: 10px 20px 20px 20px;
+}
+.style-3 .cinema-seat {
+  align-self: flex-end;
+  color: #fafafa;
+  margin-right: 20px;
+}
+.style-3 .date-time {
+  align-self: flex-start;
+  margin-left: 20px;
+}
 
 .style-3 {
   background-image: url("../assets/ticket/ticket3-black.png");
   background-size: 250px 250px;
 }
-
-
+.style-3 .note {
+  position: absolute;
+  /* z-index: 999; */
+  bottom:15px;
+  right: 15px;
+  color: #FFFFFF;
+}
 
 /* ========= radio =========== */
 .radio-style input {
@@ -153,14 +172,13 @@
   cursor: pointer;
 }
 
-.checkmark{
+.checkmark {
   position: absolute;
   top: -3px;
   left: -9px;
   height: 25px;
   width: 25px;
   z-index: -2;
- 
 }
 .radio-style {
   display: block;
@@ -178,14 +196,13 @@
   border-radius: 50%;
   background-color: #eeeeee;
   width: 30px;
-  height: 30px
-} 
+  height: 30px;
+}
 .radio-style input:checked ~ .checkmark {
   border-radius: 50%;
   background-color: #212121;
   width: 30px;
   height: 30px;
-
 }
 
 .checkmark:after {
@@ -197,13 +214,11 @@
 }
 .radio-style input:checked ~ .checkmark:after {
   display: block;
-  position:absolute;
+  position: absolute;
   border-radius: 50%;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   width: 25px;
   height: 25px;
   top: 2.5px;
   left: 2.5px;
 }
-
- 

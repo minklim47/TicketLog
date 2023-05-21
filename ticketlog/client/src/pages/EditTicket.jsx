@@ -211,7 +211,7 @@ function EditTicket() {
               flexDirection: "column",
               justifyContent: { xs: "center", sm: "flex-start" },
               alignItems: { xs: "center", sm: "flex-start" },
-              margin: "20px",
+              margin: "20px 20px 20px 40px",
             }}
           >
             <h4 style={{ marginBottom: "10px" }}>Choose style</h4>

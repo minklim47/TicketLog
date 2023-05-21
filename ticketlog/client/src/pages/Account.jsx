@@ -12,8 +12,7 @@ import { NavLink, useNavigate, useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Cookies from "js-cookie";
 import axios from "axios";
-import profilePic from '../assets/fin.jpeg'
-
+import profilePic from "../assets/fin.jpeg";
 
 function Account() {
   const navigate = useNavigate();
@@ -28,6 +27,7 @@ function Account() {
   const [location, setLocation] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   useEffect(() => {
     const userToken = Cookies.get("user");
@@ -49,22 +49,36 @@ function Account() {
     }
   }, []);
   const handleCancel = () => {
-      navigate(`/Profile/${userId}`);
-  }
+    navigate(`/Profile/${userId}`);
+  };
+  const isChangePassword = () => {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    return (regex.test(newPassword) && (newPassword == "" || currentPassword == "" || confirmPassword == ""));
+    // if (newPassword == "" || currentPassword == "" || confirmPassword == "") {
+    //   return false;
+    // }
+    // if (newPassword )
+    // return true;
+  };
   const handleSubmit = () => {
-    if (!validateForm()) return;
+    if (!validateForm()) {
+      console.log("invalid form");
+      return;
+    }
+    const changePassword = isChangePassword();
     const userToken = Cookies.get("user");
+    // console.log(name,location,currentPassword,newPassword,confirmPassword )
+    // console.log(validateForm())
     if (userToken !== undefined && userToken !== "undefined") {
-      
       instance
         .patch(
           `http://localhost:4000/user/${userId}`,
           {
-            
             name: name,
             location: location,
             currentPassword: currentPassword,
             newPassword: newPassword,
+            changePassword: changePassword,
           },
           { headers: { Authorization: `Bearer ${userToken}` } }
         )
@@ -79,11 +93,12 @@ function Account() {
   };
 
   const validateForm = () => {
-    if (name == '' || location == '') {
+    if (name == "" || location == "" || newPassword != confirmPassword) {
       return false;
     }
     return true;
   };
+
   return (
     <Box
       className="flex-container"
@@ -187,6 +202,10 @@ function Account() {
                   type="password"
                   placeholder="Enter your current password"
                   variant="outlined"
+                  value={currentPassword}
+                  onChange={(e) => {
+                    setCurrentPassword(e.target.value);
+                  }}
                 />
               </div>
               <div>
@@ -197,6 +216,10 @@ function Account() {
                   type="password"
                   placeholder="Enter your new password"
                   variant="outlined"
+                  value={newPassword}
+                  onChange={(e) => {
+                    setNewPassword(e.target.value);
+                  }}
                 />
               </div>
 
@@ -208,6 +231,10 @@ function Account() {
                   type="password"
                   placeholder="Enter your new password"
                   variant="outlined"
+                  value={confirmPassword}
+                  onChange={(e) => {
+                    setConfirmPassword(e.target.value);
+                  }}
                 />
               </div>
             </Box>
@@ -223,7 +250,12 @@ function Account() {
             <Button sx={saveButtonStyle} onClick={handleSubmit}>
               Save
             </Button>
-            <Button sx={cancelButtonStyle} onClick={handleCancel} variant="outlined" color="black">
+            <Button
+              sx={cancelButtonStyle}
+              onClick={handleCancel}
+              variant="outlined"
+              color="black"
+            >
               Cancel
             </Button>
           </Box>

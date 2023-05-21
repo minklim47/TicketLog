@@ -5,7 +5,7 @@ import ticket1 from "../assets/ticket/ticket2-black.png";
 
 function Ticket({selectedStyle, title, cinema, seat, time, date }) {
 
-  console.log(time)
+  // console.log(time)
   const formattedTime = time.toString().split(" ")[4].substring(0,5)
   return (
    

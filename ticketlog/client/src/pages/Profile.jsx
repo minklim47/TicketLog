@@ -13,11 +13,11 @@ import React, { useEffect, useState } from "react";
 import { NavLink, useParams, useLocation } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
-import profilePic from '../assets/fin.jpeg'
+import profilePic from "../assets/fin.jpeg";
 
-function Profile({onSignOut}) {
+function Profile({ onSignOut }) {
   const [open, setOpen] = React.useState(false);
-
+  const [profilePicture, setProfilePicture] = useState("");
   const [userData, setUserData] = useState({});
   const handleClickOpen = () => {
     setOpen(true);
@@ -34,7 +34,9 @@ function Profile({onSignOut}) {
     const userToken = Cookies.get("user");
     if (userToken !== undefined && userToken !== "undefined") {
       instance
-        .get(`http://localhost:4000/user/${userId}`, { headers: { Authorization: `Bearer ${userToken}` } })
+        .get(`http://localhost:4000/user/${userId}`, {
+          headers: { Authorization: `Bearer ${userToken}` },
+        })
         .then((res) => {
           // console.log(res.data)
           setUserData(res.data);
@@ -45,6 +47,20 @@ function Profile({onSignOut}) {
     }
   }, [userId]);
 
+  // useEffect(() => {
+  //   const userToken = Cookies.get("user");
+
+  //   instance
+  //     .get(`/user/profile/{${userId}}`, {
+  //       headers: { Authorization: `Bearer ${userToken}` },
+  //     })
+  //     .then((response) => {
+  //       setProfilePicture(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, [userId]);
   return (
     <Box
       className="flex-container"
@@ -68,7 +84,11 @@ function Profile({onSignOut}) {
             flexDirection: "column",
           }}
         >
-          <Button sx={navButtonStyle} component={NavLink} to={`/profile/${userId}/edit`}>
+          <Button
+            sx={navButtonStyle}
+            component={NavLink}
+            to={`/profile/${userId}/edit`}
+          >
             Account
           </Button>
           <Button sx={navButtonStyle} onClick={handleClickOpen}>
@@ -136,7 +156,7 @@ function Profile({onSignOut}) {
           />
           <Box sx={{ margin: "20px 0", textAlign: "center" }}>
             <h4 style={infoStyle}>{userData.name}</h4>
-            <h4 style={infoStyle}>{"@"+userData.location}</h4>
+            <h4 style={infoStyle}>{"@" + userData.location}</h4>
             <h4 style={infoStyle}>1Y 2M </h4>
           </Box>
         </Box>
