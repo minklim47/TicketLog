@@ -8,19 +8,13 @@ import Typography from "@mui/material/Typography";
 import { TextField } from "@mui/material";
 import axios from "axios";
 import Cookies from "js-cookie";
-function ShowNote({ open, setOpen, onSubmit, initialNote }) {
-  const [note, setNote] = useState(initialNote)
+function ShowNote({ open, setOpen, note }) {
+  //   const [note, setNote] = useState(initialNote)
 
   // const instance = axios.create({
   //   withCredentials: true,
   // });
   const handleClose = () => setOpen(false);
-
-  const handleSubmit = () => {
-    onSubmit(note)
-    setOpen(false)
-
-  }
 
   return (
     <div>
@@ -40,10 +34,8 @@ function ShowNote({ open, setOpen, onSubmit, initialNote }) {
       >
         <Fade in={open}>
           <Box sx={modalStyle}>
-
-            <TextField
+            {/* <TextField
               id="outlined-multiline-static"
-  
               multiline
               rows={1}
               placeholder="Note Title"
@@ -52,10 +44,35 @@ function ShowNote({ open, setOpen, onSubmit, initialNote }) {
               onChange={(e) => setNote((prevState) => ({
                 ...prevState, title: e.target.value
               }))}
-            />
-            <TextField
+            /> */}
+            <Box style={{ overflow: "auto" }}>
+              <Typography
+                sx={{
+                  width: "100%",
+                  marginBottom: "20px",
+                  wordWrap: "break-word",
+                  whiteSpace: "normal",
+                }}
+                variant="h6"
+              >
+                {note.title}
+              </Typography>
+            </Box>
+            <Box style={{maxHeight:"350px", overflow: "auto" }}>
+              <Typography
+                sx={{
+                  width: "100%",
+                  marginBottom: "20px",
+                  wordWrap: "break-word",
+                  whiteSpace: "normal",
+                }}
+                variant="p"
+              >
+                {note.content}
+              </Typography>
+            </Box>
+            {/* <TextField
               id="outlined-multiline-static"
-  
               multiline
               minRows={4}
               maxRows={12}
@@ -65,19 +82,7 @@ function ShowNote({ open, setOpen, onSubmit, initialNote }) {
               onChange={(e) => setNote((prevState) => ({
                 ...prevState, content: e.target.value
               }))}
-            />
-            
-            <Box
-              className="flex-container"
-              sx={{ margin: "0 auto", justifyContent: "flex-end" }}
-            >
-              <Button sx={saveButtonStyle} type="submit" onClick={handleSubmit}>
-                Save
-              </Button>
-              <Button sx={cancelButtonStyle} variant="outlined" color="black" onClick={handleClose}>
-                Cancel
-              </Button>
-            </Box>
+            /> */}
           </Box>
         </Fade>
       </Modal>
@@ -93,32 +98,10 @@ const modalStyle = {
   borderRadius: "10px",
   boxShadow: 24,
   p: 4,
-  width: "70%",
-  minWidth: "290px",
-  maxWidth: "700px",
+  minWidth: "300px",
+  maxWidth: "710px",
+  minHeight: "300px",
+  maxHeight: "500px",
 };
-const saveButtonStyle = {
-  textTransform: "none",
-  fontSize: 14,
-  width: "120px",
-  height: "30px",
-  bgcolor: "black.main",
-  color: "white.main",
-  margin: "30px 20px 10px 0",
-  "&:hover": {
-    backgroundColor: "black.dark",
-  },
-};
-const cancelButtonStyle = {
-  textTransform: "none",
-  fontSize: 14,
-  width: "120px",
-  height: "30px",
-  borderColor: "black.main",
-  color: "black.main",
-  margin: "30px 0 10px 0",
-  "&:hover": {
-    backgroundColor: "black.light",
-  },
-};
+
 export default ShowNote;

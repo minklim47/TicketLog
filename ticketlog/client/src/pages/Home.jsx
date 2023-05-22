@@ -79,14 +79,11 @@ function Home() {
         console.log(err);
       });
   };
-  const fetchNote = async () => {
-    // const
-  };
+  
   const handleClick = (ticketId) => {
     localStorage.setItem("ticketId", ticketId);
     navigate(`/Ticket/${ticketId}`);
   };
-  const handleNoteClick = (ticketId) => {};
   const handleSearch = (searchTerm) => {
     const filteredTickets = tickets.filter((ticket) =>
       ticket.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -95,6 +92,8 @@ function Home() {
     setSortedTickets(filteredTickets);
   };
 
+  // const handleNoteClick = (ticketId) => {};
+  const [isHome, setIsHome] = useState(true);
   return (
     <Container
       className="flex-container"
@@ -145,6 +144,7 @@ function Home() {
           <Ticket
             key={ticket.id}
             ticket={ticket}
+            isHome={isHome}
             onClick={() => {
               handleClick(ticket.id);
             }}

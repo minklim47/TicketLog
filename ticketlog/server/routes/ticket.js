@@ -78,7 +78,6 @@ router.post("/", auth, (req, res) => {
     isPrivate,
     userId,
   ];
-  let ticketId = -1;
   connection.query(insertTicket, values, (err, results) => {
     if (err) {
       return res.json({
@@ -120,18 +119,11 @@ router.post("/", auth, (req, res) => {
 router.patch("/:ticketId", auth, (req, res) => {
   const ticketId = req.params.ticketId;
   const updates = req.body.ticket;
-  // console.log(updates.date)
+  const note = req.body.note;
   const formattedDate = updates.date.split("T")[0];
-  //   const formattedTime = new Date(updates.time)
-  //   console.log(ticketId)
-  //   console.log(updates.title)
-  //   console.log(updates)
-  //   console.log(updates.title)
-  // console.log("hello")
-  sqlUpdate =
-    // "UPDATE tickets SET title=?, date=?,time=?,cinema=?,seat=?,style=?,is_private=? WHERE id = ?";
-    "UPDATE tickets SET title=?,date=?,time=?,cinema=?,seat=?,style=?,is_private=? WHERE id = ?";
 
+  sqlUpdate =
+    "UPDATE tickets SET title=?,date=?,time=?,cinema=?,seat=?,style=?,is_private=? WHERE id = ?";
   connection.query(
     sqlUpdate,
     [
@@ -154,12 +146,21 @@ router.patch("/:ticketId", auth, (req, res) => {
         });
       } else {
         console.log(`Ticket ${ticketId} updated successfully`);
-        res.json({
-          success: true,
-          data: {
-            id: ticketId,
-          },
-          error: null,
+        sqlUpdate = "UPDATE notes SET title=?,content=? WHERE ticket_id = ?";
+        connection.query(sqlUpdate, [note.title, note.content,ticketId], (err, results) => {
+          if (err) {
+            console.log(err);
+            res.json({
+              success: false,
+              data: null,
+              error: err.message,
+            });
+          } else {
+            res.json({
+              success: true,
+              message:"ticket and note update successful"
+            })
+          }
         });
       }
     }

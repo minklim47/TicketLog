@@ -1,7 +1,5 @@
 import { Box, Container, Typography } from "@mui/material";
 import React from "react";
-import SearchMovie from "../components/SearchMovie";
-import YearCollection from "../components/YearCollection";
 
 function Community() {
   return (
@@ -14,7 +12,7 @@ function Community() {
         marginTop:"100px"
       }}
     >
-      <Container sx={{
+      {/* <Container sx={{
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -25,7 +23,9 @@ function Community() {
       </Container>
       <Box>
         <YearCollection/>
-      </Box>
+      
+      </Box> */}
+        <Typography sx={{alignSelf:"center"}} variant="h1">COMING SOON...</Typography>
     </Container>
   );
 }

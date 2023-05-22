@@ -10,57 +10,102 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useFetcher, useNavigate } from "react-router-dom";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import EditIcon from "@mui/icons-material/Edit";
 import { CheckBox } from "@mui/icons-material";
 import "../styles/Ticket.css";
 
 import TicketForEdit from "../components/TicketForEdit";
 import axios from "axios";
 import Cookies from "js-cookie";
+import EditNote from "../components/EditNote";
 
 function EditTicket() {
-  const [ticket, setTicket] = useState(null);
-//   const [title, setTitle] = useState("");
-//   const [cinema, setCinema] = useState("");
-//   const [seat, setSeat] = useState("");
-//   const [date, setDate] = useState(new Date());
-//   const [time, setTime] = useState(new Date());
-//   const [isPrivate, setIsPrivate] = useState(false);
+  const instance = axios.create({
+    withCredentials: true,
+  });
+  const [ticket, setTicket] = useState({});
+  const [note, setNote] = useState({title:"",content:""});
+  const [open, setOpen] = useState(false);
 
-//   const [selectedStyle, setSelectedStyle] = useState("style-1");
   const handleStyleChange = (event) => {
-    setTicket( (prevState) => ({
-        ...prevState,
-        style: event.target.value,
-      }));
-   
+    setTicket((prevState) => ({
+      ...prevState,
+      style: event.target.value,
+    }));
   };
   const styleOptions = [
     { value: "style-1", label: "1" },
     { value: "style-2", label: "2" },
     { value: "style-3", label: "3" },
   ];
-
-  const instance = axios.create({
-    withCredentials: true,
-  });
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
   const ticketId = localStorage.getItem("ticketId");
   const userToken = Cookies.get("user");
 
+  const handleTitleChange = (event) => {
+    setTicket((prevState) => ({
+      ...prevState,
+      title: event.target.value.substring(0, 18),
+    }));
+  };
+  const handleCinemaChange = (event) => {
+    setTicket((prevState) => ({
+      ...prevState,
+      cinema: event.target.value.substring(0, 10),
+    }));
+  };
+  const handleSeatChange = (event) => {
+    setTicket((prevState) => ({
+      ...prevState,
+      seat: event.target.value.substring(0, 3),
+    }));
+  };
+  const handleDateChange = (event) => {
+    setTicket((prevState) => ({
+      ...prevState,
+      date: new Date(event.target.value),
+    }));
+  };
+  const handleTimeChange = (event) => {
+    const [hours, minutes] = event.target.value.split(":");
+
+    const formattedTime = hours + ":" + minutes;
+    // console.log(formattedTime);
+
+    setTicket((prevState) => ({
+      ...prevState,
+      time: formattedTime,
+    }));
+  };
   useEffect(() => {
     instance
       .get(`http://localhost:4000/ticket/${ticketId}`, {
         headers: { Authorization: `Bearer ${userToken}` },
       })
       .then((res) => {
-        console.log(res.data[0])
+        console.log(res.data[0]);
         setTicket(res.data[0]);
         setIsLoading(false);
       });
   }, []);
+  useEffect(() => {
+    instance
+      .get(`http://localhost:4000/note/${ticketId}`, {
+        headers: { Authorization: `Bearer ${userToken}` },
+      })
+      .then((res) => {
+        // console.log(res.data.note);
+        setNote(res.data.note);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },[])
+
   const [isLoading, setIsLoading] = useState(true);
 
   if (isLoading) {
@@ -74,25 +119,12 @@ function EditTicket() {
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
-    // console.log(ticket)
-
-
-    // console.log(ticket.date)
-    console.log(ticket.time)
-
     instance
       .patch(
         `http://localhost:4000/ticket/${ticketId}`,
         {
-        //   title: ticket.title,
-        //   date: ticket.date,
-        //   time: ticket.time,
-        //   cinema: ticket.cinema,
-        //   seat: ticket.seat,
-        //   selectedStyle: ticket.style,
-        //   isPrivate: ticket.is_private,
-        //   userId: ticket.user_id,
-        ticket:ticket
+          ticket: ticket,
+          note: note
         },
         config
       )
@@ -105,10 +137,16 @@ function EditTicket() {
       });
   };
   const handleCancel = () => {
-    navigate(`/Home/${userId}`);
+    navigate(`/Ticket/${ticketId}`);
   };
   const validateForm = () => {
-    const fields = [ticket.title, ticket.cinema, ticket.seat, ticket.date.toString(), ticket.time.toString()];
+    const fields = [
+      ticket.title,
+      ticket.cinema,
+      ticket.seat,
+      ticket.date.toString(),
+      ticket.time.toString(),
+    ];
     for (const field of fields) {
       if (!field || !field.trim()) {
         console.log("Please fill all the fields");
@@ -118,50 +156,34 @@ function EditTicket() {
     return true;
   };
 
-  const handleTitleChange = (event) => {
-    // setTicket( event.target.value.substring(0, 18));
-    setTicket((prevState) => ({
-        ...prevState,
-        title: event.target.value.substring(0, 18),
-      }));
-  };
-  const handleCinemaChange = (event) => {
-    setTicket((prevState) => ({
-        ...prevState,
-        cinema: event.target.value.substring(0, 10),
-      }));
-  };
-  const handleSeatChange = (event) => {
-    setTicket((prevState) => ({
-        ...prevState,
-        seat: event.target.value.substring(0, 3),
-      }));
-  };
-  const handleDateChange = (event) => {
-    setTicket((prevState) => ({
-        ...prevState,
-        date: new Date(event.target.value),
-      }))
-  };
-  const handleTimeChange = (event) => {
-    const [hours, minutes] = event.target.value.split(":");
-    // const newTime = new Date();
-    // newTime.setHours(hours);
-    // newTime.setMinutes(minutes);
-    const formattedTime = hours+":"+minutes
-    console.log(formattedTime)
-    // setTime(formattedTime);
-    setTicket((prevState) => ({
-        ...prevState,
-        time: formattedTime,
-      }));
-  };
   const handleIsPrivateChange = (event) => {
     setTicket((prevState) => ({
-        ...prevState,
-        is_private: !ticket.is_private,
-      }));
+      ...prevState,
+      is_private: !ticket.is_private,
+    }));
     console.log(event.target.value);
+  };
+
+
+
+  const handleEditNote = () => {
+    // instance
+    //   .get(`http://localhost:4000/note/${ticketId}`, {
+    //     headers: { Authorization: `Bearer ${userToken}` },
+    //   })
+    //   .then((res) => {
+    //     console.log(res.data.note);
+    //     setNote(res.data.note);
+    //     setIsLoading(false);
+    //     setOpen(true);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    setOpen(true);
+  };
+  const handleNoteSubmit = (note) => {
+    setNote(note);
   };
 
   return (
@@ -186,7 +208,7 @@ function EditTicket() {
         >
           <ArrowBackIcon />
         </IconButton>
-        <h1 style={{ textAlign: "center", flexGrow: "1" }}>Create Ticket</h1>
+        <h1 style={{ textAlign: "center", flexGrow: "1" }}>Edit Ticket</h1>
         <IconButton sx={{ visibility: "hidden" }}>
           <ArrowBackIcon />
         </IconButton>
@@ -289,14 +311,14 @@ function EditTicket() {
                   size="small"
                   type="date"
                   variant="outlined"
-                //   value={
-                //     date.getDate() +
-                //     "-" +
-                //     parseInt(date.getMonth() + 1) +
-                //     "-" +
-                //     date.getFullYear()
-                //   }
-                value={ticket.date}
+                  //   value={
+                  //     date.getDate() +
+                  //     "-" +
+                  //     parseInt(date.getMonth() + 1) +
+                  //     "-" +
+                  //     date.getFullYear()
+                  //   }
+                  value={ticket.date}
                   onChange={handleDateChange}
                   required
                 />
@@ -308,8 +330,8 @@ function EditTicket() {
                   size="small"
                   type="time"
                   variant="outlined"
-                //   value={time.toTimeString().substr(0, 5)}
-                value={ticket.time.substring(0,5)}
+                  //   value={time.toTimeString().substr(0, 5)}
+                  value={ticket.time.substring(0, 5)}
                   onChange={handleTimeChange}
                   required
                 />
@@ -346,9 +368,20 @@ function EditTicket() {
             </Box>
           </form>
 
-          {/* ====== Add note button ======= */}
-          <Button endIcon={<AddCircleIcon />} sx={addButtonStyle}>
-            Add Note
+          {/* ====== Edit note button ======= */}
+          {open ? (
+            <EditNote
+              onClick={handleEditNote}
+              open={open}
+              setOpen={setOpen}
+              onSubmit={handleNoteSubmit}
+              initialNote={note}
+            />
+          ) : (
+            ""
+          )}
+          <Button endIcon={<EditIcon />} sx={addButtonStyle} onClick={handleEditNote}>
+            Edit Note
           </Button>
           {/* ====== checkbox ======= */}
           <Box sx={{ marginLeft: "10px " }}>

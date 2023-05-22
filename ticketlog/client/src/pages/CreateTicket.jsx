@@ -107,8 +107,7 @@ function CreateTicket() {
     setOpen(true);
   };
 
-  const [noteTitle, setNoteTitle] = useState("");
-  const [noteContent, setNoteContent] = useState("");
+
   const [note, setNote] = useState({title:"", content:""});
 
   const handleNoteSubmit = (note) => {

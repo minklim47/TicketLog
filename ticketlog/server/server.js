@@ -41,12 +41,14 @@ app.listen(port, () => {
 const authRoute = require('./routes/auth');
 const userRoute = require('./routes/User');
 const ticketRoute = require('./routes/ticket');
-// const noteRoute = require('./routes/note')
+const noteRoute = require('./routes/note')
+const collectionRoute = require('./routes/collection')
 
 app.use("/auth", authRoute)
 app.use("/user", userRoute)
 app.use("/ticket", ticketRoute)
-// app.use("/note", noteRoute)
+app.use("/note", noteRoute)
+app.use("/collection", collectionRoute)
 
 app.get("/", (req, res) => {
   res.send("hello mink");

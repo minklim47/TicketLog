@@ -54,6 +54,7 @@
   flex-direction: column;
   width: 250px;
   height: 200px;
+  position: relative
 }
 .style-1 .title {
   font-size: 26px;
@@ -73,6 +74,14 @@
   align-self: flex-end;
   margin: 10px 15px 0 0;
 }
+/* .style-1 .note {
+  position: absolute;
+
+  bottom:15px;
+  right: 15px;
+  color: #FFFFFF;
+} */
+
 
 /*=========== ticket style 2 ==============*/
 

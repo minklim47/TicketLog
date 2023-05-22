@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import { TextField } from "@mui/material";
 import axios from "axios";
 import Cookies from "js-cookie";
-function CreateNote({ open, setOpen, onSubmit, initialNote }) {
+function EditNote({ open, setOpen, onSubmit, initialNote }) {
   const [note, setNote] = useState(initialNote)
 
   // const instance = axios.create({
@@ -43,7 +43,7 @@ function CreateNote({ open, setOpen, onSubmit, initialNote }) {
 
             <TextField
               id="outlined-multiline-static"
-              
+  
               multiline
               rows={1}
               placeholder="Note Title"
@@ -53,7 +53,7 @@ function CreateNote({ open, setOpen, onSubmit, initialNote }) {
                 ...prevState, title: e.target.value
               }))}
               inputProps={{
-                maxLength: 65,
+                maxLength: 100,
               }}
             />
             <TextField
@@ -68,6 +68,9 @@ function CreateNote({ open, setOpen, onSubmit, initialNote }) {
               onChange={(e) => setNote((prevState) => ({
                 ...prevState, content: e.target.value
               }))}
+              inputProps={{
+                // maxLength: 65,
+              }}
             />
             
             <Box
@@ -124,4 +127,4 @@ const cancelButtonStyle = {
     backgroundColor: "black.light",
   },
 };
-export default CreateNote;
+export default EditNote;

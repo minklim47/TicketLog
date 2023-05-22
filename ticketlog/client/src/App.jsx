@@ -79,7 +79,7 @@ function App() {
             <Routes>
               <Route exact path="/Home/:userId" element={<Home />} />
               <Route path="/Community" element={<Community />} />
-              <Route path="/Collection" element={<Collection />} />
+              <Route path="/Collection/:userId" element={<Collection />} />
               <Route
                 path="/Profile/:userId"
                 element={<Profile onSignOut={onSignOut} />}

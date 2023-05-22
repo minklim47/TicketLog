@@ -1,14 +1,40 @@
 import { Box, Card, CardContent, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import StickyNote2Icon from "@mui/icons-material/StickyNote2";
 import zIndex from "@mui/material/styles/zIndex";
-function Ticket({ ticket, onClick, onNoteClick }) {
+import ShowNote from "./ShowNote";
+import axios from "axios"
+import Cookies from "js-cookie";
+function Ticket({ ticket, onClick, isHome }) {
+  const instance = axios.create({
+    withCredentials: true,
+  });
+  const [open, setOpen] = useState(false);
+  const [note, setNote] = useState({});
   const handleClick = () => {
-    onClick();
+    if (isHome) {
+      onClick();
+    }
   };
-  const handleClickNote = () => {
-    onNoteClick();
-  }
+  // const userId = localStorage.getItem("userId");
+  const ticketId = localStorage.getItem("ticketId");
+  const userToken = Cookies.get("user");
+  const handleNoteClick = async () => {
+    setOpen(true);
+    if (!isHome) {
+      await instance
+        .get(`http://localhost:4000/note/${ticketId}`, {
+          headers: { Authorization: `Bearer ${userToken}` },
+        })
+        .then((res) => {
+          console.log(res);
+          setNote(res.data.note)
+        });
+    }
+  };
+  // if (isLoading){
+  //   return <div>hello</div>
+  // }
   return (
     <Card className={ticket.style} sx={ticketStyle}>
       <div className="container" onClick={handleClick}>
@@ -44,8 +70,8 @@ function Ticket({ ticket, onClick, onNoteClick }) {
             </div>
           </div>
         </div>
-
-        <StickyNote2Icon className="note" onClick={handleClickNote}/>
+        <ShowNote open={open} setOpen={setOpen} note={note}/>
+         <StickyNote2Icon className="note" onClick={handleNoteClick} />
       </div>
     </Card>
   );

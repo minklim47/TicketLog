@@ -7,6 +7,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ShowNote from "../components/ShowNote";
 
 function ShowTicket() {
   const [ticket, setTicket] = useState([]);
@@ -14,11 +15,11 @@ function ShowTicket() {
   const instance = axios.create({
     withCredentials: true,
   });
-  const userId = localStorage.getItem("userId");
   const handleClick = (ticketId) => {
     localStorage.setItem("ticketId", ticketId);
     navigate(`/Ticket/${ticketId}`);
   };
+  const userId = localStorage.getItem("userId");
   const ticketId = localStorage.getItem("ticketId");
   const userToken = Cookies.get("user");
 
@@ -26,7 +27,6 @@ function ShowTicket() {
     fetchTicket();
   }, []);
   const fetchTicket = async () => {
-
     await instance
       .get(`http://localhost:4000/ticket/${ticketId}`, {
         headers: { Authorization: `Bearer ${userToken}` },
@@ -40,13 +40,17 @@ function ShowTicket() {
       });
   };
   const handleEdit = () => {
-    navigate(`/EditTicket/${ticketId}/edit`)
-  }
+    navigate(`/EditTicket/${ticketId}/edit`);
+  };
   const handleDelete = () => {
-    instance.delete(`http://localhost:4000/ticket/${ticketId}`,
-     { headers: { Authorization: `Bearer ${userToken}`} })
-    navigate(`/Home/${userId}`)
-  }
+    instance.delete(`http://localhost:4000/ticket/${ticketId}`, {
+      headers: { Authorization: `Bearer ${userToken}` },
+    });
+    navigate(`/Home/${userId}`);
+  };
+  
+
+  const [isHome, setIsHome] = useState(false);
   return (
     <Box
       className="flex-container"
@@ -77,16 +81,23 @@ function ShowTicket() {
           <Ticket
             key={ticket[0].id}
             ticket={ticket[0]}
+            isHome={isHome}
             onClick={() => {
               handleClick(ticket[0].id);
             }}
           />
         )}
       </Box>
-      <Button sx={editButtonStyle} type="submit" endIcon={<ModeEditIcon />}
-      onClick={handleEdit}>
+      
+      <Button
+        sx={editButtonStyle}
+        type="submit"
+        endIcon={<ModeEditIcon />}
+        onClick={handleEdit}
+      >
         Edit ticket
       </Button>
+  
       <Button
         sx={cancelButtonStyle}
         variant="outlined"

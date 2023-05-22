@@ -73,7 +73,7 @@ function Nav() {
           </Button>
           <Button
             component={NavLink}
-            to="/Collection"
+            to={`/Collection/${userId}`}
             color="inherit"
             sx={navButtonStyle}
           >
