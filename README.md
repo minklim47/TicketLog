@@ -1,10 +1,45 @@
 # TicketLog
 
-##Description
 TicketLog is the place where you collect all your movie tickets in form of electronic movie tickets with options for styles and notes of your choice. 
 
-To run the frontend and backend
+## To run the frontend and backend
 
-1.ticketlog/client -> npm run dev
-2.ticketlog/server -> nodemon server.js
+Frontend -> ticketlog/client 
+```bash
+  npm run dev
+```
+Backend -> ticketlog/server
+```bash
+  nodemon server.js
+```
+
+## All the following responds will be wrapped with this data before sending
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `success` | `boolean` | status of request|
+| `message` | `string` | message for each request |
+| `data` | `JSON` | the actual data|
+
+
+
+## API endpoints
+### Login
+URL
+```http
+  POST /auth/login
+```
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `email` | `string` | email address |
+| `password` | `string` | password must be at least 8 characters with uppercase letter, lowercase letter and number. |
+
+Example
+```javascript
+{
+  email: "minklim47@gmail.com",
+  password: "Password12300"
+}
+```
+
 
