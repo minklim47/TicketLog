@@ -26,9 +26,9 @@ Backend -> ticketlog/server
 ## API endpoints
 ### Login
 URL
-```
+`
   POST /auth/login
-```
+`
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | `email` | `string` | email address |
