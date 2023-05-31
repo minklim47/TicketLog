@@ -36,7 +36,7 @@ POST /auth/login
 | `password` | `string` | password must be at least 8 characters with uppercase letter, lowercase letter and number. |
 
 Example
-```javascript
+```
 {
   email: "minklim47@gmail.com",
   password: "Password12300"
