@@ -2,6 +2,24 @@
 
 TicketLog is the place where you collect all your movie tickets in form of electronic movie tickets with options for styles and notes of your choice. 
 
+## Features
+
+| Feature | Description                |
+| :-------- | :------------------------- |
+| `login/register` | register and login to the website|
+| `update profile` | edit account data |
+| `show all tickets` | show all the tickets of logged in user in the home page |
+| `view ticket and note` | view a ticket detail and note of a ticket |
+| `sort` | sort the shown tickets by created date, alphabet, ticket date |
+| `search` | search the name of ticket |
+| `create ticket` | create a ticket with information and choose ticket style |
+| `create note` | create a note of a ticket |
+| `update ticket and note` | edit the detail of ticket and note |
+| `delete ticket` | delete a ticket |
+| `show collection` | show the collection of tickets by year |
+
+
+
 ## To run the frontend and backend
 
 Frontend -> ticketlog/client 
@@ -225,7 +243,7 @@ Response
 URL
 
 `
-POST /ticket/home/:userId
+GET /ticket/home/:userId
 `
 
 #### Request Body
@@ -239,7 +257,7 @@ POST /ticket/home/:userId
 
 Response
 
-`200` login successful
+`200` get tickets successful
 
 in the data there is an array of object with properties below:
 | Parameter | Type     | Description                |
@@ -248,8 +266,8 @@ in the data there is an array of object with properties below:
 | `title` | `string` | ticket title|
 | `cinema` | `string` | cinema |
 | `seat` | `string` | seat number|
-| `date` | `date` | ticket date|
-| `time` | `time` | ticket time|
+| `date` | `string` | ticket date|
+| `time` | `string` | ticket time|
 | `movie_id` | `int` | id of a movie associated with the ticket|
 | `is_private` | `boolean` | the visibility of the ticket|
 | `created_at` | `datetime` | datetime the ticket is created at |
@@ -262,20 +280,228 @@ Example
 ```
 {
     {
-        cinema: "aff"
-        created_at: "2023-06-01T08:43:01.000Z"
-        date: "2023-05-31T17:00:00.000Z"
-        id: 60
-        is_private: 0
-        movie_id: null
-        seat: "asf"
-        style: "style-1"
-        time: "08:42:57"
-        title: "sfaf"
+        cinema: "aff",
+        created_at: "2023-06-01T08:43:01.000Z",
+        date: "2023-05-31T17:00:00.000Z",
+        id: 60,
+        is_private: 0,
+        movie_id: null,
+        seat: "asf",
+        style: "style-1",
+        time: "08:42:57",
+        title: "sfaf",
         user_id: 56
     }
   
 }
 ```
 
+### Get infomation of a ticket
+
+URL
+
+`
+GET /ticket/:ticketId
+`
+
+#### Request Body
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `ticketId` | `int` | ticket id |
+
+
+#### Success
+
+Response
+
+`200` get ticket successful
+
+in the data there is an array of object with properties below:
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `id` | `int` | ticket id |
+| `title` | `string` | ticket title|
+| `cinema` | `string` | cinema |
+| `seat` | `string` | seat number|
+| `date` | `string` | ticket date|
+| `time` | `string` | ticket time|
+| `movie_id` | `int` | id of a movie associated with the ticket|
+| `is_private` | `boolean` | the visibility of the ticket|
+| `created_at` | `datetime` | datetime the ticket is created at |
+| `style` | `string` | style of a ticket|
+| `user_id` | `int` | user id of ticket's owner|
+
+
+Example
+
+```
+{
+    cinema: "aff",
+    created_at: "2023-06-01T08:43:01.000Z",
+    date: "2023-05-31T17:00:00.000Z",
+    id: 60,
+    is_private: 0,
+    movie_id: null,
+    seat: "asf",
+    style: "style-1",
+    time: "08:42:57",
+    title: "sfaf",
+    user_id: 56
+}
+```
+
+### Create a ticket
+
+URL
+
+`
+POST /ticket/
+`
+
+#### Request Body
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `title` | `string` | ticket title|
+| `cinema` | `string` | cinema |
+| `seat` | `string` | seat number|
+| `date` | `string` | ticket date|
+| `time` | `string` | ticket time|
+| `isPrivate` | `boolean` | the visibility of the ticket|
+| `selectedStyle` | `string` | style of a ticket|
+| `userId` | `int` | user id of ticket's owner|
+| `note` | `int` | note object of the ticket|
+
+body of `note`
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `title` | `string` | note title|
+| `content` | `string` | note content |
+
+#### Success
+
+Response
+
+`200` create ticket successful
+
+in the data there is an array of object with properties below:
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `ticketId` | `int` | ticket id |
+| `noteId` | `int` | note id|
+
+Example
+
+```
+{
+    ticketId: 1,
+    noteId: 1
+}
+```
+
+### Edit a ticket
+
+URL
+
+`
+PATCH /ticket/:ticketId
+`
+
+#### Request Body
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `ticketId` | `int` | ticket id|
+| `updates` | `object` | object of updated ticket properties|
+| `note` | `object` | object of updated note properties |
+
+body of `updates`
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `title` | `string` | ticket title|
+| `cinema` | `string` | cinema |
+| `seat` | `string` | seat number|
+| `date` | `string` | ticket date|
+| `time` | `string` | ticket time|
+| `isPrivate` | `boolean` | the visibility of the ticket|
+| `selectedStyle` | `string` | style of a ticket|
+
+body of `note`
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `title` | `string` | note title |
+| `content` | `string` | note content |
+| `ticketId` | `int` | ticket id |
+
+#### Success
+
+Response
+
+`200` ticket and note update successful"
+
+
+### Delete a ticket
+
+URL
+
+`
+DELETE /ticket/:ticketId
+`
+
+#### Request Body
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `ticketId` | `int` | ticket id |
+
+
+#### Success
+
+Response
+
+`200` ticket id ${ticketId} deleted successful
+
+### Get note of the ticket
+
+URL
+
+`
+GET /note/:ticketId
+`
+
+#### Request Body
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `ticketId` | `int` | ticket id |
+
+
+#### Success
+
+Response
+
+`200` get note of ticket ${ticketId} successful
+
+in the data there is an array of object with properties below:
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `id` | `int` | note id|
+| `title` | `string` | note title|
+| `content` | `string` | note content |
+| `ticket_id` | `string` | ticket id |
+
+Example
+
+```
+{
+    id: 20,
+    title: "The best movie ever!" 
+    content: "This movie deserve an oscar, yes, the movie I'm talking about is เสือเผ่น๑",
+    ticket_id: 61
+}
+```
 
