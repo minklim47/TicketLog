@@ -248,8 +248,8 @@ in the data there is an array of object with properties below:
 | `title` | `string` | ticket title|
 | `cinema` | `string` | cinema |
 | `seat` | `string` | seat number|
-| `date` | `string` | ticket date|
-| `time` | `string` | ticket time|
+| `date` | `date` | ticket date|
+| `time` | `time` | ticket time|
 | `movie_id` | `int` | id of a movie associated with the ticket|
 | `is_private` | `boolean` | the visibility of the ticket|
 | `created_at` | `datetime` | datetime the ticket is created at |
