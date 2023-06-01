@@ -55,12 +55,12 @@ function CreateTicket() {
           selectedStyle: selectedStyle,
           isPrivate: isPrivate,
           userId: userId,
-          note: note
+          note: note,
         },
         config
       )
       .then((res) => {
-        console.log(res);
+        console.log(res.data.data);
         navigate(`/Home/${userId}`);
       })
       .catch((err) => {
@@ -107,12 +107,11 @@ function CreateTicket() {
     setOpen(true);
   };
 
-
-  const [note, setNote] = useState({title:"", content:""});
+  const [note, setNote] = useState({ title: "", content: "" });
 
   const handleNoteSubmit = (note) => {
     setNote(note);
-  }
+  };
 
   const validateForm = () => {
     const fields = [title, cinema, seat, date.toString(), time.toString()];

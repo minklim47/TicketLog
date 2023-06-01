@@ -22,6 +22,11 @@ import SignUp from "./pages/SignUp";
 import ForgotPassword from "./pages/ForgotPassword";
 import ShowTicket from "./pages/ShowTicket";
 import EditTicket from "./pages/EditTicket";
+import axios from "axios";
+
+const instance = axios.create({
+  withCredentials: true,
+});
 
 function App() {
   const theme = createTheme({
@@ -62,8 +67,10 @@ function App() {
   function onSignOut() {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
+
     checkAuthentication();
   }
+
   function onSignIn() {
     checkAuthentication();
   }
@@ -85,7 +92,10 @@ function App() {
                 element={<Profile onSignOut={onSignOut} />}
               />
               <Route path="/CreateTicket" element={<CreateTicket />} />
-              <Route path="/EditTicket/:ticketId/edit" element={<EditTicket />} />
+              <Route
+                path="/EditTicket/:ticketId/edit"
+                element={<EditTicket />}
+              />
 
               <Route path="/Profile/:userId/edit" element={<Account />} />
               <Route path="/SignIn" element={<SignIn onSignIn={onSignIn} />} />

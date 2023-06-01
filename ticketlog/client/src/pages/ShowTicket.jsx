@@ -32,8 +32,8 @@ function ShowTicket() {
         headers: { Authorization: `Bearer ${userToken}` },
       })
       .then((res) => {
-        console.log(res.data);
-        setTicket(res.data);
+        console.log(res.data.data);
+        setTicket(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -79,11 +79,11 @@ function ShowTicket() {
           <p></p>
         ) : (
           <Ticket
-            key={ticket[0].id}
-            ticket={ticket[0]}
+            key={ticket.id}
+            ticket={ticket}
             isHome={isHome}
             onClick={() => {
-              handleClick(ticket[0].id);
+              handleClick(ticket.id);
             }}
           />
         )}

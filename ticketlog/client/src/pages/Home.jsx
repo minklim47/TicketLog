@@ -67,12 +67,12 @@ function Home() {
   const userId = localStorage.getItem("userId");
   const fetchTickets = async () => {
     await instance
-      .get(`http://localhost:4000/ticket/home/${userId}`, {
+      .get(`http://localhost:4000/ticket/${userId}`, {
         headers: { Authorization: `Bearer ${userToken}` },
       })
       .then((res) => {
-        // console.log(res.data)
-        setTickets(res.data);
+        console.log(res.data.data)
+        setTickets(res.data.data);
         setSortingType("ticket_date_new");
       })
       .catch((err) => {

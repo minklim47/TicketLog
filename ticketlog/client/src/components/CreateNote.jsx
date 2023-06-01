@@ -63,7 +63,7 @@ function CreateNote({ open, setOpen, onSubmit, initialNote }) {
               minRows={4}
               maxRows={12}
               placeholder="Write your note here..."
-              sx={{width:"100%"}}
+              sx={{width:"100%", border:"1px solid white"}}
               value ={ note.content}
               onChange={(e) => setNote((prevState) => ({
                 ...prevState, content: e.target.value

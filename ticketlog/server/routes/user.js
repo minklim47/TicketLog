@@ -3,12 +3,6 @@ const router = express.Router();
 const connection = require("../db");
 const auth = require("../middleware/auth");
 const bcrypt = require("bcryptjs");
-// const multer = require('multer');
-// const path = require('path');
-
-// const upload = multer({ dest: 'uploads/' });
-
-// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 router.get("/:userId", auth, (req, res) => {
   try {
@@ -22,8 +16,17 @@ router.get("/:userId", auth, (req, res) => {
           error: err.message,
         });
       } else {
-        const userData = results[0];
-        return res.json(userData);
+        const userData = {
+          id: results[0].id,
+          name: results[0].name,
+          email: results[0].email_address,
+          location: results[0].location,
+        };
+        res.status(200).json({
+          success: true,
+          message: "get logged in user successful",
+          data: userData,
+        });
       }
     });
   } catch (err) {
@@ -33,16 +36,12 @@ router.get("/:userId", auth, (req, res) => {
 });
 
 router.patch("/:userId", auth, (req, res) => {
-  const userId = req.user.userId;
+  const userId = req.params.userId;
   const updates = req.body;
   const currentPassword = updates.currentPassword;
   const newPassword = updates.newPassword;
 
-  // console.log(userId);
-  // console.log("is going to change password");
-
   if (newPassword && currentPassword) {
-    // console.log("is going to change password");
     const sqlSelect = "SELECT * FROM users WHERE id = ?";
     connection.query(sqlSelect, [userId], async (err, results) => {
       if (err) {
@@ -57,7 +56,6 @@ router.patch("/:userId", auth, (req, res) => {
         if (num == 0) {
           return console.log("User does not exist.");
         }
-        // console.log(`User ${results[0].id} found`);
         const storedPassword = results[0].hashed_password;
         const isPasswordValid = await bcrypt.compare(
           currentPassword,
@@ -84,20 +82,13 @@ router.patch("/:userId", auth, (req, res) => {
                 error: err.message,
               });
             } else {
-              console.log("changed password");
-              res.json({
-                success: true,
-                message: "Change password successful.",
-              });
-              // console.log("Change password successful.")
+              console.log("change password successful");
             }
           }
         );
       }
     });
   }
-
-  console.log("is changing other information");
   const sqlUpdate = "UPDATE users SET name = ?, location = ? WHERE id = ?";
   connection.query(
     sqlUpdate,
@@ -111,22 +102,14 @@ router.patch("/:userId", auth, (req, res) => {
           error: err.message,
         });
       } else {
-        console.log(`User ${userId} updated successfully`);
-      
+        res.status(200).json({
+          success: true,
+          message: "change information and/or password successful",
+          data: null,
+        });
       }
     }
   );
 });
-
-// router.post("/checkpassword", auth, (req, res) => {
-//   const password = req.body.password;
-//   const userId = req.user.userId;
-//   const sqlSelect = "SELECT * users WHERE id = ?";
-//   connection.query(sqlSelect, [userId], (err, results) => {});
-// });
-
-// router.get("/profile/:userId", auth, (req, res) => {
-
-// })
 
 module.exports = router;

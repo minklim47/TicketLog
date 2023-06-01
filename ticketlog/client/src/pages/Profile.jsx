@@ -38,8 +38,8 @@ function Profile({ onSignOut }) {
           headers: { Authorization: `Bearer ${userToken}` },
         })
         .then((res) => {
-          // console.log(res.data)
-          setUserData(res.data);
+          // console.log(res.data.data)
+          setUserData(res.data.data);
         })
         .catch((err) => {
           console.log(err);

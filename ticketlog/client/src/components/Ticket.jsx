@@ -27,8 +27,8 @@ function Ticket({ ticket, onClick, isHome }) {
           headers: { Authorization: `Bearer ${userToken}` },
         })
         .then((res) => {
-          console.log(res);
-          setNote(res.data.note)
+          console.log(res.data.data);
+          setNote(res.data.data)
         });
     }
   };
@@ -82,6 +82,8 @@ const ticketStyle = {
   height: "250px",
   borderRadius: "15px",
   margin: "10px",
+  flexShrink: "0",
+
 };
 // const noteStyle = {
 

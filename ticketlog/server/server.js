@@ -42,21 +42,13 @@ const authRoute = require('./routes/auth');
 const userRoute = require('./routes/User');
 const ticketRoute = require('./routes/ticket');
 const noteRoute = require('./routes/note')
-const collectionRoute = require('./routes/collection')
 
 app.use("/auth", authRoute)
 app.use("/user", userRoute)
 app.use("/ticket", ticketRoute)
 app.use("/note", noteRoute)
-app.use("/collection", collectionRoute)
 
 app.get("/", (req, res) => {
-  res.send("hello mink");
+  res.send("hello world!");
 });
 
-app.get("/get", (req, res) => {
-  const sqlSelect = "SELECT * FROM users";
-  connection.query(sqlSelect, (err, results) => {
-    res.send(results);
-  });
-});

@@ -4,7 +4,7 @@ const connection = require("../db");
 const auth = require("../middleware/auth");
 const e = require("express");
 
-router.get("/home/:userId", auth, (req, res) => {
+router.get("/:userId", auth, (req, res) => {
   try {
     const userId = req.params.userId;
     const sqlSelect = "SELECT * FROM tickets WHERE user_id = ?";
@@ -16,7 +16,11 @@ router.get("/home/:userId", auth, (req, res) => {
           error: err.message,
         });
       } else {
-        return res.json(results);
+        return res.status(200).json({
+          success: true,
+          message: "get tickets successful",
+          data: results,
+        });
       }
     });
   } catch (err) {
@@ -38,9 +42,18 @@ router.get("/:ticketId", auth, (req, res) => {
       } else {
         numRows = results.length;
         if (numRows == 0) {
-          console.log("not found");
+          res.json({
+            success: false,
+            data: null,
+            message:"ticket does not exist."
+          })
         } else {
-          return res.json(results);
+          
+          return res.json({
+            success: true,
+            message: "get ticket successful",
+            data: results[0],
+          });
         }
       }
     });
@@ -48,6 +61,7 @@ router.get("/:ticketId", auth, (req, res) => {
     console.error(err);
   }
 });
+
 router.post("/", auth, (req, res) => {
   const {
     title,
@@ -104,8 +118,12 @@ router.post("/", auth, (req, res) => {
             res.json({
               success: true,
               message: "create ticket and note successful",
-              ticketId: note.ticketId,
-              noteId: results.insertId,
+              data:{
+                ticketId:note.ticketId,
+                noteId: results.insertId
+              }
+              // ticketId: note.ticketId,
+              // noteId: results.insertId,
             });
           }
         }
@@ -147,21 +165,26 @@ router.patch("/:ticketId", auth, (req, res) => {
       } else {
         console.log(`Ticket ${ticketId} updated successfully`);
         sqlUpdate = "UPDATE notes SET title=?,content=? WHERE ticket_id = ?";
-        connection.query(sqlUpdate, [note.title, note.content,ticketId], (err, results) => {
-          if (err) {
-            console.log(err);
-            res.json({
-              success: false,
-              data: null,
-              error: err.message,
-            });
-          } else {
-            res.json({
-              success: true,
-              message:"ticket and note update successful"
-            })
+        connection.query(
+          sqlUpdate,
+          [note.title, note.content, ticketId],
+          (err, results) => {
+            if (err) {
+              console.log(err);
+              res.json({
+                success: false,
+                data: null,
+                error: err.message,
+              });
+            } else {
+              res.status(200).json({
+                success: true,
+                message: "ticket and note update successful",
+                data: null
+              });
+            }
           }
-        });
+        );
       }
     }
   );
@@ -179,10 +202,11 @@ router.delete("/:ticketId", auth, (req, res) => {
         error: err.message,
       });
     } else {
-      console.log(`Ticket ${ticketId} deleted successfully`);
-      res.json({
+      // console.log(`Ticket ${ticketId} deleted successfully`);
+      res.status(200).json({
         success: true,
-        error: null,
+        message: `ticket id ${ticketId} deleted successful`,
+        data: null,
       });
     }
   });

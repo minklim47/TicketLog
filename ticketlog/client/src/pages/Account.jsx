@@ -38,16 +38,20 @@ function Account() {
         })
         .then((res) => {
           // console.log(res.data)
-          setUserData(res.data);
-          setName(res.data.name);
-          setEmail(res.data.email_address);
-          setLocation(res.data.location);
+          setUserData(res.data.data);
+          setName(res.data.data.name);
+          setEmail(res.data.data.email);
+          setLocation(res.data.data.location);
         })
         .catch((err) => {
           console.log(err);
         });
     }
   }, []);
+  // useEffect(() => {
+  //   navigate(`/Profile/${userId}`);
+  // }, [navigate, userId]);
+
   const handleCancel = () => {
     navigate(`/Profile/${userId}`);
   };
@@ -92,6 +96,7 @@ function Account() {
     }
   };
 
+  
   const validateForm = () => {
     if (name == "" || location == "" || newPassword != confirmPassword) {
       return false;

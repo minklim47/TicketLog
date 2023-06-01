@@ -17,16 +17,16 @@ function Collection() {
 
   useEffect(() => {
     fetchCollection();
-  });
+  },[]);
 
   const fetchCollection = async () => {
     await instance
-      .get(`http://localhost:4000/collection/${userId}`, {
+      .get(`http://localhost:4000/ticket/${userId}`, {
         headers: { Authorization: `Bearer ${userToken}` },
       })
       .then((res) => {
         console.log(res);
-        setTickets(res.data.tickets);
+        setTickets(res.data.data);
       })
       .catch((err) => {
         console.log(err);

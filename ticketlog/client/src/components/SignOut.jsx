@@ -8,9 +8,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 
 function SignOut() {
-
-  
-
   return (
     <div>
     <Button variant="outlined" onClick={handleClickOpen}>

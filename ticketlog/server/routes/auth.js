@@ -8,9 +8,6 @@ const { check, validationResult } = require("express-validator");
 const connection = require("../db");
 const auth = require("../middleware/auth");
 
-router.get("/", (req, res) => {
-  res.send({ data: "Here is your data" });
-});
 router.post("/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -30,13 +27,15 @@ router.post("/login", (req, res) => {
         if (numRows == 0) {
           return res.json({
             success: false,
-            message: "This account does not exist",
+            data: null,
+            message: "this account does not exist",
           });
         }
         const isMatch = await bcrypt.compare(password, rows[0].hashed_password);
         if (!isMatch) {
-           return res.json({
+          return res.json({
             success: false,
+            data: null,
             message: "the password is not correct",
           });
         } else {
@@ -48,12 +47,15 @@ router.post("/login", (req, res) => {
             }
           );
           res.cookie("user", token);
-          res.json({
+          console.log("Login successful for email:", email);
+          res.status(200).json({
             success: true,
-            message: "login success",
-            user: rows[0],
-
-            token: token,
+            message: "login successful",
+            data: {
+              id: rows[0].id,
+              email: rows[0].email,
+              token: token,
+            },
           });
         }
       }
@@ -78,7 +80,7 @@ router.post(
     const email = req.body.email;
     const password = req.body.password;
     const errors = validationResult(req);
-   
+
     if (!errors.isEmpty()) {
       return res.json({
         errors: errors.array(),
@@ -86,7 +88,7 @@ router.post(
         message: "password format is not valid",
       });
     }
-    
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const sqlInsert = `INSERT INTO users (name,location,email_address,hashed_password) VALUES (?,?,?,?)`;
     connection.query(
@@ -106,10 +108,10 @@ router.post(
         } else {
           if (results) {
             res.json({
-                success: true,
-                message: "register success",
-                userId: results.insertId,
-              });
+              success: true,
+              message: "register success",
+              userId: results.insertId,
+            });
           }
         }
       }
@@ -120,14 +122,15 @@ router.post(
 router.get("/checklogin", (req, res) => {
   const token = req.cookies.user;
   const decoded = jwt.verify(token, secret);
-  if (decoded) { 
-    res.json({
+  if (decoded) {
+    res.setStatus(200).json({
       success: true,
       message:
         "User is logged in with ID: " +
         decoded.userId +
         " with email: " +
         decoded.email,
+      data: null
     });
   } else {
     res.json({

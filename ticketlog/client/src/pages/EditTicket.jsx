@@ -86,8 +86,8 @@ function EditTicket() {
         headers: { Authorization: `Bearer ${userToken}` },
       })
       .then((res) => {
-        console.log(res.data[0]);
-        setTicket(res.data[0]);
+        console.log(res.data.data);
+        setTicket(res.data.data);
         setIsLoading(false);
       });
   }, []);
@@ -98,7 +98,7 @@ function EditTicket() {
       })
       .then((res) => {
         // console.log(res.data.note);
-        setNote(res.data.note);
+        setNote(res.data.data);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -164,22 +164,7 @@ function EditTicket() {
     console.log(event.target.value);
   };
 
-
-
   const handleEditNote = () => {
-    // instance
-    //   .get(`http://localhost:4000/note/${ticketId}`, {
-    //     headers: { Authorization: `Bearer ${userToken}` },
-    //   })
-    //   .then((res) => {
-    //     console.log(res.data.note);
-    //     setNote(res.data.note);
-    //     setIsLoading(false);
-    //     setOpen(true);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
     setOpen(true);
   };
   const handleNoteSubmit = (note) => {

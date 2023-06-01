@@ -49,14 +49,13 @@ function SignIn({ onSignIn }) {
       })
       .then((res) => {
         if (res.data.success == true) {
-          localStorage.setItem("token", res.data.token);
-          localStorage.setItem("userId", res.data.user.id);
+          localStorage.setItem("token", res.data.data.token);
+          localStorage.setItem("userId", res.data.data.id);
           onSignIn();
-          console.log("login success");
+          console.log(res.data.message);
           navigateToProfile(localStorage.getItem("userId"));
         } else {
-          console.log("fail");
-          console.log(res);
+          console.log(res.data.message);
         }
       })
       .catch((err) => {
