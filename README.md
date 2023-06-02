@@ -2,6 +2,15 @@
 
 TicketLog is the place where you collect all your movie tickets in form of electronic movie tickets with options for styles and notes of your choice. 
 
+## Technology Stack
+
+TicketLog is built using the following technologies:
+
+- Front-end: React.js
+- Back-end: Express.js
+- Database: MariaDB
+- Other Dependencies/Libraries: MUI and you can find others on package.js
+
 ## Features
 
 | Feature | Description                |
@@ -18,7 +27,13 @@ TicketLog is the place where you collect all your movie tickets in form of elect
 | `delete ticket` | delete a ticket |
 | `show collection` | show the collection of tickets by year |
 
+## Installation
 
+1. Clone the repository: `git clone https://github.com/minklim47/TicketLog.git`
+
+2. Install node modules for frontend : `cd ticketlog/client npm i`
+
+2. Install node modules for backend : `cd ticketlog/server npm i`
 
 ## To run the frontend and backend
 
@@ -38,7 +53,6 @@ Backend -> ticketlog/server
 | `success` | `boolean` | status of request|
 | `message` | `string` | message for each request |
 | `data` | `JSON` | the actual data|
-
 
 
 ## API endpoints
