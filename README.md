@@ -385,7 +385,7 @@ POST /ticket/
 | `isPrivate` | `boolean` | the visibility of the ticket|
 | `selectedStyle` | `string` | style of a ticket|
 | `userId` | `int` | user id of ticket's owner|
-| `note` | `int` | note object of the ticket|
+| `note` | `JSON` | note object of the ticket|
 
 body of `note`
 
@@ -428,8 +428,8 @@ PATCH /ticket/:ticketId
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | `ticketId` | `int` | ticket id|
-| `updates` | `object` | object of updated ticket properties|
-| `note` | `object` | object of updated note properties |
+| `updates` | `JSON` | object of updated ticket properties|
+| `note` | `JSON` | object of updated note properties |
 
 body of `updates`
 
