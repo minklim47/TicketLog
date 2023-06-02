@@ -30,7 +30,7 @@ TicketLog is built using the following technologies:
 
 ## Database Schema
 
-<img src="ticketlog/client/src/assets/schema.png">
+[schema](assets/schema.png)
 
 ## Installation
 
