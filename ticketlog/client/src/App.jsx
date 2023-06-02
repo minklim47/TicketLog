@@ -71,7 +71,9 @@ function App() {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     localStorage.removeItem("ticketId");
+    window.location.reload();
     checkAuthentication();
+
   }
 
   function onSignIn() {

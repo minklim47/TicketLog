@@ -8,6 +8,8 @@ const { check, validationResult } = require("express-validator");
 const connection = require("../db");
 const auth = require("../middleware/auth");
 
+router.use(cookieParser());
+
 router.post("/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;

@@ -43,7 +43,7 @@ function DrawerMenu() {
         </ListItemButton>
         <ListItemButton
           component={CustomNavLink}
-          to="/Collection"
+          to={`/Collection/${userId}`}
           sx={drawerListItemStyle}
         >
           <ListItemText primary="Collection" />

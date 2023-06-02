@@ -81,7 +81,6 @@ function Nav() {
           <Button
             component={NavLink}
             to={`/Profile/${userId}`}
-            // onClick={handleProfileClick}
             color="inherit"
             sx={navButtonStyle}
           >
