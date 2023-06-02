@@ -5,11 +5,6 @@ import ticket1 from "../assets/ticket/ticket2-black.png";
 
 function TicketForEdit({selectedStyle, title, cinema, seat, time, date }) {
 
-  
-  // const formattedTime = time.toString().split(" ")[4]
-  // const timePart = time.toLocaleTimeString().split(':');
-  // const hours = time.getHours();
-  // const minutes = time.getMinutes();
   return (
    
     <Card className={selectedStyle} sx={ticketStyle}>

@@ -67,7 +67,7 @@ function Home() {
   const userId = localStorage.getItem("userId");
   const fetchTickets = async () => {
     await instance
-      .get(`http://localhost:4000/ticket/${userId}`, {
+      .get(`http://localhost:4000/ticket/home/${userId}`, {
         headers: { Authorization: `Bearer ${userToken}` },
       })
       .then((res) => {
@@ -138,7 +138,6 @@ function Home() {
           onSortingChange={handleSortingChange}
         />
       </Box>
-      {/* <Box sx={{display:"inline-flex", flexFlow:{xs:"row wrap"},justifyContent:"center",}}> */}
       <Box sx={grid}>
         {sortedTickets.map((ticket) => (
           <Ticket

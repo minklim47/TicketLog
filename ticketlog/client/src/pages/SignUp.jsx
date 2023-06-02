@@ -51,9 +51,7 @@ function SignUp() {
       password: password,
     })
       .then((res) => {
-        // alert(JSON.stringify(response.data.message).replace(/"/g, ''))
         if (res.data.success == true) {
-          // console.log(res.data.userId);
           localStorage.setItem("userId", res.data.userId);
           localStorage.setItem("token", res.data.token);
           navigateToProfile(res.data.userId);
@@ -61,7 +59,6 @@ function SignUp() {
       })
       .catch((err) => {
         console.log(err);
-        // display error message to user
       });
   };
 

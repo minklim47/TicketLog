@@ -4,25 +4,46 @@ const connection = require("../db");
 const auth = require("../middleware/auth");
 const e = require("express");
 
-router.get("/:userId", auth, (req, res) => {
+router.get("/home/:userId", auth, (req, res) => {
   try {
     const userId = req.params.userId;
-    const sqlSelect = "SELECT * FROM tickets WHERE user_id = ?";
-    connection.query(sqlSelect, [userId], (err, results) => {
-      if (err) {
-        res.json({
-          success: false,
-          data: null,
-          error: err.message,
-        });
-      } else {
-        return res.status(200).json({
-          success: true,
-          message: "get tickets successful",
-          data: results,
-        });
+    connection.query(
+      'SELECT COUNT(*) AS rowCount FROM tickets WHERE user_id = ?',
+      [userId],
+      (err, countResult) => {
+        if (err) {
+          res.json({
+            success: false,
+            data: null,
+            error: err.message,
+          });
+        } else {
+          const ticketCount = countResult[0].rowCount;
+          const sqlSelect = "SELECT * FROM tickets WHERE user_id = ?";
+          connection.query(sqlSelect, [userId], (err, results) => {
+            if (err) {
+              res.json({
+                success: false,
+                data: null,
+                error: err.message,
+              });
+            } else {
+              console.log(ticketCount)
+              return res.status(200).json({
+                success: true,
+                message: "get tickets successful",
+                data: results,
+                count: ticketCount,
+              });
+            }
+          });
+        }
       }
-    });
+    )
+
+   
+
+    
   } catch (err) {
     console.error(err);
   }
@@ -30,6 +51,7 @@ router.get("/:userId", auth, (req, res) => {
 router.get("/:ticketId", auth, (req, res) => {
   try {
     const ticketId = req.params.ticketId;
+    
     const sqlSelect = "SELECT * FROM tickets WHERE id = ?";
     connection.query(sqlSelect, [ticketId], (err, results) => {
       if (err) {
@@ -48,11 +70,12 @@ router.get("/:ticketId", auth, (req, res) => {
             message:"ticket does not exist."
           })
         } else {
-          
-          return res.json({
+          console.log(results[0])
+          res.json({
             success: true,
-            message: "get ticket successful",
             data: results[0],
+            message: "get ticket successful",
+            
           });
         }
       }
@@ -202,13 +225,25 @@ router.delete("/:ticketId", auth, (req, res) => {
         error: err.message,
       });
     } else {
-      // console.log(`Ticket ${ticketId} deleted successfully`);
-      res.status(200).json({
-        success: true,
-        message: `ticket id ${ticketId} deleted successful`,
-        data: null,
-      });
+      connection.query("DELETE FROM notes WHERE ticket_id = ?",[ticketId], (err, results) => {
+        if (err) {
+          console.log(err);
+          res.json({
+            success: false,
+            data: null,
+            error: err.message,
+          });
+        } else {
+          res.status(200).json({
+            success: true,
+            message: `ticket id ${ticketId} deleted successful`,
+            data: null,
+          });
+        }
+      })
     }
   });
 });
+
+
 module.exports = router;

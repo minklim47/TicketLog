@@ -9,18 +9,14 @@ import { TextField } from "@mui/material";
 import axios from "axios";
 import Cookies from "js-cookie";
 function CreateNote({ open, setOpen, onSubmit, initialNote }) {
-  const [note, setNote] = useState(initialNote)
+  const [note, setNote] = useState(initialNote);
 
-  // const instance = axios.create({
-  //   withCredentials: true,
-  // });
   const handleClose = () => setOpen(false);
 
   const handleSubmit = () => {
-    onSubmit(note)
-    setOpen(false)
-
-  }
+    onSubmit(note);
+    setOpen(false);
+  };
 
   return (
     <div>
@@ -40,36 +36,39 @@ function CreateNote({ open, setOpen, onSubmit, initialNote }) {
       >
         <Fade in={open}>
           <Box sx={modalStyle}>
-
             <TextField
               id="outlined-multiline-static"
-              
               multiline
               rows={1}
               placeholder="Note Title"
-              sx={{width:"100%", marginBottom:"20px"}}
+              sx={{ width: "100%", marginBottom: "20px" }}
               value={note.title}
-              onChange={(e) => setNote((prevState) => ({
-                ...prevState, title: e.target.value
-              }))}
+              onChange={(e) =>
+                setNote((prevState) => ({
+                  ...prevState,
+                  title: e.target.value,
+                }))
+              }
               inputProps={{
                 maxLength: 65,
               }}
             />
             <TextField
               id="outlined-multiline-static"
-  
               multiline
               minRows={4}
               maxRows={12}
               placeholder="Write your note here..."
-              sx={{width:"100%", border:"1px solid white"}}
-              value ={ note.content}
-              onChange={(e) => setNote((prevState) => ({
-                ...prevState, content: e.target.value
-              }))}
+              sx={{ width: "100%", border: "1px solid white" }}
+              value={note.content}
+              onChange={(e) =>
+                setNote((prevState) => ({
+                  ...prevState,
+                  content: e.target.value,
+                }))
+              }
             />
-            
+
             <Box
               className="flex-container"
               sx={{ margin: "0 auto", justifyContent: "flex-end" }}
@@ -77,7 +76,12 @@ function CreateNote({ open, setOpen, onSubmit, initialNote }) {
               <Button sx={saveButtonStyle} type="submit" onClick={handleSubmit}>
                 Save
               </Button>
-              <Button sx={cancelButtonStyle} variant="outlined" color="black" onClick={handleClose}>
+              <Button
+                sx={cancelButtonStyle}
+                variant="outlined"
+                color="black"
+                onClick={handleClose}
+              >
                 Cancel
               </Button>
             </Box>

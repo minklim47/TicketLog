@@ -10,7 +10,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ShowNote from "../components/ShowNote";
 
 function ShowTicket() {
-  const [ticket, setTicket] = useState([]);
+  const [ticket, setTicket] = useState({});
   const navigate = useNavigate();
   const instance = axios.create({
     withCredentials: true,
@@ -75,7 +75,7 @@ function ShowTicket() {
         >
           <ArrowBackIcon />
         </IconButton>
-        {ticket.length === 0 ? (
+        {ticket === null ? (
           <p></p>
         ) : (
           <Ticket

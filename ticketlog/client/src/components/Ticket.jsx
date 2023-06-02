@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import StickyNote2Icon from "@mui/icons-material/StickyNote2";
 import zIndex from "@mui/material/styles/zIndex";
 import ShowNote from "./ShowNote";
-import axios from "axios"
+import axios from "axios";
 import Cookies from "js-cookie";
 function Ticket({ ticket, onClick, isHome }) {
   const instance = axios.create({
@@ -16,7 +16,6 @@ function Ticket({ ticket, onClick, isHome }) {
       onClick();
     }
   };
-  // const userId = localStorage.getItem("userId");
   const ticketId = localStorage.getItem("ticketId");
   const userToken = Cookies.get("user");
   const handleNoteClick = async () => {
@@ -27,14 +26,12 @@ function Ticket({ ticket, onClick, isHome }) {
           headers: { Authorization: `Bearer ${userToken}` },
         })
         .then((res) => {
-          console.log(res.data.data);
-          setNote(res.data.data)
+          // console.log(res.data);
+          setNote(res.data.data);
         });
     }
   };
-  // if (isLoading){
-  //   return <div>hello</div>
-  // }
+
   return (
     <Card className={ticket.style} sx={ticketStyle}>
       <div className="container" onClick={handleClick}>
@@ -63,15 +60,14 @@ function Ticket({ ticket, onClick, isHome }) {
             </div>
             <div className="time-item">
               <p className="time">Time</p>
-              {/* <div className="time-value">{new Date(ticket.time).toTimeString().substr(0, 5)}</div> */}
-              {/* <div className="time-value">{ticket["time"].substr(0, 5)}</div> */}
-              <div className="time-value">{ticket["time"].substring(0, 5)}</div>
-              {/* <div className="time-value">{new Date(ticket.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div> */}
+              <div className="time-value">
+                {ticket.time == null ? "" : ticket["time"].substring(0, 5)}
+              </div>
             </div>
           </div>
         </div>
-        <ShowNote open={open} setOpen={setOpen} note={note}/>
-         <StickyNote2Icon className="note" onClick={handleNoteClick} />
+        <ShowNote open={open} setOpen={setOpen} note={note} />
+        <StickyNote2Icon className="note" onClick={handleNoteClick} />
       </div>
     </Card>
   );
@@ -83,11 +79,6 @@ const ticketStyle = {
   borderRadius: "15px",
   margin: "10px",
   flexShrink: "0",
-
 };
-// const noteStyle = {
-
-//   zIndex:"10"
-// }
 
 export default Ticket;

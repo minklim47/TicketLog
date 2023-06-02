@@ -11,9 +11,9 @@ import {
 } from "@mui/material";
 
 import MenuIcon from "@mui/icons-material/Menu";
-import { NavLink, useParams, useNavigate} from "react-router-dom";
+import { NavLink, useParams, useNavigate } from "react-router-dom";
 import DrawerMenu from "./DrawerMenu";
-import logo from "../assets/logo.png"
+import logo from "../assets/logo.png";
 
 function Nav() {
   const [open, setState] = useState(false);
@@ -21,12 +21,8 @@ function Nav() {
   const toggleDrawer = (open) => (event) => {
     setState(open);
   };
-  const userId = localStorage.getItem('userId')
-  // const handleProfileClick = () => {
-  //   navigate(`/Profile/${userId}`);
-  // };
+  const userId = localStorage.getItem("userId");
 
-  
   return (
     <AppBar position="static" sx={navBarStyle}>
       <Toolbar
@@ -34,11 +30,14 @@ function Nav() {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
-          height:"64px"
+          height: "64px",
         }}
       >
-        <Button component={NavLink}
-            to={`/Home/${userId}`} sx={{ borderRadius: "15px", bgcolor: "white.main" }}>
+        <Button
+          component={NavLink}
+          to={`/Home/${userId}`}
+          sx={{ borderRadius: "15px", bgcolor: "white.main" }}
+        >
           <Box
             component="img"
             sx={{
@@ -92,18 +91,16 @@ function Nav() {
 
         {/* ==============DRAWER=============== */}
         <IconButton
-          sx={{ color: "black.main", display: { xs: "inherit", sm: "none" }}}
+          sx={{ color: "black.main", display: { xs: "inherit", sm: "none" } }}
           onClick={toggleDrawer(true)}
         >
           <MenuIcon />
         </IconButton>
 
         <Drawer
-          anchor="top" //from which side the drawer slides in
-          variant="temporary" //if and how easily the drawer can be closed
-          open={open} //if open is true, drawer is shown
-          //   onClose={toggleDrawer(false)} //function that is called when the drawer should close
-          //   onOpe={toggleDrawer(true)} //function that is called when the drawer should open
+          anchor="top"
+          variant="temporary"
+          open={open}
           ModalProps={{ onBackdropClick: toggleDrawer(false) }}
         >
           <Box
@@ -118,8 +115,11 @@ function Nav() {
                 justifyContent: "space-between",
               }}
             >
-              <Button component={NavLink}
-            to="/" sx={{ borderRadius: "15px", bgcolor: "white.main" }}>
+              <Button
+                component={NavLink}
+                to="/"
+                sx={{ borderRadius: "15px", bgcolor: "white.main" }}
+              >
                 <Box
                   component="img"
                   sx={{
@@ -144,7 +144,6 @@ function Nav() {
             <DrawerMenu />
           </Box>
         </Drawer>
-
       </Toolbar>
     </AppBar>
   );
@@ -153,9 +152,9 @@ const navBarStyle = {
   backgroundColor: "white.main",
   color: "black.main",
   padding: "0px",
-  position:"fixed",
-  top:"0",
-  zIndex:"10",
+  position: "fixed",
+  top: "0",
+  zIndex: "10",
 };
 
 const navButtonStyle = {

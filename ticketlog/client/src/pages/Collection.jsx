@@ -14,6 +14,7 @@ function Collection() {
   const userId = localStorage.getItem("userId");
 
   const [tickets, setTickets] = useState([]);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     fetchCollection();
@@ -21,12 +22,13 @@ function Collection() {
 
   const fetchCollection = async () => {
     await instance
-      .get(`http://localhost:4000/ticket/${userId}`, {
+      .get(`http://localhost:4000/ticket/home/${userId}`, {
         headers: { Authorization: `Bearer ${userToken}` },
       })
       .then((res) => {
-        console.log(res);
+        console.log(res.data.data);
         setTickets(res.data.data);
+        setCount(res.data.count);
       })
       .catch((err) => {
         console.log(err);
@@ -60,7 +62,7 @@ function Collection() {
 
       <Box className="flex-container" sx={totalStyle}>
         <h3>You own a total of</h3>
-        <h2 style={{ margin: "0 20px" }}>55</h2>
+        <h2 style={{ margin: "0 20px" }}>{count}</h2>
         <h3>movie tickets </h3>
       </Box>
       <Box>

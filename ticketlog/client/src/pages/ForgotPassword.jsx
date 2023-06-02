@@ -56,7 +56,6 @@ function ForgotPassword() {
       sx={signInButtonStyle}
       component={NavLink}
       to="#"
-      // onClick={handleSignIn}
     >
       Reset Password
     </Button>
@@ -94,10 +93,5 @@ const formInputStyle = {
       backgroundColor: "black.dark",
     },
   };
-
-//   const textStyle = {
-//     fontFamily: "Roboto",
-//     fontSize: "16px",
-//   }
 
 export default ForgotPassword

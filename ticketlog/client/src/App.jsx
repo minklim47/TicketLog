@@ -23,6 +23,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ShowTicket from "./pages/ShowTicket";
 import EditTicket from "./pages/EditTicket";
 import axios from "axios";
+import NotFound from "./pages/NotFound";
 
 const instance = axios.create({
   withCredentials: true,
@@ -65,9 +66,11 @@ function App() {
   }, []);
 
   function onSignOut() {
+    document.cookie =
+      "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
-
+    localStorage.removeItem("ticketId");
     checkAuthentication();
   }
 
@@ -102,6 +105,8 @@ function App() {
               <Route path="/SignUp" element={<SignUp />} />
               <Route path="/ForgotPassword" element={<ForgotPassword />} />
               <Route path="/Ticket/:ticketId" element={<ShowTicket />} />
+              <Route path="*" element={<NotFound/>} />
+
             </Routes>
           ) : (
             <Routes>
@@ -109,6 +114,8 @@ function App() {
               <Route path="/SignUp" element={<SignUp />} />
               <Route path="/ForgotPassword" element={<ForgotPassword />} />
               <Route path="/*" element={<Navigate to="/SignIn" replace />} />
+              <Route path="*" element={<NotFound/>} />
+
             </Routes>
           )}
         </div>

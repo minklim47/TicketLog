@@ -9,11 +9,6 @@ import { TextField } from "@mui/material";
 import axios from "axios";
 import Cookies from "js-cookie";
 function ShowNote({ open, setOpen, note }) {
-  //   const [note, setNote] = useState(initialNote)
-
-  // const instance = axios.create({
-  //   withCredentials: true,
-  // });
   const handleClose = () => setOpen(false);
 
   return (
@@ -34,17 +29,6 @@ function ShowNote({ open, setOpen, note }) {
       >
         <Fade in={open}>
           <Box sx={modalStyle}>
-            {/* <TextField
-              id="outlined-multiline-static"
-              multiline
-              rows={1}
-              placeholder="Note Title"
-              sx={{width:"100%", marginBottom:"20px"}}
-              value={note.title}
-              onChange={(e) => setNote((prevState) => ({
-                ...prevState, title: e.target.value
-              }))}
-            /> */}
             <Box style={{ overflow: "auto" }}>
               <Typography
                 sx={{
@@ -58,7 +42,7 @@ function ShowNote({ open, setOpen, note }) {
                 {note.title}
               </Typography>
             </Box>
-            <Box style={{maxHeight:"350px", overflow: "auto" }}>
+            <Box style={{ maxHeight: "350px", overflow: "auto" }}>
               <Typography
                 sx={{
                   width: "100%",
@@ -71,18 +55,6 @@ function ShowNote({ open, setOpen, note }) {
                 {note.content}
               </Typography>
             </Box>
-            {/* <TextField
-              id="outlined-multiline-static"
-              multiline
-              minRows={4}
-              maxRows={12}
-              placeholder="Write your note here..."
-              sx={{width:"100%"}}
-              value ={ note.content}
-              onChange={(e) => setNote((prevState) => ({
-                ...prevState, content: e.target.value
-              }))}
-            /> */}
           </Box>
         </Fade>
       </Modal>

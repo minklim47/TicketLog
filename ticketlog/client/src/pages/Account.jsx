@@ -48,9 +48,6 @@ function Account() {
         });
     }
   }, []);
-  // useEffect(() => {
-  //   navigate(`/Profile/${userId}`);
-  // }, [navigate, userId]);
 
   const handleCancel = () => {
     navigate(`/Profile/${userId}`);
@@ -58,11 +55,7 @@ function Account() {
   const isChangePassword = () => {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
     return (regex.test(newPassword) && (newPassword == "" || currentPassword == "" || confirmPassword == ""));
-    // if (newPassword == "" || currentPassword == "" || confirmPassword == "") {
-    //   return false;
-    // }
-    // if (newPassword )
-    // return true;
+
   };
   const handleSubmit = () => {
     if (!validateForm()) {
@@ -71,8 +64,7 @@ function Account() {
     }
     const changePassword = isChangePassword();
     const userToken = Cookies.get("user");
-    // console.log(name,location,currentPassword,newPassword,confirmPassword )
-    // console.log(validateForm())
+ 
     if (userToken !== undefined && userToken !== "undefined") {
       instance
         .patch(
@@ -125,7 +117,7 @@ function Account() {
         <IconButton component={NavLink} to={`/Profile/${userId}`}>
           <ArrowBackIcon />
         </IconButton>
-        <h1 style={{ textAlign: "center", flexGrow: "1" }}>Account</h1>
+        <h1 style={{ textAlign: "center", flexGrow: "1" }}>Edit Profile</h1>
         <IconButton sx={{ visibility: "hidden" }}>
           <ArrowBackIcon />
         </IconButton>

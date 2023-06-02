@@ -247,14 +247,7 @@ function EditTicket() {
                 </div>
               ))}
             </Box>
-            {/* <h4 style={{ marginBottom: "5px" }}>Choose color</h4> */}
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "120px",
-              }}
-            ></Box>
+        
           </Box>
         </Box>
         <Box sx={{ padding: "0 20px" }}>
@@ -296,13 +289,6 @@ function EditTicket() {
                   size="small"
                   type="date"
                   variant="outlined"
-                  //   value={
-                  //     date.getDate() +
-                  //     "-" +
-                  //     parseInt(date.getMonth() + 1) +
-                  //     "-" +
-                  //     date.getFullYear()
-                  //   }
                   value={ticket.date}
                   onChange={handleDateChange}
                   required
@@ -315,7 +301,6 @@ function EditTicket() {
                   size="small"
                   type="time"
                   variant="outlined"
-                  //   value={time.toTimeString().substr(0, 5)}
                   value={ticket.time.substring(0, 5)}
                   onChange={handleTimeChange}
                   required

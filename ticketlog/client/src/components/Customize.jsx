@@ -2,14 +2,12 @@ import { Box, Button, ButtonBase } from "@mui/material";
 import React, { useState } from "react";
 
 function Customize() {
-
-  const [style,setStyle] = useState("1");
+  const [style, setStyle] = useState("1");
 
   function onStyleChange(e) {
     setStyle(e);
-    console.log( style);
-    
-}
+    console.log(style);
+  }
 
   return (
     <Box
@@ -63,21 +61,6 @@ function Customize() {
         </label>
       </Box>
       <h4 style={{ marginBottom: "5px" }}>Choose color</h4>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          width: "120px",
-        }}
-      > 
-        {/* <input
-          type="radio"
-          name="theme"
-          defaultValue={1}
-          id="black"
-          style={{ border: "50px solid #EE3" }}
-        /> */}
-      </Box>
     </Box>
   );
 }
@@ -130,20 +113,3 @@ const colorBlue = {
 };
 
 export default Customize;
-
-// <ButtonBase sx={style1} autoFocus>
-// 1
-// </ButtonBase>
-// <ButtonBase sx={style2}>2</ButtonBase>
-// <ButtonBase sx={style3}>3</ButtonBase>
-
-// <ButtonBase sx={colorBlack}> </ButtonBase>
-// <ButtonBase sx={colorRed}> </ButtonBase>
-// <ButtonBase sx={colorBlue}> </ButtonBase>
-// <Button
-//   onClick={handleClick}
-//   variant="contained"
-//   color={flag ? "primary" : "secondary"}
-// >
-//   button
-// </Button>

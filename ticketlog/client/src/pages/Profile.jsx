@@ -47,20 +47,7 @@ function Profile({ onSignOut }) {
     }
   }, [userId]);
 
-  // useEffect(() => {
-  //   const userToken = Cookies.get("user");
-
-  //   instance
-  //     .get(`/user/profile/{${userId}}`, {
-  //       headers: { Authorization: `Bearer ${userToken}` },
-  //     })
-  //     .then((response) => {
-  //       setProfilePicture(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, [userId]);
+  
   return (
     <Box
       className="flex-container"
@@ -157,7 +144,6 @@ function Profile({ onSignOut }) {
           <Box sx={{ margin: "20px 0", textAlign: "center" }}>
             <h4 style={infoStyle}>{userData.name}</h4>
             <h4 style={infoStyle}>{"@" + userData.location}</h4>
-            <h4 style={infoStyle}>1Y 2M </h4>
           </Box>
         </Box>
       </Box>

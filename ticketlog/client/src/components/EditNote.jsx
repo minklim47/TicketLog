@@ -10,10 +10,6 @@ import axios from "axios";
 import Cookies from "js-cookie";
 function EditNote({ open, setOpen, onSubmit, initialNote }) {
   const [note, setNote] = useState(initialNote)
-
-  // const instance = axios.create({
-  //   withCredentials: true,
-  // });
   const handleClose = () => setOpen(false);
 
   const handleSubmit = () => {

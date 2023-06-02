@@ -199,7 +199,6 @@ function CreateTicket() {
                 </div>
               ))}
             </Box>
-            {/* <h4 style={{ marginBottom: "5px" }}>Choose color</h4> */}
             <Box
               sx={{
                 display: "flex",

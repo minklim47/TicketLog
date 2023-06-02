@@ -12,19 +12,6 @@ function Community() {
         marginTop:"100px"
       }}
     >
-      {/* <Container sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItem: "center",
-      }}>
-        <h1 style={{textAlign:"center", marginBottom:"20px"}}>Community</h1>
-        <SearchMovie />
-      </Container>
-      <Box>
-        <YearCollection/>
-      
-      </Box> */}
         <Typography sx={{alignSelf:"center"}} variant="h1">COMING SOON...</Typography>
     </Container>
   );
