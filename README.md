@@ -11,6 +11,7 @@ TicketLog is built using the following technologies:
 - Database: MariaDB
 - Other Dependencies/Libraries: MUI and you can find others on package.js
 
+
 ## Features
 
 | Feature | Description                |
@@ -26,6 +27,10 @@ TicketLog is built using the following technologies:
 | `update ticket and note` | edit the detail of ticket and note |
 | `delete ticket` | delete a ticket |
 | `show collection` | show the collection of tickets by year |
+
+## Database Schema
+
+<img src="ticketlog/client/src/assets/schema.png">
 
 ## Installation
 
